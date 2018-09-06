@@ -309,7 +309,7 @@ function setPgn(pgn)
         termination = movesToDraw + ' ply to draw';
       }
       if (movesTo50R < 50 && movesTo50R < movesToDraw && movesTo50R < movesToResignOrWin) {
-        termination = movesTo50R + ' ply to 50r';
+        termination = movesTo50R + ' moves to 50mr';
       }
       if (movesToResignOrWin < 50 && movesToResignOrWin < movesToDraw && movesToResignOrWin < movesTo50R) {
         termination = movesToResignOrWin + ' ply to adjudication';
@@ -444,6 +444,7 @@ function getEvalFromPly(ply)
   var depth = selectedMove.d + '/' + selectedMove.sd;
   timeLeft = selectedMove.tl / 1000;
   var hoursTl = Math.floor(timeLeft / 60/ 60);
+  timeLeft = timeLeft - Math.floor(timeLeft / 60 / 60) * 60;
   var minutesTl = Math.floor(timeLeft / 60);
   var secondsTl = Math.floor(timeLeft - minutesTl * 60);
   var tbHits = 0;

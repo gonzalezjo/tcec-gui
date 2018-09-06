@@ -23,7 +23,17 @@ var evalChartData = {
     fill: false,
     data: [
     ]
-  }]
+  }, {
+    label: 'Live Engine Eval',
+    lineTension: 0,
+    borderColor: '#007bff',
+    backgroundColor: '#007bff',
+    
+    fill: false,
+    data: [
+    ]
+  }
+  ]
 };
 
 var timeChartData = {
@@ -99,7 +109,7 @@ var tbHitsChartData = {
   datasets: [{
     label: 'White Engine TB Hits',
     lineTension: 0,
-    borderColor: '#EFEFEF',
+    borderColor: '#000000',
     backgroundColor: '#EFEFEF',
     fill: false,
     data: [
@@ -342,10 +352,12 @@ function updateChartData()
 	tbHitsChart.data.datasets[0].data = [];
 	tbHitsChart.data.datasets[1].data = [];
 	
+	evalLabels = [];
 	labels = [];
 
 	whiteEval = [];
 	blackEval = [];
+	liveEval = [];
 
 	whiteTime = [];
 	blackTime = [];
@@ -374,7 +386,7 @@ function updateChartData()
 			}
 
          //arun: cap moves at 6.5
-            eval = move.wv;
+            evaluation = move.wv;
             if (!isNaN(move.wv)) {
 	            if (move.wv > 6.5) {
 	            	move.wv = 6.5;
@@ -392,7 +404,7 @@ function updateChartData()
 				{
 					'x': moveNumber,
 					'y': move.wv,
-					'eval': eval
+					'eval': evaluation
 				}
 			];
 
@@ -426,18 +438,36 @@ function updateChartData()
 
 			if (key % 2 == 0) {
 				labels = _.union(labels, [moveNumber]);
+				// evalLabels = _.union(evalLabels, [moveNumber]);
 
 				whiteEval = _.union(whiteEval, eval);
+				// whiteEval = _.union(whiteEval, [{'x': moveNumber + 0.5, 'y': move.wv, 'eval': evaluation}]);
 				whiteTime = _.union(whiteTime, time);
 				whiteSpeed = _.union(whiteSpeed, speed);
 				whiteDepth = _.union(whiteDepth, depth);
 				whiteTBHits = _.union(whiteTBHits, tbHits);
+
+				evalObject = getLiveEval(key, moveNumber, false);
+
+				if (evalObject != -1) {
+					liveEval = _.union(liveEval, evalObject);
+				}
+
 			} else {
+				// evalLabels = _.union(evalLabels, [moveNumber + 0.5]);
+
 				blackEval = _.union(blackEval, eval);
+				// blackEval = _.union(blackEval, [{'x': moveNumber + 0.5, 'y': move.wv, 'eval': evaluation}]);
 				blackTime = _.union(blackTime, time);
 				blackSpeed = _.union(blackSpeed, speed);
 				blackDepth = _.union(blackDepth, depth);
 				blackTBHits = _.union(blackTBHits, tbHits);
+
+				// evalObject = getLiveEval(key, moveNumber, true);
+
+				// if (evalObject != -1) {
+				// 	liveEval = _.union(liveEval, evalObject);
+				// }
 			}
 		}
 	});
@@ -445,6 +475,7 @@ function updateChartData()
 	evalChart.data.labels = labels;
 	evalChart.data.datasets[0].data = whiteEval;
 	evalChart.data.datasets[1].data = blackEval;
+	evalChart.data.datasets[2].data = liveEval;
 
 	timeChart.data.labels = labels;
 	timeChart.data.datasets[0].data = whiteTime;
@@ -467,4 +498,44 @@ function updateChartData()
     speedChart.update();
     depthChart.update();
     tbHitsChart.update();
+}
+
+function getLiveEval(key, moveNumber, isBlack)
+{
+	key++;
+
+	evalObject = _.find(liveEngineEval, function(ev) {
+		return ev.ply == key;
+	});
+
+	if (_.isObject(evalObject)) {
+		eval = evalObject.eval;
+		if (!isNaN(evalObject.eval)) {
+	        if (evalObject.eval > 6.5) {
+	        	evalObject.eval = 6.5;
+	        } else if (evalObject.eval < -6.5) {
+	        	evalObject.eval = -6.5;
+	        }
+	    } else {
+	    	if (evalObject.eval.substring(0,1) == '-') {
+	    		evalObject.eval = -6.5;
+	    	} else {
+	    		evalObject.eval = 6.5;
+	    	}
+	    }
+
+	    if (isBlack) {
+	    	// moveNumber = moveNumber + 0.5;
+	    }
+
+	    return [
+				{
+					'x': moveNumber,
+					'y': evalObject.eval,
+					'eval': eval
+				}
+			];
+	}
+
+	return -1;
 }

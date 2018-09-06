@@ -70,8 +70,8 @@ body {
 
 #engine-history {
 	max-height: 150px !important;
-	overflow-y: scroll;
-   font-size: 15px;
+    overflow-y: scroll;
+    font-size: 15px;
 }
 
 .active-move {
@@ -184,4 +184,5 @@ canvas {
 .truncate-name {
     overflow: hidden;
     white-space: nowrap;
+    text-overflow: clip;
 }

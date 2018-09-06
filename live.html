@@ -17,7 +17,7 @@
 
     <!-- Custom styles for this template -->
     <!-- vch -->
-    <link href="dist/css/custom.css?v=1000000000000000000004" rel="stylesheet">
+    <link href="dist/css/custom.css?v=1000000000000000000005" rel="stylesheet">
   </head>
 
   <body>
@@ -59,7 +59,7 @@
       <div class="row">
         <div class="col-md-4" id="board-container">
           <div class="row" id="board-top-engine-eval">
-            <div class="col-3 d-inline-block d-sm-none d-md-none d-lg-none d-xl-none">
+            <div class="col-4 d-inline-block d-sm-none d-md-none d-lg-none d-xl-none">
               <span class="board-top-engine-eval black-engine-name truncate-name"></span>
             </div>
             <div class="col-3 d-inline-block d-sm-none d-md-none d-lg-none d-xl-none text-center">
@@ -82,7 +82,7 @@
           <div id="board" style="width: 100%"></div>
 
           <div class="row" id="board-bottom-engine-eval">
-            <div class="col-3 d-inline-block d-sm-none d-md-none d-lg-none d-xl-none">
+            <div class="col-4 d-inline-block d-sm-none d-md-none d-lg-none d-xl-none">
               <span class="board-bottom-engine-eval white-engine-name truncate-name"></span>
             </div>
             <div class="col-3 d-inline-block d-sm-none d-md-none d-lg-none d-xl-none text-center">
@@ -161,6 +161,7 @@
         </div>
 
         <div class="col-md-4" id="middle-data-column">
+          <div class="d-block d-sm-none d-md-none d-lg-none d-xl-none" style="height: 8px"></div>
           <div id="black-engine-information" style="border:1px solid black">
             <div class="row text-center">
               <div class="col-md-4 col-sm-6 col-4">
@@ -434,9 +435,9 @@
     <script src="dist/bootstrap-table.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 
-    <script src="dist/js/graphs.js?v=1000000000000000000005"></script>
+    <script src="dist/js/graphs.js?v=1000000000000000000006"></script>
     <!-- vch -->
-    <script src="dist/js/tcec.js?v=1000000000000000000003"></script>
+    <script src="dist/js/tcec.js?v=1000000000000000000004"></script>
 
     <script>
       window.onload = function() {
@@ -678,11 +679,13 @@
         updateSchedule();
         updateCrosstable();
         updateLiveEval();
+        updateLiveChart();
 
         var pgnInterval = window.setInterval(function() { updatePgn() }, 3000);
         var scheduleInterval = window.setInterval(function() { updateSchedule() }, 15000);
         var crosstableInterval = window.setInterval(function() { updateCrosstable() }, 60000);
-        var liveEvalInterval = window.setInterval(function() { updateLiveEval() }, 60000);
+        var liveEvalInterval = window.setInterval(function() { updateLiveEval() }, 5000);
+        var liveChartInterval = window.setInterval(function() { updateLiveChart() }, 15000);
       });
 
       function updateSchedule() {
@@ -734,6 +737,25 @@
             response.data[0].pv = pv;
 
             $('#live-eval').bootstrapTable('load', response.data);
+            // handle success
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
+          });
+      }
+
+      var liveEngineEval = [];
+
+      function updateLiveChart() {
+          axios.get('liveeval.json')
+          .then(function (response) {
+            if (typeof response.data.moves != 'undefined') {
+              liveEngineEval = response.data.moves;
+              updateChartData();
+            } else {
+              liveEngineEval = [];
+            }
             // handle success
           })
           .catch(function (error) {
