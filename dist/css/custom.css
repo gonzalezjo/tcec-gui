@@ -145,8 +145,7 @@ canvas {
 
 .scheduleclass
 {
-   max-height:670px;
-	overflow-y: scroll;
+	max-height: 670px;
 }
 
 .engine-pv

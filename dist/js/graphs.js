@@ -135,10 +135,9 @@ $(function() {
 	        id: 'y-axis-1',
 	      }],
 	      xAxes: [{
-	      	type: 'linear',
 	      	ticks: {
 		        autoSkip: true,
-		        maxTicksLimit: 15
+		        maxTicksLimit: 25
 		    }
 	      }]
 	    }
@@ -166,10 +165,9 @@ $(function() {
 	        id: 'y-axis-1',
 	      }],
 	      xAxes: [{
-	      	type: 'linear',
 	      	ticks: {
 		        autoSkip: true,
-		        maxTicksLimit: 15
+		        maxTicksLimit: 25
 		    }
 	      }]
 	    }
@@ -246,10 +244,9 @@ $(function() {
 			}
 	      }],
 	      xAxes: [{
-	      	type: 'linear',
 	      	ticks: {
 		        autoSkip: true,
-		        maxTicksLimit: 15
+		        maxTicksLimit: 25
 		    }
 	      }]
 	    }
@@ -277,10 +274,9 @@ $(function() {
 	        id: 'y-axis-1',
 	      }],
 	      xAxes: [{
-	      	type: 'linear',
 	      	ticks: {
 		        autoSkip: true,
-		        maxTicksLimit: 15
+		        maxTicksLimit: 25
 		    }
 	      }]
 	    }
@@ -308,10 +304,9 @@ $(function() {
 	        id: 'y-axis-1',
 	      }],
 	      xAxes: [{
-	      	type: 'linear',
 	      	ticks: {
 		        autoSkip: true,
-		        maxTicksLimit: 15
+		        maxTicksLimit: 25
 		    }
 	      }]
 	    }
