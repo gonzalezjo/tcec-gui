@@ -120,17 +120,19 @@ $(function() {
 	    title: {
 	      display: false
 	    },
+        tooltips: {
+	      callbacks: {
+	            label: function(tooltipItem, data) {
+	                return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].eval;
+	            }
+	      } // end callbacks:
+	    },
 	    scales: {
 	      yAxes: [{
 	        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
 	        display: true,
 	        position: 'left',
 	        id: 'y-axis-1',
-
-	        // grid line settings
-	        gridLines: {
-	          drawOnChartArea: false, // only want the grid lines for one axis to show up
-	        },
 	      }],
 	      xAxes: [{
 	      	type: 'linear',
@@ -162,11 +164,6 @@ $(function() {
 	        display: true,
 	        position: 'left',
 	        id: 'y-axis-1',
-
-	        // grid line settings
-	        gridLines: {
-	          drawOnChartArea: false, // only want the grid lines for one axis to show up
-	        },
 	      }],
 	      xAxes: [{
 	      	type: 'linear',
@@ -278,11 +275,6 @@ $(function() {
 	        display: true,
 	        position: 'left',
 	        id: 'y-axis-1',
-
-	        // grid line settings
-	        gridLines: {
-	          drawOnChartArea: false, // only want the grid lines for one axis to show up
-	        },
 	      }],
 	      xAxes: [{
 	      	type: 'linear',
@@ -314,11 +306,6 @@ $(function() {
 	        display: true,
 	        position: 'left',
 	        id: 'y-axis-1',
-
-	        // grid line settings
-	        gridLines: {
-	          drawOnChartArea: false, // only want the grid lines for one axis to show up
-	        },
 	      }],
 	      xAxes: [{
 	      	type: 'linear',
@@ -386,18 +373,25 @@ function updateChartData()
 			}
 
          //arun: cap moves at 6.5
-         if (move.wv > 6.5)
-         {
-            move.wv= 6.5;
-         }
-         else if (move.wv < -6.5)
-         {
-            move.wv= -6.5;
-         }
+            eval = move.wv;
+            if (!isNaN(move.wv)) {
+	            if (move.wv > 6.5) {
+	            	move.wv = 6.5;
+	            } else if (move.wv < -6.5) {
+	            	move.wv = -6.5;
+	            }
+	        } else {
+	        	if (move.wv.substring(0,1) == '-') {
+	        		move.wv = -6.5;
+	        	} else {
+	        		move.wv = 6.5;
+	        	}
+	        }
 			eval = [
 				{
 					'x': moveNumber,
-					'y': move.wv
+					'y': move.wv,
+					'eval': eval
 				}
 			];
 
