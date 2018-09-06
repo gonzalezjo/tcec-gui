@@ -111,7 +111,7 @@
               </a>
             </div>
             <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
-              <a href="http://tcec.chessdom.com/archive/live.pgn" class="board-navigation btn btn-primary btn-sm">
+              <a href="http://tcec.chessdom.com/live/live.pgn" class="board-navigation btn btn-primary btn-sm">
                 <i class="fa fa-download"></i>
               </a>
             </div>
@@ -374,10 +374,6 @@
               </ins>
             </ins>
           </ins>
-          <script type="text/javascript">
-          (adsbygoogle = window.adsbygoogle || []).push({});
-
-          </script>
         </div>
       </div>
 
@@ -672,7 +668,7 @@
         updateCrosstable();
         updateLiveEval();
 
-        var pgnInterval = window.setInterval(function() { updatePgn() }, 1000);
+        var pgnInterval = window.setInterval(function() { updatePgn() }, 3000);
         var scheduleInterval = window.setInterval(function() { updateSchedule() }, 15000);
         var crosstableInterval = window.setInterval(function() { updateCrosstable() }, 60000);
         var liveEvalInterval = window.setInterval(function() { updateLiveEval() }, 60000);
