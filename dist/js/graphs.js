@@ -8,6 +8,7 @@ var evalChartData = {
   labels: [],
   datasets: [{
     label: 'White Engine Eval',
+    lineTension: 0,
     borderColor: '#EFEFEF',
     backgroundColor: '#EFEFEF',
     fill: false,
@@ -15,6 +16,7 @@ var evalChartData = {
     ]
   }, {
     label: 'Black Engine Eval',
+    lineTension: 0,
     borderColor: '#000000',
     backgroundColor: '#FFFFFF',
     
@@ -28,6 +30,7 @@ var timeChartData = {
   labels: [],
   datasets: [{
     label: 'White Engine Time',
+    lineTension: 0,
     borderColor: '#EFEFEF',
     backgroundColor: '#EFEFEF',
     fill: false,
@@ -35,6 +38,7 @@ var timeChartData = {
     ]
   }, {
     label: 'Black Engine Time',
+    lineTension: 0,
     borderColor: '#000000',
     backgroundColor: '#FFFFFF',
     
@@ -48,6 +52,7 @@ var speedChartData = {
   labels: [],
   datasets: [{
     label: 'White Engine Speeds',
+    lineTension: 0,
     borderColor: '#EFEFEF',
     backgroundColor: '#EFEFEF',
     fill: false,
@@ -56,6 +61,7 @@ var speedChartData = {
     yAxisID: 'y-axis-1',
   }, {
     label: 'Black Engine Speed',
+    lineTension: 0,
     borderColor: '#000000',
     backgroundColor: '#FFFFFF',
     
@@ -70,6 +76,7 @@ var depthChartData = {
   labels: [],
   datasets: [{
     label: 'White Engine Depth',
+    lineTension: 0,
     borderColor: '#EFEFEF',
     backgroundColor: '#EFEFEF',
     fill: false,
@@ -77,6 +84,7 @@ var depthChartData = {
     ]
   }, {
     label: 'Black Engine Depth',
+    lineTension: 0,
     borderColor: '#000000',
     backgroundColor: '#FFFFFF',
     
@@ -90,6 +98,7 @@ var tbHitsChartData = {
   labels: [],
   datasets: [{
     label: 'White Engine TB Hits',
+    lineTension: 0,
     borderColor: '#EFEFEF',
     backgroundColor: '#EFEFEF',
     fill: false,
@@ -97,6 +106,7 @@ var tbHitsChartData = {
     ]
   }, {
     label: 'Black Engine TB Hits',
+    lineTension: 0,
     borderColor: '#000000',
     backgroundColor: '#FFFFFF',
     
@@ -111,9 +121,9 @@ $(function() {
 	  data: evalChartData,
 	  options: {
 	    responsive: true,
+	    bezierCurve: false,
 	    hoverMode: 'index',
 	    stacked: false,
-	    lineTension: 0,
 	    legend: {
 	      display: false
 	    },
@@ -150,7 +160,6 @@ $(function() {
 	    responsive: true,
 	    hoverMode: 'index',
 	    stacked: false,
-	    lineTension: 0,
 	    legend: {
 	      display: false
 	    },
@@ -180,7 +189,6 @@ $(function() {
 	    responsive: true,
 	    hoverMode: 'index',
 	    stacked: false,
-	    lineTension: 0,
 	    legend: {
 	      display: false
 	    },
@@ -259,7 +267,6 @@ $(function() {
 	    responsive: true,
 	    hoverMode: 'index',
 	    stacked: false,
-	    lineTension: 0,
 	    legend: {
 	      display: false
 	    },
@@ -289,7 +296,6 @@ $(function() {
 	    responsive: true,
 	    hoverMode: 'index',
 	    stacked: false,
-	    lineTension: 0,
 	    legend: {
 	      display: false
 	    },
