@@ -136,7 +136,7 @@ body.dark a.green {
 canvas {
 	width: 100%;
 	height: 100%;
-   background-color: rgba(47, 152, 208, 0.1);
+	background-color: rgba(47, 152, 208, 0.1);
 }
 
 .board-navigation {
@@ -180,4 +180,9 @@ canvas {
 .nav>a {
     padding-top: 1px;
     padding-bottom: 1px;
+}
+
+.truncate-name {
+    overflow: hidden;
+    white-space: nowrap;
 }

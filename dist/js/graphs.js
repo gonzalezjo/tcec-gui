@@ -132,6 +132,13 @@ $(function() {
 	          drawOnChartArea: false, // only want the grid lines for one axis to show up
 	        },
 	      }],
+	      xAxes: [{
+	      	type: 'linear',
+	      	ticks: {
+		        autoSkip: true,
+		        maxTicksLimit: 15
+		    }
+	      }]
 	    }
 	  }
 	});
@@ -161,6 +168,13 @@ $(function() {
 	          drawOnChartArea: false, // only want the grid lines for one axis to show up
 	        },
 	      }],
+	      xAxes: [{
+	      	type: 'linear',
+	      	ticks: {
+		        autoSkip: true,
+		        maxTicksLimit: 15
+		    }
+	      }]
 	    }
 	  }
 	});
@@ -234,6 +248,13 @@ $(function() {
 			  }
 			}
 	      }],
+	      xAxes: [{
+	      	type: 'linear',
+	      	ticks: {
+		        autoSkip: true,
+		        maxTicksLimit: 15
+		    }
+	      }]
 	    }
 	  }
 	});
@@ -263,6 +284,13 @@ $(function() {
 	          drawOnChartArea: false, // only want the grid lines for one axis to show up
 	        },
 	      }],
+	      xAxes: [{
+	      	type: 'linear',
+	      	ticks: {
+		        autoSkip: true,
+		        maxTicksLimit: 15
+		    }
+	      }]
 	    }
 	  }
 	});
@@ -292,6 +320,13 @@ $(function() {
 	          drawOnChartArea: false, // only want the grid lines for one axis to show up
 	        },
 	      }],
+	      xAxes: [{
+	      	type: 'linear',
+	      	ticks: {
+		        autoSkip: true,
+		        maxTicksLimit: 15
+		    }
+	      }]
 	    }
 	  }
 	});
