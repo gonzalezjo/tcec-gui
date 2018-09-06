@@ -1,0 +1,183 @@
+body {
+	background-color: #dcdcdc;
+}
+
+#v-pills-tabContent {
+	background-color: #dcdcdc;
+	margin-bottom: 5px;
+}
+
+#pills-tab {
+	margin-top: 5px;
+}
+
+.banner-image {
+	height: 60px;
+}
+
+#chatright {
+	min-height: 400px;
+}
+
+@media (max-width: 800px) {
+	.banner-image {
+		height: 30px;
+	}
+
+	#encouragement {
+		font-size: 0.5em;
+	}
+}
+
+@media (min-width: 1400px) {
+	.container {
+	    max-width: 1340px;
+	}
+}
+
+@media (min-width: 1600px) {
+	.container {
+	    max-width: 1540px;
+	}
+}
+
+.dark {
+	background: #333 !important;
+	color: #dfdfdf !important;
+}
+
+.highlight-white {
+  -webkit-box-shadow: inset 0 0 3px 3px yellow !important;
+  -moz-box-shadow: inset 0 0 3px 3px yellow !important;
+  box-shadow: inset 0 0 3px 3px yellow !important;  
+}
+.highlight-black {
+  -webkit-box-shadow: inset 0 0 3px 3px blue;
+  -moz-box-shadow: inset 0 0 3px 3px blue;
+  box-shadow: inset 0 0 3px 3px blue;  
+}
+
+.engineimage {
+	height: 85%;
+	max-height: 40px;
+	max-width: 80px;
+}
+
+.engine-material {
+	height: 28px;
+	width: 28px;
+}
+
+#engine-history {
+	max-height: 150px !important;
+	overflow-y: scroll;
+   font-size: 15px;
+}
+
+.active-move {
+	background-color: #1e1e1e;
+   color: yellow;
+}
+
+.smallfont
+{
+   font-size: small;
+   text-align: center;
+}
+
+#crosstable th,
+#event-overview th,
+#engine-eval th,
+#live-eval th,
+#schedule th 
+{
+    background-color: #191919;
+    color: white;
+    text-align: center;
+} 
+
+body.dark a.nav-link {
+	color: #dfdfdf;
+}
+
+body.dark a.change-move {
+	color: #dcdcdc;
+}
+
+body.dark a.green {
+	color: orange !important;
+}
+
+.green
+{
+   color: green;
+}
+
+.numsmall
+{
+   font-size: 13px;
+}
+
+.eventname
+{
+   font-size: 20px;
+   text-align: center;
+   font-weight: bolder;
+}
+
+.eventoverview,
+#engine-eval,
+#live-eval
+{
+   font-size: 14px;
+   text-align: center;
+}
+
+canvas {
+	width: 100%;
+	height: 100%;
+   background-color: rgba(47, 152, 208, 0.1);
+}
+
+.board-navigation {
+	width: 100%;
+}
+
+.scheduleclass
+{
+   max-height:670px;
+	overflow-y: scroll;
+}
+
+.engine-pv
+{
+   overflow-y: scroll;
+   font-size: small;
+   height:100px;
+}
+
+#event-overview
+{
+   font-size: 15px;
+   padding: 3px !important;
+}
+
+#event-overview .th-inner,
+#event-overview td {
+	padding: 1px !important;
+}
+
+.nav>li>a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+.nav>div>a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+.nav>a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
