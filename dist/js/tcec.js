@@ -306,13 +306,25 @@ function setPgn(pgn)
       }
 
       if (movesToDraw < 50 && movesToDraw <= movesTo50R && movesToDraw <= movesToResignOrWin) {
-        termination = movesToDraw + ' ply to draw';
+        if (movesToDraw == 1) {
+          termination = movesToDraw + ' ply to draw';
+        } else {
+          termination = movesToDraw + ' plies to draw';
+        }
       }
       if (movesTo50R < 50 && movesTo50R < movesToDraw && movesTo50R < movesToResignOrWin) {
-        termination = movesTo50R + ' ply to 50r';
+        if(movesTo50R == 1) {
+          termination = movesTo50R + ' move to 50mr'
+        } else {
+          termination = movesTo50R + ' moves to 50mr'
+        }
       }
       if (movesToResignOrWin < 50 && movesToResignOrWin < movesToDraw && movesToResignOrWin < movesTo50R) {
-        termination = movesToResignOrWin + ' ply to adjudication';
+        if(movesToResignOrWin == 1) {
+          termination = movesToResignOrWin + ' ply to adjudication';
+        } else {
+          termination = movesToResignOrWin + ' plies to adjudication';
+        }
       }
 
       pgn.Headers.Termination = termination;
