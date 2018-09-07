@@ -146,9 +146,16 @@ $(function() {
         tooltips: {
 	      callbacks: {
 	            label: function(tooltipItem, data) {
-	            	eval = ['White Eval: ' + data.datasets[0].data[tooltipItem.index].eval,
-	            			'Black Eval: ' + data.datasets[1].data[tooltipItem.index].eval,
-	            			'Live Eval: ' + data.datasets[2].data[tooltipItem.index].eval];
+	            	eval = [];
+	            	if (typeof data.datasets[0].data[tooltipItem.index] != 'undefined') {
+	            		eval = _.union(eval, ['White Eval: ' + data.datasets[0].data[tooltipItem.index].eval]);
+	            	}
+	            	if (typeof data.datasets[1].data[tooltipItem.index] != 'undefined') {
+	            		eval = _.union(eval, ['Black Eval: ' + data.datasets[1].data[tooltipItem.index].eval]);
+	            	}
+	            	if (typeof data.datasets[2].data[tooltipItem.index] != 'undefined') {
+	            		eval = _.union(eval, ['Live Eval: ' + data.datasets[2].data[tooltipItem.index].eval]);
+	            	}
 	                return eval;
 	            }
 	      } // end callbacks:
