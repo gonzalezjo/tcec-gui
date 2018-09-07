@@ -14,14 +14,73 @@
     <link href="dist/css/chessboard-0.3.0.min.css" rel="stylesheet">
     <link href="dist/bootstrap-table.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-
+    <link href="dist/css/pretty-checkbox.min.css" rel="stylesheet">  
+    <link rel="stylesheet" type="text/css" href="dist/css/bootstrap-4-navbar.css">
     <!-- Custom styles for this template -->
     <!-- vch -->
     <link href="dist/css/custom.css?v=1000000000000000000005" rel="stylesheet">
   </head>
 
   <body>
-    <main role="main" class="container">
+
+   <nav class="navbar navbar-toggle navbar-expand-md navbar-dark bg-dark">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+         <ul class="navbar-nav">
+            <li class="nav-item">
+               <a class="nav-link" href="#" data-toggle="modal" data-target="#info-modal">Info</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="#" data-toggle="modal" data-target="#rules-modal">Rules</a>
+            </li>
+            <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Options
+               </a>
+               <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <li><a class="dropdown-item dropdown-toggle" href="#">Download</a>
+                     <ul class="dropdown-menu">
+                         <div class="text-left" style="margin-bottom: 5px; margin-left: 20px">
+                           <a href="http://tcec.chessdom.com/archive/crosstable.json" target="_blank">
+                             Crosstable
+                           </a>
+                         </div>
+                         <div class="text-left" style="margin-bottom: 5px; margin-left: 20px">
+                           <a href="http://tcec.chessdom.com/archive/schedule.json" target="_blank">
+                             Schedule
+                           </a>
+                         </div>
+                         <div class="text-left" style="margin-bottom: 5px; margin-left: 20px">
+                           <a href="http://tcec.chessdom.com/live/event.pgn" target="_blank">
+                             Event Pgn
+                           </a>
+                         </div>
+                         <div class="text-left" style="margin-bottom: 5px; margin-left: 20px">
+                           <a href="http://tcec.chessdom.com/live/live.pgn" target="_blank">
+                               Live Pgn
+                             </a>
+                           </div>
+                     </ul>
+                  </li>
+                  <li><a class="dropdown-item dropdown-toggle" href="#">View</a>
+                     <ul class="dropdown-menu">
+                        <div class="pretty p-default p-curve" style="margin-left: 20px">
+                           <input class="toggleDark" type="checkbox" />
+                           <div class="state p-primary ">
+                              <label>Night mode</label>
+                           </div>
+                        </div>
+                     </ul>
+                  </li>
+               </ul>
+            </li>
+         </ul>
+      </div>
+   </nav>
+
+   <main role="main" class="container">
       <div class="row">
         <div class="col-md-3 col-3 text-left">
           <a href="live.html"><img src="img/tcec.jpg" class="banner-image" alt="TCEC" /></a>
@@ -45,10 +104,9 @@
           <a target="_blank" href="https://www.microsoft.com/en-us/windows/microsoft-edge" style="float: right;"><img src="img/edge.jpg" class="banner-image" alt="Edge" /></a>
         </div>
       </div>
-
       <div class="row">
         <div class="col-md-12">
-          <h4 id="event-name" class="eventname">TCEC - Live Chess Broadcast</h4>
+          <br>  
           <table id="event-overview" class="eventoverview">
           </table>
         </div>
@@ -111,11 +169,6 @@
               </a>
             </div>
             <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
-              <a href="http://tcec.chessdom.com/live/live.pgn" class="board-navigation btn btn-primary btn-sm">
-                <i class="fa fa-download"></i>
-              </a>
-            </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
               <a class="board-navigation btn btn-primary btn-sm" style="color: #dfdfdf;" onClick="copyFen()" title="Click to copy FEN" id="fen">
                 FEN
               </a>
@@ -151,13 +204,16 @@
               </a>
             </div>
             <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
-              <a href="#" class="board-navigation btn btn-primary btn-sm" id="toggleDark">
+              <a href="#" class="board-navigation btn btn-primary btn-sm toggleDark">
                 <i class="fa fa-moon"></i>
               </a>
             </div>
           </div>
           <br>
           <div id="engine-history"></div>
+          <div id="live-eval-cont">
+            <table id="live-eval"></table>
+          </div>
         </div>
 
         <div class="col-md-4" id="middle-data-column">
@@ -176,7 +232,6 @@
                 <span class="h5 d-inline black-time-remaining">
                   0:00:00
                 </span>
-                <br />
                 <span class="badge badge-dark black-time-used">
                   0:00
                 </span>
@@ -230,7 +285,6 @@
                 <span class="h5 d-inline white-time-remaining">
                   0:00:00
                 </span>
-                <br />
                 <span class="badge badge-dark white-time-used">
                   0:00
                 </span>
@@ -337,10 +391,7 @@
 
       <ul class="nav nav-pills mb-3 nav-justified" id="pills-tab" role="tablist">
         <li class="nav-item">
-          <a class="nav-link active" id="pills-livesf-tab" data-toggle="pill" href="#pills-livesf" role="tab" aria-controls="pills-livesf" aria-selected="false">Live Eval</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="pills-cross-tab" data-toggle="pill" href="#pills-cross" role="tab" aria-controls="pills-cross" aria-selected="true">Crosstable</a>
+          <a class="nav-link active" id="pills-cross-tab" data-toggle="pill" href="#pills-cross" role="tab" aria-controls="pills-cross" aria-selected="true">Crosstable</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" id="pills-sched-tab" data-toggle="pill" href="#pills-sched" role="tab" aria-controls="pills-sched" aria-selected="false">Schedule</a>
@@ -350,27 +401,15 @@
         </li>
       </ul>
       <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active smallfont" id="pills-livesf" role="tabpanel" aria-labelledby="pills-livesf-tab">
-          <div class="text-left" style="margin-bottom: 5px">
-            <a href="http://tcec.chessdom.com/archive/crosstable.json" target="_blank" class="btn btn-primary btn-sm">
-              <i class="fa fa-download"></i> Crosstable
-            </a>
-            <a href="http://tcec.chessdom.com/archive/schedule.json" target="_blank" class="btn btn-primary btn-sm">
-              <i class="fa fa-download"></i> Schedule
-            </a>
-            <a href="http://tcec.chessdom.com/live/event.pgn" target="_blank" class="btn btn-primary btn-sm">
-              <i class="fa fa-download"></i> Event Pgn
-            </a>
-          </div>
-          <table id="live-eval"></table>
-        </div>
-        <div class="tab-pane fade smallfont" id="pills-cross" role="tabpanel" aria-labelledby="pills-cross-tab">
+        <div class="tab-pane show active fade smallfont" id="pills-cross" role="tabpanel" aria-labelledby="pills-cross-tab">
           <table id="crosstable" class="table-striped">
           </table>
         </div>
         <div class="tab-pane fade smallfont scheduleclass" id="pills-sched" role="tabpanel" aria-labelledby="pills-sched-tab">
-          <table id="schedule" class="table-striped">
-          </table>
+          <div id="schedule-wrapper">
+            <table id="schedule" class="table-striped">
+            </table>
+          </div>
         </div>
         <div class="tab-pane fade smallfont" id="pills-enginepv" role="tabpanel" aria-labelledby="pills-enginepv-tab">Coming soon</div>
       </div>
@@ -415,6 +454,216 @@
           </div>
         </div>
 
+        <div class="modal" id="info-modal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">About TCEC</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="about_4">
+                  <div class="about_row_content" id="about_desc">
+                    <b>TCEC</b> (Top Chess Engine Championship) is a computer chess tournament organized and maintained by <a href="http://www.chessdom.com" target="_blank">Chessdom</a> in cooperation with <a href="https://arena.chessdom.com/" target="_blank">Chessdom Arena</a>. The goal is to provide the viewers with a live broadcast of long time control, quality chess - played strictly between computer chess engines created by different programmers. One Season is divided into several Stages and lasts about 3-4 months. The winner of the Season will be the TCEC Grand Champion.
+                  </div>
+                  <h4>The TCEC Grand Champions</h4>
+                  <div class="about_row_content">
+                    Season 12: Stockfish | 
+                    Season 11: Stockfish | 
+                    Season 10: Houdini | 
+                    Season 9: Stockfish |
+                    Season 8: Komodo |
+                    Season 7: Komodo | 
+                    Season 6: Stockfish | 
+                    Season 5: Komodo | 
+                    Season 4: Houdini | 
+                    Season 3: N/A | 
+                    Season 2: Houdini | 
+                    Season 1: Houdini
+                  </div>
+                  <h4>Special thanks:</h4>
+                  <div class="about_row_content">
+                    Martin Thoresen, 
+                    <a href="https://arena.chessdom.com/" target="_blank">Anton Mihailov</a>, 
+                    <a href="http://pgn4web.casaschi.net/home.html" target="_blank">Paolo Casaschi</a>, 
+                    <a href="https://github.com/cutechess/cutechess" target="_blank">Ilari Pihlajisto</a>, 
+                    <a href="https://github.com/cutechess/cutechess" target="_blank">Arto Jonsson</a>, 
+                    <a href="http://biglion.bplaced.net/" target="_blank">Matthias Gemuh</a>, and 
+                    <a href="http://open-chess.org/index.php" target="_blank">Jeremy Bernstein</a>.
+                  </div>
+                  <div class="about_row_header"><form target="_blank" action="https://www.paypal.com/cgi-bin/webscr" method="post"><input type="hidden" name="cmd" value="_s-xclick"><input type="hidden" name="hosted_button_id" value="L84QRRQJ88CYQ"><input type="image" src="img/paypal3.jpg" name="submit" alt="PayPal - The safer, easier way to pay online!" width="102" height="63"></form></div>
+                  <h5>Copyright © 2010-2018</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal" id="rules-modal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Rules & Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="about_row_content" id="opening_desc">
+                <b>Event</b><br>
+                The Top Chess Engine Championship (TCEC) is the premier championship for chess software. It is a competition between 32 engines with ELO 3000+ and is divided into five divisions and a Superfinal.  <br>
+
+                TCEC runs 24/7 until all games have been played. One game is played at a time - the next one starts automatically.<br><br>
+
+                <b>Time control</b><br>
+                Classical time control will be used through the season and it is increased the deeper the Season goes. For Division 2, 3 and 4, the time control is 30 minutes + 10 seconds added per move for the whole game. For Division 1, the time control is 60 minutes + 10 seconds added per move for the whole game. For Division Premier, the time control is 90 minutes + 10 seconds added per move for the whole game. For the Superfinal, the time control is 120 minutes + 15 seconds added per move for the whole game. If an engine loses on time, the result will not be changed or the game replayed. If the TCEC game server locks up at any time during a game (BSOD, freeze etc), that game will be restarted unless the last position was a 6-man or less tablebase position, then it will be manually adjudicated. Prior to Season 9, different time controls have been used. Check the individual games in the "Archive page"" for info.<br><br>
+
+                <b>Game adjudication</b><br>
+                A game can be drawn by the normal 3-fold repetition rule or the 50-move rule. However, a game can also be drawn at move 40 or later if the eval from both playing engines are within +0.05 to -0.05 pawns for the last 5 moves, or 10 plies. If there is a pawn advance, or a capture by any kind, this special draw rule will reset and start over. In the website this rule is shown as "TCEC draw rule" with a number indicating how many plies there are left until it kicks in. It will adjudicate as won for one side if both playing engines have an eval of at least 6.50 pawns (or -6.50 in case of a black win) for 4 consecutive moves, or 8 plies - this rule is in effect as soon as the game starts. In the website this rule is shown as "TCEC win rule" with a number indicating how many plies there are left until it kicks in. Cutechess will also adjudicate 5-men or less endgame positions automatically with Gaviota tablebases.  The Gaviota adjudication ignores the 50-move rule.<br><br>
+
+                <b>Loss of Connection to the GPU server</b><br>
+                The remote Windows Server (2x GTX 1080ti GPUs) that we rent for the NN engines shut down unexpectedly with a serious (hardware) error at least once during preparation for Season 13. The company from which we rent couldn't explain the failure, and couldn't/wouldn't guarantee 24/7 100% uptime and stability.  Instead they tried to upgrade us (for a lot more money) to a 4x GPU card server, which they claimed was 100% stable.  We made the decision to stay with the 2x GTX 1080ti server.  So, it's posible that this remote server crashes again during the S13 event.  In the event of such a crash, there will be delay in the tournament while we contact our service providers and they restart or reboot the box.  If the interruption happens during a game, our tournament manager software (cutechess) can resume the tournament, but the current game will be re-played in it's entirety.
+                <br><br>
+
+                <b>Critical Engine Bugs</b><br>
+                In the case of a serious, play-limiting bug (like crashing or interface communication problems, not including losses on time) not discovered during the pre-Season testing, the engine can be updated once per Division to fix this/these bug/bugs only. If this update still doesn't fix the problem(s) or if there is no update available, the engine might have the number of cores reduced, have the hash size reduced or have the tablebase access disabled - these changes will remain for the rest of the Division.<br><br>
+
+                <b>Tiebreaks</b><br>
+                If necessary, tiebreaks can be used to determine advancement. For all Divisions (not the Superfinal), the first tiebreak criteria is the "crash" tiebreak, meaning that if an engine has crashed once or more during the Division, it will fail qualification versus another engine that has not crashed if both of them has the same amount of points. In case of still being tied, then the direct encounter between the tied engines decides. The next criterion is the greatest number of wins, then the greatest number of wins with black. The Sonneborn-Berger is the next criteria. If they are still tied, then the tournament organizers will decide which engine gets the promotion.<br><br>
+
+                <b>Engine Updates</b><br>
+                Engines that promote to a new Division are allowed to update at the cost of taking 1 strike to fix bugs uncovered during the previous Division.  All other engines that promote to the next Division will use the version initially submitted.  Promoting engines may update UCI/xboard settings. The deadline for engine submission is the last game of the current Division unless the programmer is given a specific deadline from the Tournament Director - the goal is to be able to start the next Division as soon as possible without any significant delay.<br><br>
+
+                <b>Engine Ratings</b><br>
+                In the TCEC Archive page (available via the File menu), you can see the official TCEC ratings list (in the bottom right corner). This list is updated after each Division or Superfinal and is calculated by using Ordo. The calculation is global (all versions of an engine are included under a single name) and includes all games played since (and including) Season 1. All games lost on time, via stall or disconnect, are discarded...as are engines that have had only losses. If there is a new engine entering TCEC for the first time, it will get a "temporary" rating taken from the CCRL 40/40 4CPU list. If an engine isn't found here, or if it has played very few games, an approximate ELO rating will be given to that engine based on tests from the programmer. Then after this new engine has played an event, an official rating will be calculated.<br><br>
+
+                <hr><br>
+                <b>The TCEC Division System</b><br>
+                As soon as a Division starts, it will run 24/7 until all games have been played. One game is played at a time - the next one starts automatically. There will be a short break between the Divisions, to make sure everything is ok with the TCEC game server and to prepare for the next Division.
+                <br><br>
+
+                <b>Division 4</b><br>
+                Division 4 is the preliminary Division, involving 8 engines that enter the championship on invitational basis, playing a 2x round robin (112 games). The time control of the games will be 30 mins + 10 sec/move. The top 2 engines qualify for Division 3 while the rest are out of TCEC for the current Season.<br><br>
+
+                <b>Division 3</b><br>
+                Division 3 consists of the 2 engines that qualified from Season 11 plus the top 4 engines from Division 4. It is a 2x round robin (112 games).  The top 2 engines promote to Division 2 and the bottom 2 engines are relegated.<br><br>
+                                                    
+                <b>Division 2</b><br>
+                Division 2 consists of the 6 engines that qualified from Season 11 plus the top 2 engines from Division 3. It is a 2x double round robin (112 games).  The top 2 engines promote to Division 1 and the bottom 2 engines are relegated to Division 3.<br><br>
+                                                    
+                <b>Division 1</b><br>
+                Division 1 consists of the 6 engines that qualified from Season 11 plus the top 2 engines from Division 2. It is a 2x round robin (112 games).  The top 2 engines promote to Division Premier and the bottom 2 engines are elegated to Division 2<br><br>
+                                                    
+                <b>Division Premier</b><br>
+                Division Premier consists of the 6 engines that qualified from Season 11 plus the top 2 engines from Division 1. It is a 8x round robin (224 games).  The top 2 engines promote to the Superfinal and the bottom 2 engines are elegated to Division 1<br><br>                                    
+
+                <b>Superfinal</b><br>
+                This match is played with 50 different openings so that each engine plays both black and white of the same position. The match will be presented with opening 1 used in games 1 and 2, then opening 2 used in games 3 and 4 etc. If the match is theoretically won for one side before game 100, the match will still continue until all 100 games have been played. In the case of a drawn match there will be a rapid match of 16 games with a time control of 25' + 10" with random openings selected from earlier in the same Season. In case it is still tied there will be a Blitz match of 8 games with a time control of 3' + 2". When the Superfinal is over, the current Season ends.<br><br>
+
+                <b>The TCEC Grand Champion</b><br>
+                The winner of the Superfinal will be crowned the TCEC Grand Champion and will keep this title until there is a winner in the next Superfinal. There is no automatic qualification for the reigning Grand Champion, it will have to go all the way through the next Season for it to be able to defend the title.<br><br>
+
+                <hr><br>
+                <b>Engine Specific Configuration</b><br>
+                UCI and Xboard (Winboard) engines are supported. To identify the protocol an engine is using you can click the gears next to the engine logo during a game. This info will be saved for the archive, but does not work for Season 5 or older games.<br><br>
+
+                <b>Compiles</b><br>
+                Many engines come with different .exe files. 64-bit .exes are always preferred over 32-bit. Also, compiles that support SSE 4.2, AVX/AVX2 or similar instruction sets are preferred.<br><br>
+
+                <b>Large Pages</b><br>
+                Some engines can utilize a function in Windows called large pages, that gives a speed boost. However, after a while the memory in the computer will be fragmented, so that one engine might receive large pages and the opponent won't, which would be unfair. Therefore, this has been disabled. Large pages are often useful when you are running infinite analysis on a position.<br><br>
+
+                <b>Number of Cores / Threads</b><br>
+                Each engine can use up to 43 cores of the processors, if this is supported. Some engines have a prefix like "deep", but this has been omitted from the engine name to make it shorter. When watching a game you can see the number of cores that are in use for the engines currently playing by clicking the gears next to the engine logo.<br><br>
+
+                <b>Split Depth</b><br>
+                The split depth parameter basically defines the minimum depth for work to be split between threads. If no specific settings are given from the programmer, the default value will be used.<br><br>
+
+                <b>Main Hash Size</b><br>
+                Each engine is allowed to use up to 16384 MB of hash. Not all engines supports this much hash, so the maximum for that engine will be used in this case, typically 2048 MB or 4096 MB. When watching a game you can see the size of the hash that is in use for the engines currently playing by clicking the gears next to the engine logo.<br><br>
+
+                <b>Minor Hash Sizes</b><br>
+                Some engines have an option to configure the size of other hash tables, often called pawn hash or evaluation hash. The combined, total limit for hash types like these is 4096 MB (8192 MB in case of the Superfinal).<br><br>
+
+                <b>Own Opening Book</b><br>
+                All opening books shipped with the engines are removed and/or disabled and any engine found to be using hidden, internal opening books will be disqualified and replaced with another engine chosen by the Tournament Director.<br><br>
+
+                <b>Endgame Tablebases</b><br>
+                For Season 11 all divisions, 5-men Nalimov/Gaviota/Scorpio, and 6-men Syzygy are available thanks to the 256 GB SSD. When watching a game you can see the type of the tablebases (if any) that is in use for the engines currently playing by clicking the gears next to the engine logo.<br><br>
+
+                <b>Ponder / Permanent Brain</b><br>
+                Basically this means that the engines can think during their opponents turn. It is not allowed so it will be disabled because of performance limitations with only 1 computer. This might change in a future Season of TCEC.<br><br>
+
+                <b>Contempt / Draw Score</b><br>
+                Some engines have a setting that can adjust their own view of the positions throughout a game to avoid draws. This setting is not changed from the default unless it is a request from the programmer.<br><br>
+
+                <b>Other Settings</b><br>
+                Any configurable option not described above, is not normally adjusted in any way, except if the programmer of an engine wants specific settings for each specific Division. Options like "keep hash tables" or similar is usually enabled.<br><br>
+
+                <hr><br>
+                <b>TCEC Hardware</b><br>
+                Thanks to the devoted audience for it's support! Because of them, the server was upgraded for Season 10, allowing TCEC to use a powerful 44 cores machine for all divisions.<br><br>
+
+                <b>Current TCEC server</b><br>
+                CPUs: 2 x Intel Xeon E5 2699 v4 @ 2.8 GHz<br>
+                Cores: 44 physical<br>
+                Motherboard: Supermicro X10DRL-i<br>
+                RAM: 64 GB DDR4 ECC<br>
+                SSD: Crucial CT250M500 240 GB<br>
+                Chassis: Supermicro <br>
+                OS: Windows Server 2012 R2<br><br>
+
+                Again, thanks to the generous support from our viewers, we are now able to include a dedicated GPU server (generating ~35% of the power available for Alpha Zero by Google DeepMind) for the Neural Network engines. If you'd like to contribute and help us improve the event even further, please check out how to support TCEC.<br><br>
+
+                <b>GPU Server</b><br>
+
+                GPUs: 2x GTX 1080 ti<br>
+                CPU: Intel Xeon E5-2609v4 1.7 GHz<br>
+                Cores: 8 physical/16 logical<br>
+                RAM: 32 GB RAM<br>
+                SSD:480 GB SSD<br>
+                Port: 1 Gbps Port<br>
+                OS: Windows Server 2016<br><br>
+
+                <b>Previous Seasons</b><br>
+                CPUs: 2 x Intel Xeon E5-2689 @ 3300 MHz<br>
+                Cores: 16 physical<br>
+                CPU Coolers: 2 x Corsair H80i<br>
+                Motherboard: Asus Z9PE-D8 WS<br>
+                RAM: 64 GB Kingston KVR16R11D4K4/32 Reg/ECC<br>
+                PSU: Corsair AX 760<br>
+                SSD: Samsung 840 Pro 128 GB<br>
+                Chassis: Silverstone Raven RV03B-WA<br>
+                OS: Windows 7 Professional<br><br>
+
+                <hr><br>
+                <b>FAQ</b><br>
+                <b>Is this the official World Computer Chess Championship?</b><br>
+                No, it is not, although some people regard it as such.<br><br>
+
+                <b>Who is the reigning TCEC Grand Champion?</b><br>
+                Stockfish defeated Komodo in the Superfinal of Season 12, so Stockfish is the reigning TCEC Grand Champion.<br><br>
+
+                <b>Did the engine move instantly?</b><br>
+                Yes, some engines can move from hash, or move instantly. However, sometimes it can seem that it moves instantly but in reality it doesn't, since there is a transmission delay from the playing server to the website by approximately 15 seconds. Refer to the "move time" for each engine to see how long it thought on its move.<br><br>
+
+                <b>Is there a special plugin required to view the games?</b><br>
+                No, to view the games it is only required that you allow Javascript to run. The TCEC Web GUI has been developed on the latest Chrome, but will also run fine on the latest Firefox. There is no support for Internet Explorer versions below 9.<br><br>
+
+                <b>What GUI are you using to play the games?</b><br>
+                To play the games a special version of cutechess-cli is used. This is a command line tool without an actual GUI. This was made possible thanks to <a href="http://www.open-chess.org" target="_blank">Jeremy Bernstein</a>. Previously TCEC used <a href="http://biglion.bplaced.net/" target="_blank">ChessGUI</a> by Matthias Gemuh.<br><br>
+
+                <b>What is the name of the web framework that displays the games?</b><br>
+                It is called <a href="http://pgn4web.casaschi.net/home.html" target="_blank">pgn4web</a> and is totally free. Paolo Casaschi is the mastermind behind it and has helped a lot on certain difficult programming challenges.<br><br>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
     </main><!-- /.container -->
 
 
@@ -433,13 +682,21 @@
     <script src="dist/js/moment.min.js"></script>
     <script src="dist/js/Chart.min.js"></script>
     <script src="dist/bootstrap-table.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
-
-    <script src="dist/js/graphs.js?v=1000000000000000000006"></script>
+    <script src="dist/js/graphs.js?v=1000000000000000000005"></script>
+    <script src="dist/js/bootstrap-4-navbar.js"></script>
     <!-- vch -->
-    <script src="dist/js/tcec.js?v=1000000000000000000004"></script>
+    <script src="dist/js/tcec.js?v=1000000000000000000005"></script>
 
     <script>
+      $(document).ready(function () {
+          $(document).click(function (event) {
+              var clickover = $(event.target);
+              var _opened = $(".navbar-collapse").hasClass("navbar-collapse in");
+              if (_opened === true && !clickover.hasClass("navbar-toggle")) {
+                  $("button.navbar-toggle").click();
+              }
+          });
+      });
       window.onload = function() {
         (adsbygoogle = window.adsbygoogle || []).push({});
       }
@@ -453,23 +710,24 @@
       var chess = new Chess();
       var board = ChessBoard('board', cfg);
 
-      $('#toggleDark').on('click', function() {
+      $('.toggleDark').click(function() {
         var darkMode = Cookies.get('tcec-dark-mode');
         if (darkMode == 20) {
           Cookies.set('tcec-dark-mode', 10);
           $('body').removeClass('dark');
-          $('#toggleDark').find('i').addClass('fa-moon');
-          $('#toggleDark').find('i').removeClass('fa-sun');
+          $('.toggleDark').find('i').addClass('fa-moon');
+          $('.toggleDark').find('i').removeClass('fa-sun');
           $('#chatright').attr('src', 'http://www.twitch.tv/embed/TCEC_Chess_TV/chat?popout');
           $('.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th').attr('style', 'background-color: #e5e5e5')
         } else {
           Cookies.set('tcec-dark-mode', 20);
-          $('#toggleDark').find('i').removeClass('fa-moon');
-          $('#toggleDark').find('i').addClass('fa-sun');
+          $('.toggleDark').find('i').removeClass('fa-moon');
+          $('.toggleDark').find('i').addClass('fa-sun');
           $('body').addClass('dark');
           $('#chatright').attr('src', 'http://www.twitch.tv/embed/TCEC_Chess_TV/chat?darkpopout');
           $('.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th').attr('style', 'background-color: #4c4c4c')
         }
+        $(".navbar-toggle").click();
       });
 
       $('#refreshBoard').on('click', function() {
@@ -492,11 +750,15 @@
           },
           {
               field: 'Round',
-              title: 'Round (Game)'
+              title: 'Round'
           },
           {
               field: 'Opening',
               title: 'Opening'
+          },
+          {
+              field: 'Event',
+              title: 'Event'
           },
           {
               field: 'ECO',
@@ -584,60 +846,42 @@
         ]
       });
 
-      $('#engine-eval').bootstrapTable({
-        columns: [
-          {
-              field: 'eval',
-              title: 'Eval'
-          },
-          {
-              field: 'speed',
-              title: 'Speed'
-          },
-          {
-              field: 'mtime',
-              title: 'MTime'
-          },
-          {
-              field: 'depth',
-              title: 'D/SD'
-          },
-          {
-              field: 'tbhits',
-              title: 'TB'
-          }
-        ]
-      });
-
       $('#live-eval').bootstrapTable({
           columns: [
           {
               field: 'engine',
-              title: 'Eng'
+              title: 'Eng',
+              width: '30'
           },
           {
               field: 'eval',
-              title: 'Eval'
+              title: 'Eval',
+              width: '20'
           },
           {
               field: 'pv',
-              title: 'PV'
+              title: 'PV',
+              width: '290'
           },
           {
               field: 'depth',
-              title: 'Depth'
+              title: 'Depth',
+              width: '20'
           },
           {
               field: 'speed',
-              title: 'Speed'
+              title: 'Speed',
+              width: '20'
           },
           {
               field: 'nodes',
-              title: 'Nodes'
+              title: 'Nodes',
+              width: '20'
           },
           {
               field: 'tbhits',
-              title: 'TB Hits'
+              title: 'TB',
+              width: '20'
           }
         ]
       });
@@ -648,12 +892,14 @@
           $('.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th').attr('style', 'background-color: #4c4c4c');
           $('body').addClass('dark');
           $('#chatright').attr('src', 'http://www.twitch.tv/embed/TCEC_Chess_TV/chat?darkpopout');
-          $('#toggleDark').find('i').removeClass('fa-moon');
-          $('#toggleDark').find('i').addClass('fa-sun');
+          $('.toggleDark').find('i').removeClass('fa-moon');
+          $('.toggleDark').find('i').addClass('fa-sun');
+          $('input.toggleDark').prop('checked', true);
         } else {
           $('.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th').attr('style', 'background-color: #e5e5e5');
-          $('#toggleDark').find('i').addClass('fa-moon');
-          $('#toggleDark').find('i').removeClass('fa-sun');
+          $('.toggleDark').find('i').addClass('fa-moon');
+          $('.toggleDark').find('i').removeClass('fa-sun');
+          $('input.toggleDark').prop('checked', false);
         }
 
         if ($('#google_adverts').height() <= 0) {

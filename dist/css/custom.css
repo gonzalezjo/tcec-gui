@@ -27,6 +27,13 @@ body {
 	#encouragement {
 		font-size: 0.5em;
 	}
+
+	table th,
+	table td {
+	    overflow: hidden;
+	    white-space: nowrap;
+	    text-overflow: clip;
+	}
 }
 
 @media (min-width: 1400px) {
@@ -69,9 +76,11 @@ body {
 }
 
 #engine-history {
-	max-height: 150px !important;
+	max-height: 170px !important;
+	height: 170px !important;
     overflow-y: scroll;
     font-size: 15px;
+    margin-bottom: 15px;
 }
 
 .active-move {
@@ -185,4 +194,20 @@ canvas {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: clip;
+}
+
+.custom-control{
+  background-color: grey;
+}
+
+#schedule-wrapper {
+	max-height: 900px;
+	overflow: hidden;
+	overflow-y: scroll;
+}
+
+#opening_desc {
+	max-height: 500px;
+	overflow: hidden;
+	overflow-y: scroll;
 }

@@ -24,7 +24,7 @@ var evalChartData = {
     data: [
     ]
   }, {
-    label: 'Live Engine Eval',
+    label: 'Live Engine Eval [SF Dev]',
     lineTension: 0,
     borderColor: '#007bff',
     backgroundColor: '#007bff',
@@ -135,7 +135,10 @@ $(function() {
 	    hoverMode: 'index',
 	    stacked: false,
 	    legend: {
-	      display: false
+	      display: true,
+         labels: {
+            boxWidth: 1
+         }
 	    },
 	    title: {
 	      display: false

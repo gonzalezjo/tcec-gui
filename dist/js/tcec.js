@@ -108,6 +108,32 @@ function updateClock(color) {
   }
 }
 
+function secFormatNoH(timeip)
+{
+    var sec_num = parseInt(timeip/1000, 10); // don't forget the second param
+    var hours   = Math.floor(sec_num / 3600);
+    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+    if (hours   < 10) {hours   = "0"+hours;}
+    if (minutes < 10) {minutes = "0"+minutes;}
+    if (seconds < 10) {seconds = "0"+seconds;}
+    return minutes+':'+seconds;
+}
+
+function secFormat(timeip)
+{
+    var sec_num = parseInt(timeip/1000, 10); // don't forget the second param
+    var hours   = Math.floor(sec_num / 3600);
+    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+    if (hours   < 10) {hours   = "0"+hours;}
+    if (minutes < 10) {minutes = "0"+minutes;}
+    if (seconds < 10) {seconds = "0"+seconds;}
+    return hours+':'+minutes+':'+seconds;
+}
+
 function setTimeRemaining(color, time)
 {
   if (time < 0) {
@@ -118,42 +144,14 @@ function setTimeRemaining(color, time)
     time = defaultStartTime;
   }
 
-  var hours = Math.floor(time / (1000 * 60 * 60));
-  time = time - (hours * 1000 * 60 * 60);
-  var minutes = Math.floor(time / (1000 * 60));
-  time = time - (minutes * 1000 * 60);
-  var seconds = Math.floor(time / 1000);
-
-  if (minutes >= 0 && minutes < 10) {
-    minutes = '0' + minutes;
-  }
-
-  if (seconds >= 0 && seconds < 10) {
-    seconds = '0' + seconds;
-  }
-
   if (viewingActiveMove) {
-    $('.' + color + '-time-remaining').html(hours + ':' + minutes + ':' + seconds);
+    $('.' + color + '-time-remaining').html(secFormat(time));
   }
 }
 
 function setTimeUsed(color, time) {
-  var hours = Math.floor(time / (1000 * 60 * 60));
-  time = time - (hours * 1000 * 60 * 60);
-  var minutes = Math.floor(time / (1000 * 60));
-  time = time - (minutes * 1000 * 60);
-  var seconds = Math.floor(time / 1000);
-
-  if (minutes >= 0 && minutes < 10) {
-    minutes = '0' + minutes;
-  }
-
-  if (seconds >= 0 && seconds < 10) {
-    seconds = '0' + seconds;
-  }
-
   if (viewingActiveMove) {
-    $('.' + color + '-time-used').html(minutes + ':' + seconds);
+    $('.' + color + '-time-used').html(secFormatNoH(time));
   }
 }
 
@@ -309,7 +307,7 @@ function setPgn(pgn)
         termination = movesToDraw + ' ply to draw';
       }
       if (movesTo50R < 50 && movesTo50R < movesToDraw && movesTo50R < movesToResignOrWin) {
-        termination = movesTo50R + ' moves to 50mr';
+        termination = movesTo50R + ' ply to 50r';
       }
       if (movesToResignOrWin < 50 && movesToResignOrWin < movesToDraw && movesToResignOrWin < movesTo50R) {
         termination = movesToResignOrWin + ' ply to adjudication';
@@ -438,15 +436,7 @@ function getEvalFromPly(ply)
     speed = Math.round(speed / 1000000) + 'Mnps';
   }
 
-  moveTime = selectedMove.mt / 1000;
-  var minutes = Math.floor(moveTime / 60);
-  var seconds = Math.floor(moveTime - minutes * 60);
   var depth = selectedMove.d + '/' + selectedMove.sd;
-  timeLeft = selectedMove.tl / 1000;
-  var hoursTl = Math.floor(timeLeft / 60/ 60);
-  timeLeft = timeLeft - Math.floor(timeLeft / 60 / 60) * 60;
-  var minutesTl = Math.floor(timeLeft / 60);
-  var secondsTl = Math.floor(timeLeft - minutesTl * 60);
   var tbHits = 0;
   if (selectedMove.tb) {
     if (selectedMove.tb < 1000000) {
@@ -461,10 +451,10 @@ function getEvalFromPly(ply)
     'eval': selectedMove.wv,
     'pv': selectedMove.pv.Moves,
     'speed': speed,
-    'mtime': pad('00', minutes) + ':' + pad('00', seconds),
+    'mtime': secFormatNoH(selectedMove.mt),
     'depth': depth,
     'tbhits': tbHits,
-    'timeleft': pad('00', hoursTl) + ':' + pad('00', minutesTl) + ':' + pad('00', secondsTl),
+    'timeleft': secFormat(selectedMove.tl),
   };
 }
 
