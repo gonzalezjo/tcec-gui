@@ -146,7 +146,10 @@ $(function() {
         tooltips: {
 	      callbacks: {
 	            label: function(tooltipItem, data) {
-	                return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].eval;
+	            	eval = ['White Eval: ' + data.datasets[0].data[tooltipItem.index].eval,
+	            			'Black Eval: ' + data.datasets[1].data[tooltipItem.index].eval,
+	            			'Live Eval: ' + data.datasets[2].data[tooltipItem.index].eval];
+	                return eval;
 	            }
 	      } // end callbacks:
 	    },

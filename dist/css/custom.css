@@ -117,6 +117,11 @@ body.dark a.green {
 	color: orange !important;
 }
 
+body.dark div.modal-content {
+	background: #333 !important;
+	color: #dfdfdf !important;
+}
+
 .green
 {
    color: green;
