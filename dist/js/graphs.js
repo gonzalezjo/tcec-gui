@@ -109,7 +109,7 @@ var tbHitsChartData = {
   datasets: [{
     label: 'White Engine TB Hits',
     lineTension: 0,
-    borderColor: '#000000',
+    borderColor: '#EFEFEF',
     backgroundColor: '#EFEFEF',
     fill: false,
     data: [
