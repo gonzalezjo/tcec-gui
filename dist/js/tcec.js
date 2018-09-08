@@ -29,6 +29,8 @@ var currentPosition = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
 var bookmove = 0;
 
 var darkMode = 0;
+var pageNum = 1;
+var gamesDone = 0;
 
 var onMoveEnd = function() {
   boardEl.find('.square-' + squareToHighlight)
@@ -891,6 +893,27 @@ function updateCrosstable()
       // handle error
       console.log(error);
    });
+}
+
+function updateSchedule() 
+{
+    axios.get('schedule.json')
+    .then(function (response) {
+      $('#schedule').bootstrapTable('load', response.data);
+      var options = $('#schedule').bootstrapTable('getOptions');
+      _.each(response.data, function(engine, key) {
+         if (typeof engine.Moves != 'undefined')
+         {
+            gamesDone = engine.Game;
+         }
+      });
+      pageNum = parseInt(gamesDone/options.pageSize) + 1;
+      $('#schedule').bootstrapTable('selectPage', pageNum);
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    });
 }
 
 function updateStandtable() 
