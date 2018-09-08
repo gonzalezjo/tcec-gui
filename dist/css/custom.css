@@ -201,7 +201,7 @@ canvas {
 
 #schedule-wrapper {
 	max-height: 900px;
-	overflow: hidden;
+	overflow: auto;
 	overflow-y: scroll;
 }
 
