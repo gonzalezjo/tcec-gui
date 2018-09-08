@@ -362,17 +362,21 @@
 
       <ul class="nav nav-pills mb-3 nav-justified" id="pills-tab" role="tablist">
         <li class="nav-item">
-          <a class="nav-link active" id="pills-cross-tab" data-toggle="pill" href="#pills-cross" role="tab" aria-controls="pills-cross" aria-selected="true">Crosstable</a>
+          <a class="nav-link active" id="pills-stand-tab" data-toggle="pill" href="#pills-stand" role="tab" aria-controls="pills-stand" aria-selected="true">Standings</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="pills-cross-tab" data-toggle="pill" href="#pills-cross" role="tab" aria-controls="pills-cross" aria-selected="true">Crosstable</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" id="pills-sched-tab" data-toggle="pill" href="#pills-sched" role="tab" aria-controls="pills-sched" aria-selected="false">Schedule</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" id="pills-enginepv-tab" data-toggle="pill" href="#pills-enginepv" role="tab" aria-controls="pills-enginepv" aria-selected="false">Engine Pv</a>
-        </li>
       </ul>
       <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane show active fade smallfont" id="pills-cross" role="tabpanel" aria-labelledby="pills-cross-tab">
+        <div class="tab-pane show active fade smallfont" id="pills-stand" role="tabpanel" aria-labelledby="pills-stand-tab">
+          <table id="standtable" class="table-dark table-striped">
+          </table>
+        </div>
+        <div class="tab-pane fade smallfont" id="pills-cross" role="tabpanel" aria-labelledby="pills-cross-tab">
           <table id="crosstable" class="table-dark table-striped">
           </table>
         </div>
@@ -382,7 +386,6 @@
             </table>
           </div>
         </div>
-        <div class="tab-pane fade smallfont" id="pills-enginepv" role="tabpanel" aria-labelledby="pills-enginepv-tab">Coming soon</div>
       </div>
 
         <br>
@@ -688,10 +691,12 @@
           $('body').addClass('dark');
           $('#chatright').attr('src', 'http://www.twitch.tv/embed/TCEC_Chess_TV/chat?darkpopout');
           $('#crosstable').addClass('table-dark');
+          $('#standtable').addClass('table-dark');
           $('#schedule').addClass('table-dark');
           setDarkMode(1);
           updateSchedule();
           updateCrosstable();
+          updateStandtable();
       }
 
       function setLight()
@@ -701,10 +706,12 @@
           $('.toggleDark').find('i').removeClass('fa-sun');
           $('input.toggleDark').prop('checked', false);
           $('#crosstable').removeClass('table-dark');
+          $('#standtable').removeClass('table-dark');
           $('#schedule').removeClass('table-dark');
           setDarkMode(0);
           updateSchedule();
           updateCrosstable();
+          updateStandtable();
       }
 
       $('.toggleDark').click(function() {
@@ -905,12 +912,14 @@
         updatePgn();
         updateSchedule();
         updateCrosstable();
+        updateStandtable();
         updateLiveEval();
         updateLiveChart();
 
         var pgnInterval = window.setInterval(function() { updatePgn() }, 3000);
         var scheduleInterval = window.setInterval(function() { updateSchedule() }, 15000);
         var crosstableInterval = window.setInterval(function() { updateCrosstable() }, 60000);
+        var standtableInterval = window.setInterval(function() { updateStandtable() }, 60000);
         var liveEvalInterval = window.setInterval(function() { updateLiveEval() }, 5000);
         var liveChartInterval = window.setInterval(function() { updateLiveChart() }, 15000);
       });
