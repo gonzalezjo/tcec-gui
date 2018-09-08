@@ -27,6 +27,8 @@ var loadedPgn = '';
 var currentPosition = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 var bookmove = 0;
 
+var darkMode = 0;
+
 var onMoveEnd = function() {
   boardEl.find('.square-' + squareToHighlight)
     .addClass('highlight-white');
@@ -737,12 +739,26 @@ function schedformatter(value, row, index, field)
    {
       if (keyr.match(/Moves/))
       {
-         // console.log ("row is " + valuer);
-         retStr = '<a title="TBD" style="cursor:pointer; color: #00bebe;"onclick="openCross(' + value + ')">' + value + '</a>';
+         retStr = '<a title="TBD" style="cursor:pointer; color: red;"onclick="openCross(' + value + ')">' + value + '</a>';
       }
    });
       
    return retStr;
+}
+
+var gameArrayClass = ['#39FF14', 'red', 'whitesmoke'];
+
+function setDarkMode(value)
+{
+   darkMode = value;
+   if (!darkMode)
+   {
+      gameArrayClass = ['darkgreen', 'darkred', 'darkblue'];
+   }
+   else
+   {
+      gameArrayClass = ['#39FF14', 'red', 'whitesmoke'];
+   }
 }
 
 function formatter(value, row, index, field) {
@@ -753,20 +769,26 @@ function formatter(value, row, index, field) {
 
    var retStr = '';
    var valuex = _.get(value, 'Score');
+   var countGames = 0;
+
    _.each(valuex, function(engine, key) 
    {
+      var gameX = parseInt(countGames/2);
+      var gameXColor = parseInt(gameX%3);
+
       if (engine.Result == "0.5")
       {
          engine.Result = "=";
       }
       if (retStr == '')
       {
-         retStr = '<a title="TBD" style="cursor:pointer; color: #00bebe;"onclick="openCross(' + engine.Game + ')">' + engine.Result + '</a>';
+         retStr = '<a title="TBD" style="cursor:pointer; color: ' + gameArrayClass[gameXColor] + ';"onclick="openCross(' + engine.Game + ')">' + engine.Result + '</a>';
       }
       else
       {
-         retStr += ' ' + '<a title="TBD" style="cursor:pointer; color: #00bebe;"onclick="openCross(' + engine.Game + ')">' + engine.Result + '</a>';
+         retStr += ' ' + '<a title="TBD" style="cursor:pointer; color: ' + gameArrayClass[gameXColor] + ';"onclick="openCross(' + engine.Game + ')">' + engine.Result + '</a>';
       }
+      countGames = countGames + 1;
    });
   return retStr;
 }
