@@ -327,19 +327,19 @@
               <div class="col-12">
                 <div class="tab-content" id="v-pills-tabContent">
                   <div class="tab-pane fade show active" id="v-pills-eval" role="tabpanel" aria-labelledby="v-pills-eval-tab">
-                    <canvas id="eval-graph"></canvas>
+                    <canvas height="285" id="eval-graph"></canvas>
                   </div>
                   <div class="tab-pane fade show" id="v-pills-time" role="tabpanel" aria-labelledby="v-pills-time-tab">
-                    <canvas id="time-graph"></canvas>
+                    <canvas height="178" id="time-graph"></canvas>
                   </div>
                   <div class="tab-pane fade" id="v-pills-speed" role="tabpanel" aria-labelledby="v-pills-speed-tab">
-                    <canvas id="speed-graph"></canvas>
+                    <canvas height="178" id="speed-graph"></canvas>
                   </div>
                   <div class="tab-pane fade" id="v-pills-depth" role="tabpanel" aria-labelledby="v-pills-depth-tab">
-                    <canvas id="depth-graph"></canvas>
+                    <canvas height="178" id="depth-graph"></canvas>
                   </div>
                   <div class="tab-pane fade" id="v-pills-tbhits" role="tabpanel" aria-labelledby="v-pills-tbhits-tab">
-                    <canvas id="tbhits-graph"></canvas>
+                    <canvas height="178" id="tbhits-graph"></canvas>
                   </div>
                 </div>
               </div>
@@ -373,12 +373,12 @@
       </ul>
       <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane show active fade smallfont" id="pills-cross" role="tabpanel" aria-labelledby="pills-cross-tab">
-          <table id="crosstable" class="table-striped">
+          <table id="crosstable" class="table-dark table-striped">
           </table>
         </div>
         <div class="tab-pane fade smallfont scheduleclass" id="pills-sched" role="tabpanel" aria-labelledby="pills-sched-tab">
           <div id="schedule-wrapper">
-            <table id="schedule" class="table-striped">
+            <table id="schedule" class="table-dark table-striped">
             </table>
           </div>
         </div>
@@ -681,22 +681,40 @@
       var chess = new Chess();
       var board = ChessBoard('board', cfg);
 
-      $('.toggleDark').click(function() {
-        var darkMode = Cookies.get('tcec-dark-mode');
-        if (darkMode == 20) {
-          Cookies.set('tcec-dark-mode', 10);
-          $('body').removeClass('dark');
-          $('.toggleDark').find('i').addClass('fa-moon');
-          $('.toggleDark').find('i').removeClass('fa-sun');
-          $('#chatright').attr('src', 'http://www.twitch.tv/embed/TCEC_Chess_TV/chat?popout');
-          $('.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th').attr('style', 'background-color: #e5e5e5')
-        } else {
-          Cookies.set('tcec-dark-mode', 20);
+      function setDark()
+      {
           $('.toggleDark').find('i').removeClass('fa-moon');
           $('.toggleDark').find('i').addClass('fa-sun');
           $('body').addClass('dark');
           $('#chatright').attr('src', 'http://www.twitch.tv/embed/TCEC_Chess_TV/chat?darkpopout');
-          $('.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th').attr('style', 'background-color: #4c4c4c')
+          $('#crosstable').addClass('table-dark');
+          $('#schedule').addClass('table-dark');
+          setDarkMode(1);
+          updateSchedule();
+          updateCrosstable();
+      }
+
+      function setLight()
+      {
+          $('body').removeClass('dark');
+          $('.toggleDark').find('i').addClass('fa-moon');
+          $('.toggleDark').find('i').removeClass('fa-sun');
+          $('input.toggleDark').prop('checked', false);
+          $('#crosstable').removeClass('table-dark');
+          $('#schedule').removeClass('table-dark');
+          setDarkMode(0);
+          updateSchedule();
+          updateCrosstable();
+      }
+
+      $('.toggleDark').click(function() {
+        var darkMode = Cookies.get('tcec-dark-mode');
+        if (darkMode == 20) {
+          Cookies.set('tcec-dark-mode', 10);
+          setLight();  
+        } else {
+          Cookies.set('tcec-dark-mode', 20);
+          setDark();
         }
         $(".navbar-toggle").click();
       });
@@ -860,17 +878,9 @@
       $(function() {
         var darkMode = Cookies.get('tcec-dark-mode');
         if (darkMode == 20) {
-          $('.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th').attr('style', 'background-color: #4c4c4c');
-          $('body').addClass('dark');
-          $('#chatright').attr('src', 'http://www.twitch.tv/embed/TCEC_Chess_TV/chat?darkpopout');
-          $('.toggleDark').find('i').removeClass('fa-moon');
-          $('.toggleDark').find('i').addClass('fa-sun');
-          $('input.toggleDark').prop('checked', true);
+          setDark();
         } else {
-          $('.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th').attr('style', 'background-color: #e5e5e5');
-          $('.toggleDark').find('i').addClass('fa-moon');
-          $('.toggleDark').find('i').removeClass('fa-sun');
-          $('input.toggleDark').prop('checked', false);
+          setLight();
         }
 
         if ($('#google_adverts').height() <= 0) {
@@ -882,7 +892,7 @@
           sloppy: true
         };
 
-        var chatHeight = $("#board-container").height() + 70;
+        var chatHeight = $("#board-container").height() + 5;
 
         $('#chatright').height(chatHeight);
 
