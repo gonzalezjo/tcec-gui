@@ -210,3 +210,8 @@ canvas {
 	overflow: hidden;
 	overflow-y: scroll;
 }
+
+.classpad
+{
+   margin-left: 15px;
+}

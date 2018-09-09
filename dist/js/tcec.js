@@ -987,3 +987,56 @@ window.Clipboard = (function(window, document, navigator) {
         copy: copy
     };
 })(window, document, navigator);
+
+function setPiece(piece)
+{
+  var fen = board.fen();
+  board =  ChessBoard('board', {
+   pieceTheme: window[piece + "_piece_theme"],
+   position: 'start',
+   onMoveEnd: onMoveEnd,
+   moveSpeed: 1,
+   appearSpeed: 1
+ });
+  board.position(fen, false);
+}
+
+function setBoard(boardtheme)
+{
+  var fen = board.fen();
+  board =  ChessBoard('board', {
+   position: 'start',
+   onMoveEnd: onMoveEnd,
+   moveSpeed: 1,
+   appearSpeed: 1,
+   boardTheme: window[boardtheme + "_board_theme"]
+ });
+  board.position(fen, false);
+}
+
+function setDark()
+{
+  $('.toggleDark').find('i').removeClass('fa-moon');
+  $('.toggleDark').find('i').addClass('fa-sun');
+  $('body').addClass('dark');
+  $('#chatright').attr('src', 'http://www.twitch.tv/embed/TCEC_Chess_TV/chat?darkpopout');
+  $('#crosstable').addClass('table-dark');
+  $('#schedule').addClass('table-dark');
+  setDarkMode(1);
+  updateSchedule();
+  updateCrosstable();
+}
+
+function setLight()
+{
+  $('body').removeClass('dark');
+  $('.toggleDark').find('i').addClass('fa-moon');
+  $('.toggleDark').find('i').removeClass('fa-sun');
+  $('input.toggleDark').prop('checked', false);
+  $('#crosstable').removeClass('table-dark');
+  $('#schedule').removeClass('table-dark');
+  setDarkMode(0);
+  updateSchedule();
+  updateCrosstable();
+}
+
