@@ -1040,3 +1040,35 @@ function setLight()
   updateCrosstable();
 }
 
+function setDefaultThemes()
+{
+   var darkMode = Cookies.get('tcec-dark-mode');
+   var boardTheme = Cookies.get('tcec-board-theme');
+   var pieceTheme = Cookies.get('tcec-piece-theme');
+
+   if (darkMode == 20) 
+   {
+      setDark();
+   } 
+   else 
+   {
+      setLight();
+   }
+   if (boardTheme != null)
+   {
+      setDark(boardTheme);
+   } 
+   else 
+   {
+      setBoard("chess24");
+   }
+
+   if (pieceTheme != null)
+   {
+      setDark(pieceTheme);
+   } 
+   else 
+   {
+      setPiece("chess24");
+   }
+}
