@@ -988,30 +988,25 @@ window.Clipboard = (function(window, document, navigator) {
     };
 })(window, document, navigator);
 
-function setPiece(piece)
-{
-  var fen = board.fen();
-  board =  ChessBoard('board', {
-   pieceTheme: window[piece + "_piece_theme"],
-   position: 'start',
-   onMoveEnd: onMoveEnd,
-   moveSpeed: 1,
-   appearSpeed: 1
- });
-  board.position(fen, false);
-}
+var btheme = "wikipedia";
+var ptheme = "wikipedia";
 
-function setBoard(boardtheme)
+function setBoard()
 {
-  var fen = board.fen();
-  board =  ChessBoard('board', {
-   position: 'start',
-   onMoveEnd: onMoveEnd,
-   moveSpeed: 1,
-   appearSpeed: 1,
-   boardTheme: window[boardtheme + "_board_theme"]
- });
-  board.position(fen, false);
+   var fen = board.fen();
+   board =  ChessBoard('board', {
+      pieceTheme: window[ptheme + "_piece_theme"],
+      position: 'start',
+      onMoveEnd: onMoveEnd,
+      moveSpeed: 1,
+      appearSpeed: 1,
+      boardTheme: window[btheme + "_board_theme"]
+   });
+   board.position(fen, false);
+   Cookies.set('tcec-board-theme', btheme);
+   Cookies.set('tcec-piece-theme', ptheme);
+   $('input[value='+ptheme+']').prop('checked', true);
+   $('input[value='+btheme+'b]').prop('checked', true);
 }
 
 function setDark()
@@ -1043,8 +1038,6 @@ function setLight()
 function setDefaultThemes()
 {
    var darkMode = Cookies.get('tcec-dark-mode');
-   var boardTheme = Cookies.get('tcec-board-theme');
-   var pieceTheme = Cookies.get('tcec-piece-theme');
 
    if (darkMode == 20) 
    {
@@ -1054,21 +1047,39 @@ function setDefaultThemes()
    {
       setLight();
    }
-   if (boardTheme != null)
-   {
-      setDark(boardTheme);
-   } 
-   else 
-   {
-      setBoard("chess24");
-   }
 
-   if (pieceTheme != null)
+   drawBoards();
+}
+
+function drawBoards()
+{
+   var boardTheme = Cookies.get('tcec-board-theme');
+   var pieceTheme = Cookies.get('tcec-piece-theme');
+
+   console.log ("themes are " + pieceTheme + ",boardTheme:" + boardTheme);
+
+   if (boardTheme != undefined)
    {
-      setDark(pieceTheme);
+      btheme = boardTheme;
+      ptheme = pieceTheme;
    } 
-   else 
+   setBoard();
+}
+
+function setBoardDefault(boardTheme)
+{
+   if (boardTheme != undefined)
    {
-      setPiece("chess24");
+      btheme = boardTheme;
    }
+   setBoard();
+}
+
+function setPieceDefault(pTheme)
+{
+   if (pTheme != undefined)
+   {
+      ptheme = pTheme;
+   }
+   setBoard();
 }
