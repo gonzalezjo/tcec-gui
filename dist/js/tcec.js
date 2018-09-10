@@ -49,7 +49,7 @@ function updatePgn()
       var milliseconds = (new Date).getTime();
       var lastMod = new Date(response.headers["last-modified"]);
       var currTime = new Date(response.headers["date"]);
-      timeDiff = parseInt((currTime.getTime() - lastMod.getTime())/1000);
+      timeDiff = currTime.getTime() - lastMod.getTime();
    }
     loadedPgn = response.data;
     setPgn(response.data);
@@ -104,7 +104,7 @@ function updateClock(color) {
   currentTime = moment();
 
   if (color == 'white') {
-    var diff = currentTime.diff(whiteMoveStarted-timeDiff*1000);
+    var diff = currentTime.diff(whiteMoveStarted-timeDiff);
     var ms = moment.duration(diff);
 
     whiteTimeUsed = ms;
@@ -113,7 +113,7 @@ function updateClock(color) {
     setTimeUsed(color, whiteTimeUsed);
     setTimeRemaining(color, tempTimeRemaning);
   } else {
-    var diff = currentTime.diff(blackMoveStarted-timeDiff*1000);
+    var diff = currentTime.diff(blackMoveStarted-timeDiff);
     var ms = moment.duration(diff);
 
     blackTimeUsed = ms;
