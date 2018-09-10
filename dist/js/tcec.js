@@ -31,18 +31,32 @@ var bookmove = 0;
 var darkMode = 0;
 var pageNum = 1;
 var gamesDone = 0;
+var timeDiff = 0;
+var timeDiffRead = 0;
 
 var onMoveEnd = function() {
   boardEl.find('.square-' + squareToHighlight)
     .addClass('highlight-white');
 };
 
+
 function updatePgn()
 {
   axios.get('live.json?no-cache' + (new Date()).getTime())
   .then(function (response) {
+   if (timeDiffRead == 0)
+   {
+      console.log ("axios.get : " + JSON.stringify(response.headers, null, '\t'));
+      var milliseconds = (new Date).getTime();
+      console.log ("milliseconds is :" + response.headers["last-modified"]);
+      var lastMod = new Date(response.headers["last-modified"]);
+      var currTime = new Date(response.headers["date"]);
+      timeDiff = parseInt((currTime.getTime() - lastMod.getTime())/1000);
+      console.log ("milliseconds is :" + timeDiff);
+   }
     loadedPgn = response.data;
     setPgn(response.data);
+    timeDiffRead = 1;
   })
   .catch(function (error) {
     // handle error
@@ -93,7 +107,7 @@ function updateClock(color) {
   currentTime = moment();
 
   if (color == 'white') {
-    var diff = currentTime.diff(whiteMoveStarted);
+    var diff = currentTime.diff(whiteMoveStarted-timeDiff*1000);
     var ms = moment.duration(diff);
 
     whiteTimeUsed = ms;
@@ -102,7 +116,7 @@ function updateClock(color) {
     setTimeUsed(color, whiteTimeUsed);
     setTimeRemaining(color, tempTimeRemaning);
   } else {
-    var diff = currentTime.diff(blackMoveStarted);
+    var diff = currentTime.diff(blackMoveStarted-timeDiff*1000);
     var ms = moment.duration(diff);
 
     blackTimeUsed = ms;
@@ -198,6 +212,12 @@ function setPgn(pgn)
   if (loadedPlies == currentPlyCount && (currentGameActive == gameActive)) {
     return;
   }
+
+  if (timeDiffRead > 0)
+  {
+     timeDiff = 0; 
+  }
+
   loadedPlies = currentPlyCount;
   gameActive = currentGameActive;
 
