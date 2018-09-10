@@ -1070,3 +1070,99 @@ window.Clipboard = (function(window, document, navigator) {
         copy: copy
     };
 })(window, document, navigator);
+
+var btheme = "wikipedia";
+var ptheme = "wikipedia";
+
+function setBoard()
+{
+   var fen = board.fen();
+   board =  ChessBoard('board', {
+      pieceTheme: window[ptheme + "_piece_theme"],
+      position: 'start',
+      onMoveEnd: onMoveEnd,
+      moveSpeed: 1,
+      appearSpeed: 1,
+      boardTheme: window[btheme + "_board_theme"]
+   });
+   board.position(fen, false);
+   Cookies.set('tcec-board-theme', btheme);
+   Cookies.set('tcec-piece-theme', ptheme);
+   $('input[value='+ptheme+']').prop('checked', true);
+   $('input[value='+btheme+'b]').prop('checked', true);
+}
+
+function setDark()
+{
+  $('.toggleDark').find('i').removeClass('fa-moon');
+  $('.toggleDark').find('i').addClass('fa-sun');
+  $('body').addClass('dark');
+  $('#chatright').attr('src', 'http://www.twitch.tv/embed/TCEC_Chess_TV/chat?darkpopout');
+  $('#crosstable').addClass('table-dark');
+  $('#schedule').addClass('table-dark');
+  setDarkMode(1);
+  updateSchedule();
+  updateCrosstable();
+}
+
+function setLight()
+{
+  $('body').removeClass('dark');
+  $('.toggleDark').find('i').addClass('fa-moon');
+  $('.toggleDark').find('i').removeClass('fa-sun');
+  $('input.toggleDark').prop('checked', false);
+  $('#crosstable').removeClass('table-dark');
+  $('#schedule').removeClass('table-dark');
+  setDarkMode(0);
+  updateSchedule();
+  updateCrosstable();
+}
+
+function setDefaultThemes()
+{
+   var darkMode = Cookies.get('tcec-dark-mode');
+
+   if (darkMode == 20) 
+   {
+      setDark();
+   } 
+   else 
+   {
+      setLight();
+   }
+
+   drawBoards();
+}
+
+function drawBoards()
+{
+   var boardTheme = Cookies.get('tcec-board-theme');
+   var pieceTheme = Cookies.get('tcec-piece-theme');
+
+   console.log ("themes are " + pieceTheme + ",boardTheme:" + boardTheme);
+
+   if (boardTheme != undefined)
+   {
+      btheme = boardTheme;
+      ptheme = pieceTheme;
+   } 
+   setBoard();
+}
+
+function setBoardDefault(boardTheme)
+{
+   if (boardTheme != undefined)
+   {
+      btheme = boardTheme;
+   }
+   setBoard();
+}
+
+function setPieceDefault(pTheme)
+{
+   if (pTheme != undefined)
+   {
+      ptheme = pTheme;
+   }
+   setBoard();
+}

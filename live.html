@@ -12,6 +12,7 @@
     <!-- Bootstrap core CSS -->
     <link href="dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="dist/css/chessboard-0.3.0.min.css" rel="stylesheet">
+    <link href="dist/css/chessboard.css" rel="stylesheet">
     <link href="dist/bootstrap-table.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link href="dist/css/pretty-checkbox.min.css" rel="stylesheet">  
@@ -23,7 +24,7 @@
 
   <body>
 
-   <nav class="navbar navbar-toggle navbar-expand-md navbar-dark bg-dark">
+   <nav class="navbar navbar-expand-md navbar-toggle navbar-dark bg-dark">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
          <span class="navbar-toggler-icon"></span>
       </button>
@@ -36,17 +37,145 @@
                <a class="nav-link py-0" href="#" data-toggle="modal" data-target="#rules-modal">Rules</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link py-0 dropdown-toggle" href="http://tcec.chessdom.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
-              <div class="dropdown-menu" aria-labelledby="dropdown06">
-                <a class="dropdown-item" href="http://tcec.chessdom.com/archive/crosstable.json" target="_blank">Crosstable</a>
-                <a class="dropdown-item" href="http://tcec.chessdom.com/archive/schedule.json" target="_blank">Schedule</a>
-                <a class="dropdown-item" href="http://tcec.chessdom.com/live/event.pgn" target="_blank">Event PGN</a>
-                <a class="dropdown-item" href="http://tcec.chessdom.com/live/live.pgn" target="_blank">Current PGN</a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item toggleDark">
-                  <i class="fa fa-moon"></i> Display
-                </a>
-              </div>
+               <a class="py-0 nav-link dropdown-toggle" href="https://bootstrapthemes.co" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Options
+               </a>
+               <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <li class="nav-item dropdown">
+                     <li><a class="dropdown-item dropdown-toggle" href="#">Download</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown06">
+                           <a class="dropdown-item" href="http://tcec.chessdom.com/archive/crosstable.json" target="_blank">Crosstable</a>
+                           <a class="dropdown-item" href="http://tcec.chessdom.com/archive/schedule.json" target="_blank">Schedule</a>
+                           <a class="dropdown-item" href="http://tcec.chessdom.com/live/event.pgn" target="_blank">Event PGN</a>
+                           <a class="dropdown-item" href="http://tcec.chessdom.com/live/live.pgn" target="_blank">Current PGN</a>
+                        </div>
+                     </li>
+                  </li>
+                  <div class="dropdown-divider"></div>
+                  <li><a class="dropdown-item dropdown-toggle" href="#">Themes</a>
+                     <ul class="dropdown-menu">
+                        <li><a class="dropdown-item dropdown-toggle" href="#">Piece Theme</a>
+                           <ul class="dropdown-menu">
+                              <li class="radio">
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="alpha" checked onclick="setPieceDefault('alpha');">
+                                    <label class="form-check-label" for="exampleRadios1">
+                                       Alpha
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="chess24" onclick="setPieceDefault('chess24');">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                       Chess24
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="dilena" onclick="setPieceDefault('dilena');">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                       Dilena
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="leipzig" onclick="setPieceDefault('leipzig');">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                       Leipzig
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios5" value="metro" onclick="setPieceDefault('metro');">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                       Metro
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios6" value="symbol" onclick="setPieceDefault('symbol');">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                       Symbol
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios7" value="uscf" onclick="setPieceDefault('uscf');">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                       Uscf
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios8" value="wikipedia" onclick="setPieceDefault('wikipedia');">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                       Wikipedia
+                                    </label>
+                                 </div>
+                              </li>
+                           </ul>
+                        </li>
+                        <div class="dropdown-divider"></div>
+                        <li><a class="dropdown-item dropdown-toggle" href="#">Board Theme</a>
+                           <ul class="dropdown-menu">
+                              <li class="radio">
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio1" value="alphab" checked onclick="setBoardDefault('alpha');">
+                                    <label class="form-check-label" for="boardRadio1">
+                                       Alpha
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio2" value="chess24b" onclick="setBoardDefault('chess24');">
+                                    <label class="form-check-label" for="boardRadio2">
+                                       Chess24
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio3" value="dilenab" onclick="setBoardDefault('dilena');">
+                                    <label class="form-check-label" for="boardRadio2">
+                                       Dilena
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio4" value="leipzigb" onclick="setBoardDefault('leipzig');">
+                                    <label class="form-check-label" for="boardRadio2">
+                                       Leipzig
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio5" value="metrob" onclick="setBoardDefault('metro');">
+                                    <label class="form-check-label" for="boardRadio2">
+                                       Metro
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio6" value="symbolb" onclick="setBoardDefault('symbol');">
+                                    <label class="form-check-label" for="boardRadio2">
+                                       Symbol
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio7" value="uscfb" onclick="setBoardDefault('uscf');">
+                                    <label class="form-check-label" for="boardRadio2">
+                                       Uscf
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio8" value="wikipediab" onclick="setBoardDefault('wikipedia');">
+                                    <label class="form-check-label" for="boardRadio2">
+                                       Wikipedia
+                                    </label>
+                                 </div>
+                              </li>
+                           </ul>
+                        </li>
+                        <li>
+                        <div class="dropdown-divider"></div>
+                        <li><a class="dropdown-item dropdown-toggle" href="#">Page Theme</a>
+                        <ul class="dropdown-menu">
+                           <a href="#" class="dropdown-item toggleDark" id="pagetheme">
+                              <i class="fa fa-moon"></i>
+                           </a>
+                        </ul>
+                        </li>
+                        </li>
+                     </ul>
+                  </li>
+               </ul>
             </li>
          </ul>
       </div>
@@ -650,13 +779,14 @@
     <script src="dist/js/chess.js"></script>
     <script src="dist/js/json3.min.js"></script>
     <script src="dist/js/axios.min.js"></script>
-    <script src="dist/js/chessboard-0.3.0.min.js"></script>
+    <script src="dist/js/chessboard.js"></script>
     <script src="dist/js/js-cookie.js"></script>
     <script src="dist/js/lodash.js"></script>
     <script src="dist/js/moment.min.js"></script>
     <script src="dist/js/Chart.min.js"></script>
     <script src="dist/bootstrap-table.min.js"></script>
     <script src="dist/js/graphs.js?v=1000000000000000000007"></script>
+    <script src="dist/js/theme.js?v=1000000000000000000007"></script>
     <script src="dist/js/bootstrap-4-navbar.js"></script>
     <!-- vch -->
     <script src="dist/js/tcec.js?v=1000000000000000000007"></script>
@@ -674,45 +804,35 @@
       window.onload = function() {
         (adsbygoogle = window.adsbygoogle || []).push({});
       }
+
+      function pieceTheme(piece) {
+        // wikipedia theme for white pieces
+        console.log ("pieceTheme:" + piece);
+        if (piece.search(/w/) !== -1) {
+          return 'img/chesspieces/wikipedia/' + piece + '.png';
+        }
+      
+        // alpha theme for black pieces
+        console.log ("pieceTheme alpha:" + piece);
+        return 'img/chesspieces/alpha/' + piece + '.png';
+      }
+      
       var cfg = {
         position: 'start',
         onMoveEnd: onMoveEnd,
         moveSpeed: 1,
+        pieceTheme: pieceTheme,
         appearSpeed: 1
       };
 
       var chess = new Chess();
-      var board = ChessBoard('board', cfg);
+      var board =  ChessBoard('board', {
+         position: 'start',
+         onMoveEnd: onMoveEnd,
+         moveSpeed: 1,
+         appearSpeed: 1
+      });
 
-      function setDark()
-      {
-          $('.toggleDark').find('i').removeClass('fa-moon');
-          $('.toggleDark').find('i').addClass('fa-sun');
-          $('body').addClass('dark');
-          $('#chatright').attr('src', 'http://www.twitch.tv/embed/TCEC_Chess_TV/chat?darkpopout');
-          $('#crosstable').addClass('table-dark');
-          $('#standtable').addClass('table-dark');
-          $('#schedule').addClass('table-dark');
-          setDarkMode(1);
-          updateSchedule();
-          updateCrosstable();
-          updateStandtable();
-      }
-
-      function setLight()
-      {
-          $('body').removeClass('dark');
-          $('.toggleDark').find('i').addClass('fa-moon');
-          $('.toggleDark').find('i').removeClass('fa-sun');
-          $('input.toggleDark').prop('checked', false);
-          $('#crosstable').removeClass('table-dark');
-          $('#standtable').removeClass('table-dark');
-          $('#schedule').removeClass('table-dark');
-          setDarkMode(0);
-          updateSchedule();
-          updateCrosstable();
-          updateStandtable();
-      }
 
       $('.toggleDark').click(function() {
         var darkMode = Cookies.get('tcec-dark-mode');
@@ -883,12 +1003,8 @@
       });
 
       $(function() {
-        var darkMode = Cookies.get('tcec-dark-mode');
-        if (darkMode == 20) {
-          setDark();
-        } else {
-          setLight();
-        }
+
+        setDefaultThemes();
 
         if ($('#google_adverts').height() <= 0) {
           $('#encouragement').show();
