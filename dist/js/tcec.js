@@ -2,6 +2,7 @@ boardEl = $('#board');
 
 var squareToHighlight = '';
 var crossTableInitialized = false;
+var standTableInitialized = false;
 var gameActive = false;
 
 var squareClass = 'square-55d63';
@@ -28,6 +29,8 @@ var currentPosition = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
 var bookmove = 0;
 
 var darkMode = 0;
+var pageNum = 1;
+var gamesDone = 0;
 
 var onMoveEnd = function() {
   boardEl.find('.square-' + squareToHighlight)
@@ -826,34 +829,6 @@ function updateCrosstable()
           elo_diff: elo + ' [' + eloDiff + ']'
         };
 
-        _.each(abbreviations, function (abbreviation) {
-          var score2 = '';
-          engineName = abbreviation.name;
-          engineAbbreviation = abbreviation.abbr;
-
-          engineCount = crosstableData.Order.length;
-          if (engineCount < 1) {
-            engineCount = 1;
-          }
-
-          rounds = Math.floor(engineDetails.Games / engineCount) + 1;
-
-          if (engineDetails.Abbreviation == engineAbbreviation) {
-            for (i = 0; i < rounds; i++) {
-              score2 += '.';
-            }
-          } else {
-            resultDetails = _.get(engineDetails, 'Results');
-            matchDetails = _.get(resultDetails, engineName);
-            score2 = 
-               {
-                  Score: matchDetails.Scores,
-                  Text: matchDetails.Text
-               }
-          }
-          _.set(entry, engineAbbreviation, score2);
-        });
-
         standings = _.union(standings, [entry]);
       });
 
@@ -863,6 +838,7 @@ function updateCrosstable()
           {
             field: 'rank',
             title: 'Rank'
+           ,colspan: 1
            ,sortable: true
           },
           {
@@ -904,11 +880,6 @@ function updateCrosstable()
             title: 'Diff [Live]'
           }
         ];
-        _.each(crosstableData.Order, function(engine, key) {
-          engineDetails = _.get(crosstableData.Table, engine);
-          columns = _.union(columns, [{field: engineDetails.Abbreviation, title: engineDetails.Abbreviation, 
-                                       formatter: formatter}]);
-        });
 
         $('#crosstable').bootstrapTable({
           columns: columns
@@ -916,6 +887,118 @@ function updateCrosstable()
         crossTableInitialized = true;
       }
       $('#crosstable').bootstrapTable('load', standings);
+   })
+   .catch(function (error) 
+   {
+      // handle error
+      console.log(error);
+   });
+}
+
+function updateSchedule() 
+{
+    axios.get('schedule.json')
+    .then(function (response) {
+      $('#schedule').bootstrapTable('load', response.data);
+      var options = $('#schedule').bootstrapTable('getOptions');
+      _.each(response.data, function(engine, key) {
+         if (typeof engine.Moves != 'undefined')
+         {
+            gamesDone = engine.Game;
+         }
+      });
+      pageNum = parseInt(gamesDone/options.pageSize) + 1;
+      $('#schedule').bootstrapTable('selectPage', pageNum);
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    });
+}
+
+function updateStandtable() 
+{
+   axios.get('crosstable.json')
+   .then(function (response)
+   {
+      var standtableData = response.data;
+
+      var abbreviations = [];
+      var standings = [];
+
+      _.each(standtableData.Table, function(engine, key) {
+        abbreviations = _.union(abbreviations, [{abbr: engine.Abbreviation, name: key}]);
+      });
+
+      _.each(standtableData.Order, function(engine, key) {
+        engineDetails = _.get(standtableData.Table, engine);
+
+        wins = (engineDetails.WinsAsBlack + engineDetails.WinsAsWhite);
+        elo = Math.round(engineDetails.Elo);
+        eloDiff = engineDetails.Rating + elo;
+
+        var entry = {
+          rank: engineDetails.Rank,
+          name: engine,
+        };
+
+        _.each(abbreviations, function (abbreviation) {
+          var score2 = '';
+          engineName = abbreviation.name;
+          engineAbbreviation = abbreviation.abbr;
+
+          engineCount = standtableData.Order.length;
+          if (engineCount < 1) {
+            engineCount = 1;
+          }
+
+          rounds = Math.floor(engineDetails.Games / engineCount) + 1;
+
+          if (engineDetails.Abbreviation == engineAbbreviation) {
+            for (i = 0; i < rounds; i++) {
+              score2 += '.';
+            }
+          } else {
+            resultDetails = _.get(engineDetails, 'Results');
+            matchDetails = _.get(resultDetails, engineName);
+            score2 = 
+               {
+                  Score: matchDetails.Scores,
+                  Text: matchDetails.Text
+               }
+          }
+          _.set(entry, engineAbbreviation, score2);
+        });
+
+        standings = _.union(standings, [entry]);
+      });
+
+      if (!standTableInitialized) {
+
+        columns = [
+          {
+            field: 'rank',
+            title: 'Rank'
+           ,sortable: true
+          },
+          {
+            field: 'name',
+            title: 'Engine'
+           ,sortable: true
+          }
+        ];
+        _.each(standtableData.Order, function(engine, key) {
+          engineDetails = _.get(standtableData.Table, engine);
+          columns = _.union(columns, [{field: engineDetails.Abbreviation, title: engineDetails.Abbreviation, 
+                                       formatter: formatter}]);
+        });
+
+        $('#standtable').bootstrapTable({
+          columns: columns
+        });
+        standTableInitialized = true;
+      }
+      $('#standtable').bootstrapTable('load', standings);
    })
    .catch(function (error) 
    {
