@@ -46,13 +46,10 @@ function updatePgn()
   .then(function (response) {
    if (timeDiffRead == 0)
    {
-      console.log ("axios.get : " + JSON.stringify(response.headers, null, '\t'));
       var milliseconds = (new Date).getTime();
-      console.log ("milliseconds is :" + response.headers["last-modified"]);
       var lastMod = new Date(response.headers["last-modified"]);
       var currTime = new Date(response.headers["date"]);
       timeDiff = parseInt((currTime.getTime() - lastMod.getTime())/1000);
-      console.log ("milliseconds is :" + timeDiff);
    }
     loadedPgn = response.data;
     setPgn(response.data);
@@ -283,7 +280,6 @@ function setPgn(pgn)
       boardEl.find('.square-' + moveTo).addClass('highlight-white');
       squareToHighlight = moveTo;
     }
-    // console.log ("currentPosition:" + currentPosition); 
     board.position(currentPosition, false);
   }
 
@@ -444,9 +440,6 @@ function getEvalFromPly(ply)
      };
   } 
 
-  // console.log ("ply: " + ply);
-  // console.log ("bookmove:" + bookmove);
-
   //arun
   if (ply < bookmove || (typeof selectedMove == 'undefined') || (typeof (selectedMove.pv) == 'undefined'))
   {
@@ -497,7 +490,6 @@ function getEvalFromPly(ply)
 
 function updateMoveValues(whiteToPlay, whiteEval, blackEval)
 {
-   // console.log ("updateMoveValues: whiteval: " + whiteEval.mtime + ", blackEval:" + blackEval.length); 
    if (!viewingActiveMove) 
    {
       $('.white-time-used').html(whiteEval.mtime);
@@ -696,8 +688,6 @@ function handlePlyChange(handleclick)
       blackEval = getEvalFromPly(activePly - 2);
       whiteEval = getEvalFromPly(activePly - 1);
    }
-
-   // console.log('do stuff activePly:' + activePly);
 
    /* Arun: we should get move from ply - 1 as index starts at 0 */
    currentMove = getMoveFromPly(activePly - 1);
@@ -1168,8 +1158,6 @@ function drawBoards()
 {
    var boardTheme = Cookies.get('tcec-board-theme');
    var pieceTheme = Cookies.get('tcec-piece-theme');
-
-   console.log ("themes are " + pieceTheme + ",boardTheme:" + boardTheme);
 
    if (boardTheme != undefined)
    {
