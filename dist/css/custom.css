@@ -75,12 +75,13 @@ body {
 	width: 28px;
 }
 
-#engine-history {
-	max-height: 170px !important;
-	height: 170px !important;
-    overflow-y: scroll;
-    font-size: 15px;
-    margin-bottom: 15px;
+#engine-history 
+{
+   max-height: 170px !important;
+   height: 80px !important;
+   overflow-y: scroll;
+   font-size: 15px;
+   margin-bottom: 10px;
 }
 
 .active-move {
@@ -140,10 +141,15 @@ body.dark div.modal-content {
 }
 
 .eventoverview,
-#engine-eval,
-#live-eval
+#engine-eval
 {
    font-size: 14px;
+   text-align: center;
+}
+
+#live-eval
+{
+   font-size: 13px;
    text-align: center;
 }
 
@@ -160,7 +166,8 @@ canvas {
 {
    overflow-y: scroll;
    font-size: small;
-   height:130px;
+   height:70px;
+   margin-bottom: 5px;
 }
 
 #event-overview
