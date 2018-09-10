@@ -113,12 +113,6 @@
                            <ul class="dropdown-menu">
                               <li class="radio">
                                  <div class="form-check classpad">
-                                    <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio1" value="alphab" checked onclick="setBoardDefault('alpha');">
-                                    <label class="form-check-label" for="boardRadio1">
-                                       Alpha
-                                    </label>
-                                 </div>
-                                 <div class="form-check classpad">
                                     <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio2" value="chess24b" onclick="setBoardDefault('chess24');">
                                     <label class="form-check-label" for="boardRadio2">
                                        Chess24
@@ -804,26 +798,6 @@
       window.onload = function() {
         (adsbygoogle = window.adsbygoogle || []).push({});
       }
-
-      function pieceTheme(piece) {
-        // wikipedia theme for white pieces
-        console.log ("pieceTheme:" + piece);
-        if (piece.search(/w/) !== -1) {
-          return 'img/chesspieces/wikipedia/' + piece + '.png';
-        }
-      
-        // alpha theme for black pieces
-        console.log ("pieceTheme alpha:" + piece);
-        return 'img/chesspieces/alpha/' + piece + '.png';
-      }
-      
-      var cfg = {
-        position: 'start',
-        onMoveEnd: onMoveEnd,
-        moveSpeed: 1,
-        pieceTheme: pieceTheme,
-        appearSpeed: 1
-      };
 
       var chess = new Chess();
       var board =  ChessBoard('board', {
