@@ -31,18 +31,29 @@ var bookmove = 0;
 var darkMode = 0;
 var pageNum = 1;
 var gamesDone = 0;
+var timeDiff = 0;
+var timeDiffRead = 0;
 
 var onMoveEnd = function() {
   boardEl.find('.square-' + squareToHighlight)
     .addClass('highlight-white');
 };
 
+
 function updatePgn()
 {
   axios.get('live.json?no-cache' + (new Date()).getTime())
   .then(function (response) {
+   if (timeDiffRead == 0)
+   {
+      var milliseconds = (new Date).getTime();
+      var lastMod = new Date(response.headers["last-modified"]);
+      var currTime = new Date(response.headers["date"]);
+      timeDiff = currTime.getTime() - lastMod.getTime();
+   }
     loadedPgn = response.data;
     setPgn(response.data);
+    timeDiffRead = 1;
   })
   .catch(function (error) {
     // handle error
@@ -93,7 +104,7 @@ function updateClock(color) {
   currentTime = moment();
 
   if (color == 'white') {
-    var diff = currentTime.diff(whiteMoveStarted);
+    var diff = currentTime.diff(whiteMoveStarted-timeDiff);
     var ms = moment.duration(diff);
 
     whiteTimeUsed = ms;
@@ -102,7 +113,7 @@ function updateClock(color) {
     setTimeUsed(color, whiteTimeUsed);
     setTimeRemaining(color, tempTimeRemaning);
   } else {
-    var diff = currentTime.diff(blackMoveStarted);
+    var diff = currentTime.diff(blackMoveStarted-timeDiff);
     var ms = moment.duration(diff);
 
     blackTimeUsed = ms;
@@ -198,6 +209,12 @@ function setPgn(pgn)
   if (loadedPlies == currentPlyCount && (currentGameActive == gameActive)) {
     return;
   }
+
+  if (timeDiffRead > 0)
+  {
+     timeDiff = 0; 
+  }
+
   loadedPlies = currentPlyCount;
   gameActive = currentGameActive;
 
@@ -263,7 +280,6 @@ function setPgn(pgn)
       boardEl.find('.square-' + moveTo).addClass('highlight-white');
       squareToHighlight = moveTo;
     }
-    // console.log ("currentPosition:" + currentPosition); 
     board.position(currentPosition, false);
   }
 
@@ -424,9 +440,6 @@ function getEvalFromPly(ply)
      };
   } 
 
-  // console.log ("ply: " + ply);
-  // console.log ("bookmove:" + bookmove);
-
   //arun
   if (ply < bookmove || (typeof selectedMove == 'undefined') || (typeof (selectedMove.pv) == 'undefined'))
   {
@@ -477,7 +490,6 @@ function getEvalFromPly(ply)
 
 function updateMoveValues(whiteToPlay, whiteEval, blackEval)
 {
-   // console.log ("updateMoveValues: whiteval: " + whiteEval.mtime + ", blackEval:" + blackEval.length); 
    if (!viewingActiveMove) 
    {
       $('.white-time-used').html(whiteEval.mtime);
@@ -676,8 +688,6 @@ function handlePlyChange(handleclick)
       blackEval = getEvalFromPly(activePly - 2);
       whiteEval = getEvalFromPly(activePly - 1);
    }
-
-   // console.log('do stuff activePly:' + activePly);
 
    /* Arun: we should get move from ply - 1 as index starts at 0 */
    currentMove = getMoveFromPly(activePly - 1);
@@ -1148,8 +1158,6 @@ function drawBoards()
 {
    var boardTheme = Cookies.get('tcec-board-theme');
    var pieceTheme = Cookies.get('tcec-piece-theme');
-
-   console.log ("themes are " + pieceTheme + ",boardTheme:" + boardTheme);
 
    if (boardTheme != undefined)
    {
