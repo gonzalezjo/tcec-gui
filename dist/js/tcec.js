@@ -838,46 +838,54 @@ function updateCrosstable()
           {
             field: 'rank',
             title: 'Rank'
-           ,colspan: 1
            ,sortable: true
+           ,width: '4%'
           },
           {
             field: 'name',
             title: 'Engine'
            ,sortable: true
+           ,width: '24%'
           },
           {
             field: 'games',
             title: '# Games'
            ,sortable: true
+           ,width: '5%'
           },
           {
             field: 'points',
-            title: 'points'
+            title: 'Points'
            ,sortable: true
+           ,width: '7%'
           },
           {
             field: 'wins',
             title: 'Wins [W/B]'
+           ,width: '10%'
           },
           {
             field: 'crashes',
             title: 'Crashes'
            ,sortable: true
+           ,width: '7%'
           },
           {
             field: 'sb',
             title: 'SB'
            ,sortable: true
+           ,width: '7%'
           },
           {
             field: 'elo',
             title: 'Elo'
            ,sortable: true
+           ,width: '5%'
           },
           {
             field: 'elo_diff',
             title: 'Diff [Live]'
+           ,width: '7%'
           }
         ];
 
@@ -980,11 +988,13 @@ function updateStandtable()
             field: 'rank',
             title: 'Rank'
            ,sortable: true
+           ,width: '4%'
           },
           {
             field: 'name',
             title: 'Engine'
            ,sortable: true
+           ,width: '14%'
           }
         ];
         _.each(standtableData.Order, function(engine, key) {
