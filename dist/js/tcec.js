@@ -824,7 +824,7 @@ function updateCrosstable()
           points: engineDetails.Score,
           wins: wins + '[' + engineDetails.WinsAsWhite + '/' + engineDetails.WinsAsBlack + ']',
           crashes: engineDetails.Strikes,
-          sb: Math.round(engineDetails.Performance * 100) / 100,
+          sb: Math.round(engineDetails.Neustadtl* 100) / 100,
           elo: engineDetails.Rating,
           elo_diff: elo + ' [' + eloDiff + ']'
         };
