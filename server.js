@@ -22,7 +22,7 @@ function updateCrosstable()
 }
 
 var server = require('http').createServer(app);  
-server.listen(3001);
+server.listen(8888);
 var listener = io.listen(server);
 console.log ("__dirname:" + __dirname);
 
