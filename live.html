@@ -472,7 +472,7 @@
 
         <div class="col-md-4">
           <div>
-            <iframe frameborder="0" style="width: 100%" scrolling="no" id="chatright" src="http://www.twitch.tv/embed/TCEC_Chess_TV/chat?popout"></iframe>
+            <iframe frameborder="0" style="width: 100%" scrolling="no" id="chatright"></iframe>
           </div>
           <div class="text-center">
             <a target="_blank" href="https://www.twitch.tv/products/tcecpoc/ticket" class="btn btn-primary">Subscribe</a>
@@ -531,6 +531,7 @@
           <div class="col-md-12 text-center">
             <iframe
                 src="https://player.twitch.tv/?TCEC_Chess_TV"
+                id="twitchvid"
                 height="400"
                 width="340"
                 frameborder="0"
@@ -784,6 +785,7 @@
     <script src="dist/js/bootstrap-4-navbar.js?v=1000000000000000000042"></script>
     <!-- vch -->
     <script src="dist/js/tcec.js?v=1000000000000000000042"></script>
+    <script src="/socket.io/socket.io.js"></script>
 
     <script>
       $(document).ready(function () {
@@ -794,6 +796,12 @@
                   $("button.navbar-toggle").click();
               }
           });
+          window.setTimeout(function() 
+                            { 
+                               //$('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?TCEC_Chess_TV');
+                             }, 10000);
+          //$('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?TCEC_Chess_TV');
+          $('iframe#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat?popout');
       });
       window.onload = function() {
         (adsbygoogle = window.adsbygoogle || []).push({});
@@ -809,12 +817,12 @@
 
 
       $('.toggleDark').click(function() {
-        var darkMode = Cookies.get('tcec-dark-mode');
+        var darkMode = localStorage.getItem('tcec-dark-mode');
         if (darkMode == 20) {
-          Cookies.set('tcec-dark-mode', 10);
+          localStorage.setItem('tcec-dark-mode', 10);
           setLight();  
         } else {
-          Cookies.set('tcec-dark-mode', 20);
+          localStorage.setItem('tcec-dark-mode', 20);
           setDark();
         }
         $(".navbar-toggle").click();
@@ -853,6 +861,10 @@
           {
               field: 'ECO',
               title: 'ECO'
+          },
+          {
+              field: 'Viewers',
+              title: 'Viewers'
           }
         ]
       });
@@ -936,46 +948,6 @@
         ]
       });
 
-      $('#live-eval').bootstrapTable({
-          columns: [
-          {
-              field: 'engine',
-              title: 'Eng',
-              width: '30'
-          },
-          {
-              field: 'eval',
-              title: 'Eval',
-              width: '20'
-          },
-          {
-              field: 'pv',
-              title: 'PV',
-              width: '290'
-          },
-          {
-              field: 'depth',
-              title: 'Depth',
-              width: '20'
-          },
-          {
-              field: 'speed',
-              title: 'Speed',
-              width: '20'
-          },
-          {
-              field: 'nodes',
-              title: 'Nodes',
-              width: '20'
-          },
-          {
-              field: 'tbhits',
-              title: 'TB',
-              width: '20'
-          }
-        ]
-      });
-
       $(function() {
 
         setDefaultThemes();
@@ -1003,82 +975,49 @@
         updateSchedule();
         updateCrosstable();
         updateStandtable();
-        updateLiveEval();
+        updateLiveEvalInit();
         updateLiveChart();
+        updateLiveEval();
 
-        var pgnInterval = window.setInterval(function() { updatePgn() }, 3000);
-        var scheduleInterval = window.setInterval(function() { updateSchedule() }, 15000);
-        var crosstableInterval = window.setInterval(function() { updateCrosstable() }, 60000);
-        var standtableInterval = window.setInterval(function() { updateStandtable() }, 60000);
-        var liveEvalInterval = window.setInterval(function() { updateLiveEval() }, 5000);
-        var liveChartInterval = window.setInterval(function() { updateLiveChart() }, 15000);
+        //var pgnInterval = window.setInterval(function() { updatePgn() }, 3000);
+        //var crosstableInterval = window.setInterval(function() { updateCrosstable() }, 60000);
+        //var scheduleInterval = window.setInterval(function() { updateSchedule() }, 15000);
+        //var standtableInterval = window.setInterval(function() { updateStandtable() }, 60000);
+        //var liveChartInterval = window.setInterval(function() { updateLiveChart() }, 15000);
       });
 
-      function updateLiveEval() {
-          axios.get('data.json')
-          .then(function (response) {
 
-            /* ARUN: Should do for all engines */
-            var score = 0;
-            var tbhits = response.data[0].tbhits;
-            if (!isNaN(response.data[0].eval))
-            {
-               score = parseFloat(response.data[0].eval);
-            }
-            else
-            {
-               score = response.data[0].eval;
-            }
-
-            var pv = response.data[0].pv;
-            pv = pv.split(/\s+/).slice(0,4).join(" ");
-            if (pv.search(/.*\.\.\..*/i) == 0)
-            {
-               if (!isNaN(score))
-               {
-                  score = parseFloat(score) * -1;
-                  if (score === 0)
-                  {
-                     score = 0;
-                  }
-               }
-            }
-            if (!isNaN(score))
-            {
-               score = score.toFixed(2);
-            }
-            tbhits= tbhits.toFixed(0);
-            tbhits = tbhits + "k";
-            response.data[0].eval = score;
-            response.data[0].pv = pv;
-
-            $('#live-eval').bootstrapTable('load', response.data);
-            // handle success
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error);
-          });
+      var socket = io.connect();
+      if (0)
+      {
+      $(document).ready(function () {
+         socket.emit('getLastmovetime', "arun");
+         });
       }
+      socket.on('crosstable', function(data){
+         updateCrosstableData(data);
+         updateStandtableData(data);
+         });
+      socket.on('liveeval', function(data){
+         updateLiveEvalData(data);
+         });
+      socket.on('pgn', function(data){
+         updatePgnData(data);
+         });
+      socket.on('schedule', function(data){
+         updateScheduleData(data);
+         });
+      socket.on('livechart', function(data){
+         updateLiveChartData(data);
+         });
+      socket.on('lastpgntime', function(data){
+        setLastMoveTime(data);
+        });
+      socket.on('users', function(data){
+        setUsers(data);
+        });
 
-      var liveEngineEval = [];
 
-      function updateLiveChart() {
-          axios.get('liveeval.json')
-          .then(function (response) {
-            if (typeof response.data.moves != 'undefined') {
-              liveEngineEval = response.data.moves;
-              updateChartData();
-            } else {
-              liveEngineEval = [];
-            }
-            // handle success
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error);
-          });
-      }
     </script>
   </body>
 </html>

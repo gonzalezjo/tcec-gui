@@ -96,6 +96,7 @@ body {
 }
 
 #crosstable th,
+#standtable th,
 #event-overview th,
 #engine-eval th,
 #live-eval th,
