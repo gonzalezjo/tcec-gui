@@ -36,6 +36,21 @@
             <li class="nav-item">
                <a class="nav-link py-0" href="#" data-toggle="modal" data-target="#rules-modal">Rules</a>
             </li>
+            <li class="nav-item">
+              <a href="http://tcec.chessdom.com/archive.php" class="board-navigation btn btn-primary btn-sm">
+                <i class="fa fa-archive"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="board-navigation btn btn-primary btn-sm" style="color: #dfdfdf;" onClick="copyFen()" title="Click to copy FEN" id="fen">
+                FEN
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="board-navigation btn btn-primary btn-sm" id="refreshBoard">
+                <i class="fa fa-refresh"></i>
+              </a>
+            </li>
             <li class="nav-item dropdown">
                <a class="py-0 nav-link dropdown-toggle" href="https://bootstrapthemes.co" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Options
@@ -260,52 +275,34 @@
           </div>
 
           <div class="navigation-buttons row text-center" style="margin-top: 5px; margin-left: 0">
-            <div class="col-1 col-md-1" style="padding: 0px;">
-              &nbsp;
-            </div>
-            <div class="col-1 col-md-1" style="padding: 0px;">
-              <a href="http://tcec.chessdom.com/archive.php" class="board-navigation btn btn-primary btn-sm">
-                <i class="fa fa-archive"></i>
-              </a>
-            </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
-              <a class="board-navigation btn btn-primary btn-sm" style="color: #dfdfdf;" onClick="copyFen()" title="Click to copy FEN" id="fen">
-                FEN
-              </a>
-            </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
+            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
               <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-to-first">
                 <i class="fa fa-angle-double-left"></i>
               </a>
             </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
+            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
               <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-previous">
                 <i class="fa fa-angle-left"></i>
               </a>
             </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
+            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
               <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-autoplay">
                 <i class="fa fa-play"></i>
               </a>
             </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
+            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
               <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-next">
                 <i class="fa fa-angle-right"></i>
               </a>
             </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
+            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
               <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-to-last">
                 <i class="fa fa-angle-double-right"></i>
               </a>
             </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
+            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
               <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-reverse">
                 <i class="fa fa-sync"></i>
-              </a>
-            </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
-              <a href="#" class="board-navigation btn btn-primary btn-sm toggleDark">
-                <i class="fa fa-moon"></i>
               </a>
             </div>
           </div>
@@ -543,6 +540,8 @@
                 autoplay="true"
                 muted="true">
             </iframe>
+          </div>
+          <div class="col-md-12 text-center">
             <div>
                 &copy;<a href="http://tcec.chessdom.com/">TCEC</a>
                 <a target="_blank" href="http://www.chessdom.com">Chessdom</a>
@@ -774,7 +773,6 @@
     <script src="dist/js/jquery.min.js"></script>
     <script src="dist/js/popper.min.js"></script>
     <script src="dist/js/bootstrap.min.js"></script>
-    <script src="dist/js/chess.js"></script>
     <script src="dist/js/json3.min.js"></script>
     <script src="dist/js/axios.min.js"></script>
     <script src="dist/js/chessboard.js?v=10000000000000000000042"></script>
@@ -806,14 +804,12 @@
           $('iframe#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat?popout');
       });
 
-      var chess = new Chess();
       var board =  ChessBoard('board', {
          position: 'start',
          onMoveEnd: onMoveEnd,
          moveSpeed: 1,
          appearSpeed: 1
       });
-
 
       $('.toggleDark').click(function() {
         var darkMode = localStorage.getItem('tcec-dark-mode');
