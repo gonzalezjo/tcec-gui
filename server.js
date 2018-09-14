@@ -21,10 +21,20 @@ function updateCrosstable()
    return content;
 }
 
+if (typeof process.argv[2] == 'undefined')
+{
+   portnum = 8080;
+}
+else
+{
+   portnum = process.argv[2];
+}
+
+console.log ("Port is " + portnum);
+
 var server = require('http').createServer(app);  
-server.listen(8888);
+server.listen(parseInt(portnum));
 var listener = io.listen(server);
-console.log ("__dirname:" + __dirname);
 
    //send data to client
 var lastPgnTime = Date.now();
@@ -35,8 +45,8 @@ var watcher = chokidar.watch('crosstable.json', {
       followSymlinks: true,
       disableGlobbing: false,
       usePolling: true,
-      interval: 1000,
-      binaryInterval: 1000,
+      interval: 100,
+      binaryInterval: 100,
       alwaysStat: false,
       depth: 99,
       //awaitWriteFinish: {
@@ -53,7 +63,10 @@ watcher.add('schedule.json');
 watcher.add('liveeval.json');
 
 var count = 0;
-listener.sockets.on('connection', function(socket){
+var socket = '';
+
+listener.sockets.on('connection', function(s){
+   socket = s;
    count ++;
    socket.broadcast.emit('users', {'count': count});
 
@@ -62,52 +75,44 @@ listener.sockets.on('connection', function(socket){
        socket.broadcast.emit('users', {'count': count});
    });
    console.log ("Sending user count too all:" + count + ",from pid:" + pid);
+});
 
-   var log = console.log.bind(console);
-
-   watcher.on('change', (path, stats) => {
-      var content = fs.readFileSync(path, "utf8");
-      try 
+watcher.on('change', (path, stats) => {
+   console.log ("path changed:" + path + ",count is " + count);
+   var content = fs.readFileSync(path, "utf8");
+   try 
+   {
+      var data = JSON.parse(content);
+      if (path.match(/data/))
       {
-         var data = JSON.parse(content);
-         if (path.match(/data/))
-         {
-            console.log ("path changed:" + path + ",count is " + count);
-            socket.emit('liveeval', data);
-         }
-         if (path.match(/liveeval.json/))
-         {
-            console.log ("path changed:" + path);
-            socket.emit('livechart', data);
-         }
-         if (path.match(/live.json/))
-         {
-            //console.log ("path changed:" + path);
-            socket.emit('pgn', data);
-            lastPgn= Date.now(); 
-         }
-         if (path.match(/crosstable/))
-         {
-            //console.log ("cross path changed:" + path);
-            socket.emit('crosstable', data);
-         }
-         if (path.match(/schedule/))
-         {
-            //console.log ("sched path changed:" + path);
-            socket.emit('schedule', data);
-         }
+         socket.broadcast.emit('liveeval', data);
       }
-      catch (error) 
+      if (path.match(/liveeval.json/))
       {
-         console.log ("error: " + error);
-         return;
+         console.log ("path changed:" + path);
+         socket.broadcast.emit('livechart', data);
       }
-   });
-
-   //recieve client data
-   socket.on('getLastmovetime', function(data){
-      //socket.emit('lastpgntime', lastPgnTime);
-      process.stdout.write('req came' + lastPgnTime);
-   });
+      if (path.match(/live.json/))
+      {
+         //console.log ("path changed:" + path);
+         socket.broadcast.emit('pgn', data);
+         lastPgn= Date.now(); 
+      }
+      if (path.match(/crosstable/))
+      {
+         //console.log ("cross path changed:" + path);
+         socket.broadcast.emit('crosstable', data);
+      }
+      if (path.match(/schedule/))
+      {
+         //console.log ("sched path changed:" + path);
+         socket.broadcast.emit('schedule', data);
+      }
+   }
+   catch (error) 
+   {
+      console.log ("error: " + error);
+      return;
+   }
 });
 
