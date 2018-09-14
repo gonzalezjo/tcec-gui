@@ -29,6 +29,29 @@ console.log ("__dirname:" + __dirname);
    //send data to client
 var lastPgnTime = Date.now();
 
+var watcher = chokidar.watch('crosstable.json', {
+      persistent: true,
+      ignoreInitial: false,
+      followSymlinks: true,
+      disableGlobbing: false,
+      usePolling: true,
+      interval: 1000,
+      binaryInterval: 1000,
+      alwaysStat: false,
+      depth: 99,
+      //awaitWriteFinish: {
+        //stabilityThreshold: 2000,
+        //pollInterval: 100
+      //}
+      //atomic: true // or a custom 'atomicity delay', in milliseconds (default 100)
+});
+var liveeval = 'data.json';
+var ctable = 'crosstable.json';
+watcher.add(liveeval);
+watcher.add('live.json');
+watcher.add('schedule.json');
+watcher.add('liveeval.json');
+
 var count = 0;
 listener.sockets.on('connection', function(socket){
    count ++;
@@ -38,35 +61,8 @@ listener.sockets.on('connection', function(socket){
        count--;
        socket.broadcast.emit('users', {'count': count});
    });
-   console.log ("Sending user count to all:" + count);
-   var callback = function(err, contents) {
-      console.log(contents);
-      return contents;
-   }
+   console.log ("Sending user count too all:" + count + ",from pid:" + pid);
 
-   var watcher = chokidar.watch('crosstable.json', {
-      persistent: true,
-      ignoreInitial: false,
-      followSymlinks: true,
-      disableGlobbing: false,
-      usePolling: true,
-      interval: 500,
-      binaryInterval: 500,
-      alwaysStat: false,
-      depth: 99,
-      //awaitWriteFinish: {
-        //stabilityThreshold: 2000,
-        //pollInterval: 100
-      //}
-      //atomic: true // or a custom 'atomicity delay', in milliseconds (default 100)
-   });
-
-   var liveeval = 'data.json';
-   var ctable = 'crosstable.json';
-   watcher.add(liveeval);
-   watcher.add('live.json');
-   watcher.add('schedule.json');
-   watcher.add('liveeval.json');
    var log = console.log.bind(console);
 
    watcher.on('change', (path, stats) => {
@@ -76,28 +72,29 @@ listener.sockets.on('connection', function(socket){
          var data = JSON.parse(content);
          if (path.match(/data/))
          {
-            socket.broadcast.emit('liveeval', data);
+            console.log ("path changed:" + path + ",count is " + count);
+            socket.emit('liveeval', data);
          }
          if (path.match(/liveeval.json/))
          {
-            //console.log ("path changed:" + path);
-            socket.broadcast.emit('livechart', data);
+            console.log ("path changed:" + path);
+            socket.emit('livechart', data);
          }
          if (path.match(/live.json/))
          {
             //console.log ("path changed:" + path);
-            socket.broadcast.emit('pgn', data);
-            lastPgnTime = Date.now(); 
+            socket.emit('pgn', data);
+            lastPgn= Date.now(); 
          }
          if (path.match(/crosstable/))
          {
             //console.log ("cross path changed:" + path);
-            socket.broadcast.emit('crosstable', data);
+            socket.emit('crosstable', data);
          }
          if (path.match(/schedule/))
          {
             //console.log ("sched path changed:" + path);
-            socket.broadcast.emit('schedule', data);
+            socket.emit('schedule', data);
          }
       }
       catch (error) 
