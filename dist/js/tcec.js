@@ -40,9 +40,10 @@ var onMoveEnd = function() {
 };
 
 
-function updatePgnData(data)
+function updatePgnData(data, read)
 {
     loadedPgn = data;
+    timeDiffRead = read;
     setPgn(data);
 }
 
@@ -58,8 +59,8 @@ function updatePgn()
          var currTime = new Date(response.headers["date"]);
          timeDiff = currTime.getTime() - lastMod.getTime();
       }
-      timeDiffRead = 1;
-      updatePgnData(response.data);
+      console.log ("Setting time diff to " + timeDiff);
+      updatePgnData(response.data, 0);
    })
    .catch(function (error) {
      // handle error
