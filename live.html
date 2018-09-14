@@ -784,7 +784,7 @@
     <script src="dist/js/bootstrap-4-navbar.js?v=1000000000000000000042"></script>
     <!-- vch -->
     <script src="dist/js/tcec.js?v=1000000000000000000042"></script>
-    <script src="http://tcecbeta.club:8888/socket.io/socket.io.js"></script>
+    <script src="http://172.93.55.172:8888/socket.io/socket.io.js"></script>
 
     <script>
       $(document).ready(function () {
@@ -980,7 +980,6 @@
                             }, 10000);
           window.setTimeout(function() 
                             { 
-                               $('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?TCEC_Chess_TV');
                                updateLiveChart();
                                updateLiveEval();
                             }, 2000);
@@ -994,7 +993,7 @@
       });
 
 
-      var socket = io.connect('http://tcecbeta.club:8888');
+      var socket = io.connect('http://172.93.55.172:8888');
       if (0)
       {
       $(document).ready(function () {

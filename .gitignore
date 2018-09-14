@@ -1,0 +1,8 @@
+tignore
+node_modules
+live.json
+live.pgn
+crosstable.json
+schedule.json
+liveeval.json
+eng_debug.txt
