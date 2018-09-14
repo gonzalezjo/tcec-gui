@@ -530,7 +530,6 @@
       <div class="row d-none d-sm-block">
           <div class="col-md-12 text-center">
             <iframe
-                src="https://player.twitch.tv/?TCEC_Chess_TV"
                 id="twitchvid"
                 height="400"
                 width="340"
@@ -546,7 +545,7 @@
                 &copy;<a target="_blank" href="https://arena.chessdom.com/">Chess Arena</a> 2010-2018
             </div>
             <div>
-                TCEC is powered by <a target="_blank" href="http://chessboardjs.com">chessboard.js</a> and <a target="_blank" href="https://github.com/gvreuls/cutechess">cutechess-cli</a>
+                TCEC is powered by ... <a target="_blank" href="http://chessboardjs.com">chessboard.js</a> and <a target="_blank" href="https://github.com/gvreuls/cutechess">cutechess-cli</a>
             </div>    
             </div>
           </div>
@@ -798,9 +797,8 @@
           });
           window.setTimeout(function() 
                             { 
-                               //$('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?TCEC_Chess_TV');
+                               $('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?TCEC_Chess_TV');
                              }, 10000);
-          //$('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?TCEC_Chess_TV');
           $('iframe#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat?popout');
       });
       window.onload = function() {
@@ -950,8 +948,6 @@
 
       $(function() {
 
-        setDefaultThemes();
-
         if ($('#google_adverts').height() <= 0) {
           $('#encouragement').show();
         } else {
@@ -972,12 +968,23 @@
         });
 
         updatePgn();
-        updateSchedule();
-        updateCrosstable();
-        updateStandtable();
         updateLiveEvalInit();
-        updateLiveChart();
-        updateLiveEval();
+      $(document).ready(function () {
+          window.setTimeout(function() 
+                            { 
+        		       setDefaultThemes();
+                            }, 1000);
+          window.setTimeout(function() 
+                            { 
+                               $('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?TCEC_Chess_TV');
+                            }, 10000);
+          window.setTimeout(function() 
+                            { 
+                               $('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?TCEC_Chess_TV');
+                               updateLiveChart();
+                               updateLiveEval();
+                            }, 2000);
+      });
 
         //var pgnInterval = window.setInterval(function() { updatePgn() }, 3000);
         //var crosstableInterval = window.setInterval(function() { updateCrosstable() }, 60000);

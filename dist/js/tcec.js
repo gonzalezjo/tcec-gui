@@ -775,7 +775,7 @@ function setDarkMode(value)
    darkMode = value;
    if (!darkMode)
    {
-      gameArrayClass = ['darkgreen', 'darkred', 'darkblue'];
+      gameArrayClass = ['black', 'red', '#39FF14'];
    }
    else
    {
