@@ -36,6 +36,21 @@
             <li class="nav-item">
                <a class="nav-link py-0" href="#" data-toggle="modal" data-target="#rules-modal">Rules</a>
             </li>
+            <li class="nav-item">
+              <a href="http://tcec.chessdom.com/archive.php" target="_blank" class="nav-link py-0">
+                Archive
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link py-0" onClick="copyFen()" title="Click to copy FEN" id="fen">
+                FEN
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link py-0" id="refreshBoard" title="Refresh the board">
+                <i class="fa fa-sync"></i>
+              </a>
+            </li>
             <li class="nav-item dropdown">
                <a class="py-0 nav-link dropdown-toggle" href="https://bootstrapthemes.co" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Options
@@ -183,8 +198,14 @@
         </div>
         <div class="col-md-6 col-6 text-center">
           <div id="google_adverts">
-            <script async="" type="text/javascript" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <ins class="adsbygoogle" style="display:inline-block; width: 100%;" data-ad-client="ca-pub-6544406400639567" data-ad-slot="8395728881"></ins>
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- TCEC beta -->
+            <ins class="adsbygoogle"
+                style="display:block;"
+                data-ad-client="ca-pub-6544406400639567"
+                data-ad-slot="9455537361"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
           </div>
           <div id="encouragement" style="display: none;">
             TCEC is based on voluntary work. Please consider whitelisting http://tcec.chessdom.com in your ad blocker - or send a donation. Thank you!
@@ -254,52 +275,34 @@
           </div>
 
           <div class="navigation-buttons row text-center" style="margin-top: 5px; margin-left: 0">
-            <div class="col-1 col-md-1" style="padding: 0px;">
-              &nbsp;
-            </div>
-            <div class="col-1 col-md-1" style="padding: 0px;">
-              <a href="http://tcec.chessdom.com/archive.php" class="board-navigation btn btn-primary btn-sm">
-                <i class="fa fa-archive"></i>
-              </a>
-            </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
-              <a class="board-navigation btn btn-primary btn-sm" style="color: #dfdfdf;" onClick="copyFen()" title="Click to copy FEN" id="fen">
-                FEN
-              </a>
-            </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
+            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
               <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-to-first">
                 <i class="fa fa-angle-double-left"></i>
               </a>
             </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
+            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
               <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-previous">
                 <i class="fa fa-angle-left"></i>
               </a>
             </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
+            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
               <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-autoplay">
                 <i class="fa fa-play"></i>
               </a>
             </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
+            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
               <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-next">
                 <i class="fa fa-angle-right"></i>
               </a>
             </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
+            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
               <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-to-last">
                 <i class="fa fa-angle-double-right"></i>
               </a>
             </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
+            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
               <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-reverse">
-                <i class="fa fa-sync"></i>
-              </a>
-            </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
-              <a href="#" class="board-navigation btn btn-primary btn-sm toggleDark">
-                <i class="fa fa-moon"></i>
+                <i class="fa fa-random"></i>
               </a>
             </div>
           </div>
@@ -472,7 +475,7 @@
 
         <div class="col-md-4">
           <div>
-            <iframe frameborder="0" style="width: 100%" scrolling="no" id="chatright" src="http://www.twitch.tv/embed/TCEC_Chess_TV/chat?popout"></iframe>
+            <iframe frameborder="0" style="width: 100%" scrolling="no" id="chatright"></iframe>
           </div>
           <div class="text-center">
             <a target="_blank" href="https://www.twitch.tv/products/tcecpoc/ticket" class="btn btn-primary">Subscribe</a>
@@ -511,26 +514,24 @@
         </div>
       </div>
 
-        <br>
-
-      <div class="row">
-        <div class="col-md-12">
-          <ins class="adsbygoogle" style="display: inline-block; width: 300px; height: 250px;" data-ad-client="ca-pub-6544406400639567" data-ad-slot="2712361177" data-adsbygoogle-status="done">
-            <ins id="aswift_1_expand" style="display:inline-table;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent;">
-              <ins id="aswift_1_anchor" style="display:block;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent;">
-                <iframe width="300" height="250" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;width:300px;height:250px;"></iframe>
-              </ins>
-            </ins>
-          </ins>
-        </div>
-      </div>
-
       <br>
 
       <div class="row d-none d-sm-block">
-          <div class="col-md-12 text-center">
+          <div class="col-md-6">
+            <!-- TCEC beta -->
+            <ins class="adsbygoogle"
+                style="display:block;"
+                data-ad-client="ca-pub-6544406400639567"
+                data-ad-slot="9455537361"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+          </div>
+          <div class="col-md-6 text-center">
             <iframe
-                src="https://player.twitch.tv/?TCEC_Chess_TV"
+                id="twitchvid"
                 height="400"
                 width="340"
                 frameborder="0"
@@ -539,13 +540,15 @@
                 autoplay="true"
                 muted="true">
             </iframe>
+          </div>
+          <div class="col-md-12 text-center">
             <div>
                 &copy;<a href="http://tcec.chessdom.com/">TCEC</a>
                 <a target="_blank" href="http://www.chessdom.com">Chessdom</a>
                 &copy;<a target="_blank" href="https://arena.chessdom.com/">Chess Arena</a> 2010-2018
             </div>
             <div>
-                TCEC is powered by <a target="_blank" href="http://chessboardjs.com">chessboard.js</a> and <a target="_blank" href="https://github.com/gvreuls/cutechess">cutechess-cli</a>
+                TCEC is powered by ... <a target="_blank" href="http://chessboardjs.com">chessboard.js</a> and <a target="_blank" href="https://github.com/gvreuls/cutechess">cutechess-cli</a>
             </div>
           </div>
         </div>
@@ -769,7 +772,6 @@
     <script src="dist/js/jquery.min.js"></script>
     <script src="dist/js/popper.min.js"></script>
     <script src="dist/js/bootstrap.min.js"></script>
-    <script src="dist/js/chess.js"></script>
     <script src="dist/js/json3.min.js"></script>
     <script src="dist/js/axios.min.js"></script>
     <script src="dist/js/chessboard.js?v=10000000000000000000042"></script>
@@ -783,6 +785,7 @@
     <script src="dist/js/bootstrap-4-navbar.js?v=1000000000000000000042"></script>
     <!-- vch -->
     <script src="dist/js/tcec.js?v=1000000000000000000042"></script>
+    <script src="http://172.93.55.172:8888/socket.io/socket.io.js"></script>
 
     <script>
       $(document).ready(function () {
@@ -793,12 +796,13 @@
                   $("button.navbar-toggle").click();
               }
           });
+          window.setTimeout(function() 
+                            { 
+                               $('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?TCEC_Chess_TV');
+                             }, 10000);
+          $('iframe#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat?popout');
       });
-      window.onload = function() {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      }
 
-      var chess = new Chess();
       var board =  ChessBoard('board', {
          position: 'start',
          onMoveEnd: onMoveEnd,
@@ -806,14 +810,13 @@
          appearSpeed: 1
       });
 
-
       $('.toggleDark').click(function() {
-        var darkMode = Cookies.get('tcec-dark-mode');
+        var darkMode = localStorage.getItem('tcec-dark-mode');
         if (darkMode == 20) {
-          Cookies.set('tcec-dark-mode', 10);
+          localStorage.setItem('tcec-dark-mode', 10);
           setLight();  
         } else {
-          Cookies.set('tcec-dark-mode', 20);
+          localStorage.setItem('tcec-dark-mode', 20);
           setDark();
         }
         $(".navbar-toggle").click();
@@ -852,6 +855,10 @@
           {
               field: 'ECO',
               title: 'ECO'
+          },
+          {
+              field: 'Viewers',
+              title: 'Viewers'
           }
         ]
       });
@@ -935,49 +942,7 @@
         ]
       });
 
-      $('#live-eval').bootstrapTable({
-          columns: [
-          {
-              field: 'engine',
-              title: 'Eng',
-              width: '30'
-          },
-          {
-              field: 'eval',
-              title: 'Eval',
-              width: '20'
-          },
-          {
-              field: 'pv',
-              title: 'PV',
-              width: '290'
-          },
-          {
-              field: 'depth',
-              title: 'Depth',
-              width: '20'
-          },
-          {
-              field: 'speed',
-              title: 'Speed',
-              width: '20'
-          },
-          {
-              field: 'nodes',
-              title: 'Nodes',
-              width: '20'
-          },
-          {
-              field: 'tbhits',
-              title: 'TB',
-              width: '20'
-          }
-        ]
-      });
-
       $(function() {
-
-        setDefaultThemes();
 
         if ($('#google_adverts').height() <= 0) {
           $('#encouragement').show();
@@ -999,85 +964,62 @@
         });
 
         updatePgn();
-        updateSchedule();
-        updateCrosstable();
-        updateStandtable();
-        updateLiveEval();
-        updateLiveChart();
-
-        var pgnInterval = window.setInterval(function() { updatePgn() }, 3000);
-        var scheduleInterval = window.setInterval(function() { updateSchedule() }, 15000);
-        var crosstableInterval = window.setInterval(function() { updateCrosstable() }, 60000);
-        var standtableInterval = window.setInterval(function() { updateStandtable() }, 60000);
-        var liveEvalInterval = window.setInterval(function() { updateLiveEval() }, 5000);
-        var liveChartInterval = window.setInterval(function() { updateLiveChart() }, 15000);
+        updateLiveEvalInit();
+      $(document).ready(function () {
+          window.setTimeout(function() 
+                            { 
+        		       setDefaultThemes();
+                            }, 1000);
+          window.setTimeout(function() 
+                            { 
+                               $('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?TCEC_Chess_TV');
+                            }, 10000);
+          window.setTimeout(function() 
+                            { 
+                               updateLiveChart();
+                               updateLiveEval();
+                            }, 2000);
       });
 
-      function updateLiveEval() {
-          axios.get('data.json')
-          .then(function (response) {
+        //var pgnInterval = window.setInterval(function() { updatePgn() }, 3000);
+        //var crosstableInterval = window.setInterval(function() { updateCrosstable() }, 60000);
+        //var scheduleInterval = window.setInterval(function() { updateSchedule() }, 15000);
+        //var standtableInterval = window.setInterval(function() { updateStandtable() }, 60000);
+        //var liveChartInterval = window.setInterval(function() { updateLiveChart() }, 15000);
+      });
 
-            /* ARUN: Should do for all engines */
-            var score = 0;
-            var tbhits = response.data[0].tbhits;
-            if (!isNaN(response.data[0].eval))
-            {
-               score = parseFloat(response.data[0].eval);
-            }
-            else
-            {
-               score = response.data[0].eval;
-            }
 
-            var pv = response.data[0].pv;
-            pv = pv.split(/\s+/).slice(0,4).join(" ");
-            if (pv.search(/.*\.\.\..*/i) == 0)
-            {
-               if (!isNaN(score))
-               {
-                  score = parseFloat(score) * -1;
-                  if (score === 0)
-                  {
-                     score = 0;
-                  }
-               }
-            }
-            if (!isNaN(score))
-            {
-               score = score.toFixed(2);
-            }
-            tbhits= tbhits.toFixed(0);
-            tbhits = tbhits + "k";
-            response.data[0].eval = score;
-            response.data[0].pv = pv;
-
-            $('#live-eval').bootstrapTable('load', response.data);
-            // handle success
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error);
-          });
+      var socket = io.connect('http://172.93.55.172:8888');
+      if (0)
+      {
+      $(document).ready(function () {
+         socket.emit('getLastmovetime', "arun");
+         });
       }
+      socket.on('crosstable', function(data){
+         updateCrosstableData(data);
+         updateStandtableData(data);
+         });
+      socket.on('liveeval', function(data){
+         updateLiveEvalData(data);
+         });
+      socket.on('pgn', function(data){
+         updatePgnData(data);
+         });
+      socket.on('schedule', function(data){
+         updateScheduleData(data);
+         });
+      socket.on('livechart', function(data){
+         updateLiveChartData(data);
+         });
+      socket.on('lastpgntime', function(data){
+        setLastMoveTime(data);
+        });
+      socket.on('users', function(data){
+        setUsers(data);
+        });
 
-      var liveEngineEval = [];
 
-      function updateLiveChart() {
-          axios.get('liveeval.json')
-          .then(function (response) {
-            if (typeof response.data.moves != 'undefined') {
-              liveEngineEval = response.data.moves;
-              updateChartData();
-            } else {
-              liveEngineEval = [];
-            }
-            // handle success
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error);
-          });
-      }
     </script>
   </body>
 </html>
