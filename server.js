@@ -35,8 +35,8 @@ var watcher = chokidar.watch('crosstable.json', {
       followSymlinks: true,
       disableGlobbing: false,
       usePolling: true,
-      interval: 1000,
-      binaryInterval: 1000,
+      interval: 100,
+      binaryInterval: 100,
       alwaysStat: false,
       depth: 99,
       //awaitWriteFinish: {
