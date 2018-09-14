@@ -178,10 +178,18 @@ function setTimeUsed(color, time) {
 }
 
 var userCount = 0;
-function setUsers(data) {
+function setUsers(data) 
+{
    userCount = data.count;
-   $('#event-overview').bootstrapTable('updateCell', {index: 0, field: 'Viewers', value: userCount});
+   try 
+   {
+      $('#event-overview').bootstrapTable('updateCell', {index: 0, field: 'Viewers', value: userCount});
    }
+   catch(err)
+   {
+      console.log ("Unable to update usercount");
+   }
+}
 
 function setPgn(pgn)
 {
