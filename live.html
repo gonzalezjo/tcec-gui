@@ -12,16 +12,17 @@
     <!-- Bootstrap core CSS -->
     <link href="dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="dist/css/chessboard-0.3.0.min.css" rel="stylesheet">
+    <link href="dist/css/chessboard.css" rel="stylesheet">
     <link href="dist/bootstrap-table.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <!-- Custom styles for this template -->
     <!-- vch -->
-    <link href="dist/css/custom.css?v=1000000000000000000006" rel="stylesheet">
+    <link href="dist/css/custom.css?v=1000000000000000000042" rel="stylesheet">
   </head>
 
   <body>
 
-   <nav class="navbar navbar-toggle navbar-expand-md navbar-dark bg-dark">
+   <nav class="navbar navbar-expand-md navbar-toggle navbar-dark bg-dark">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
          <span class="navbar-toggler-icon"></span>
       </button>
@@ -33,18 +34,155 @@
             <li class="nav-item">
                <a class="nav-link py-0" href="#" data-toggle="modal" data-target="#rules-modal">Rules</a>
             </li>
+            <li class="nav-item">
+              <a href="http://tcec.chessdom.com/archive.php" target="_blank" class="nav-link py-0">
+                Archive
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link py-0" onClick="copyFen()" title="Click to copy FEN" id="fen">
+                FEN
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link py-0" id="refreshBoard" title="Refresh the board">
+                <i class="fa fa-sync"></i>
+              </a>
+            </li>
             <li class="nav-item dropdown">
-              <a class="nav-link py-0 dropdown-toggle" href="http://tcec.chessdom.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Options</a>
-              <div class="dropdown-menu" aria-labelledby="dropdown06">
-                <a class="dropdown-item" href="http://tcec.chessdom.com/archive/crosstable.json" target="_blank">Crosstable</a>
-                <a class="dropdown-item" href="http://tcec.chessdom.com/archive/schedule.json" target="_blank">Schedule</a>
-                <a class="dropdown-item" href="http://tcec.chessdom.com/live/event.pgn" target="_blank">Event PGN</a>
-                <a class="dropdown-item" href="http://tcec.chessdom.com/live/live.pgn" target="_blank">Current PGN</a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item toggleDark">
-                  <i class="fa fa-moon"></i> Display
-                </a>
-              </div>
+               <a class="py-0 nav-link dropdown-toggle" href="https://bootstrapthemes.co" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Options
+               </a>
+               <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <li class="nav-item dropdown">
+                     <li><a class="dropdown-item dropdown-toggle" href="#">Download</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown06">
+                           <a class="dropdown-item" href="http://tcec.chessdom.com/archive/crosstable.json" target="_blank">Crosstable</a>
+                           <a class="dropdown-item" href="http://tcec.chessdom.com/archive/schedule.json" target="_blank">Schedule</a>
+                           <a class="dropdown-item" href="http://tcec.chessdom.com/live/event.pgn" target="_blank">Event PGN</a>
+                           <a class="dropdown-item" href="http://tcec.chessdom.com/live/live.pgn" target="_blank">Current PGN</a>
+                        </div>
+                     </li>
+                  </li>
+                  <div class="dropdown-divider"></div>
+                  <li><a class="dropdown-item dropdown-toggle" href="#">Themes</a>
+                     <ul class="dropdown-menu">
+                        <li><a class="dropdown-item dropdown-toggle" href="#">Piece Theme</a>
+                           <ul class="dropdown-menu">
+                              <li class="radio">
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="alpha" checked onclick="setPieceDefault('alpha');">
+                                    <label class="form-check-label" for="exampleRadios1">
+                                       Alpha
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="chess24" onclick="setPieceDefault('chess24');">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                       Chess24
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="dilena" onclick="setPieceDefault('dilena');">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                       Dilena
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="leipzig" onclick="setPieceDefault('leipzig');">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                       Leipzig
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios5" value="metro" onclick="setPieceDefault('metro');">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                       Metro
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios6" value="symbol" onclick="setPieceDefault('symbol');">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                       Symbol
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios7" value="uscf" onclick="setPieceDefault('uscf');">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                       Uscf
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios8" value="wikipedia" onclick="setPieceDefault('wikipedia');">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                       Wikipedia
+                                    </label>
+                                 </div>
+                              </li>
+                           </ul>
+                        </li>
+                        <div class="dropdown-divider"></div>
+                        <li><a class="dropdown-item dropdown-toggle" href="#">Board Theme</a>
+                           <ul class="dropdown-menu">
+                              <li class="radio">
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio2" value="chess24b" onclick="setBoardDefault('chess24');">
+                                    <label class="form-check-label" for="boardRadio2">
+                                       Chess24
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio3" value="dilenab" onclick="setBoardDefault('dilena');">
+                                    <label class="form-check-label" for="boardRadio2">
+                                       Dilena
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio4" value="leipzigb" onclick="setBoardDefault('leipzig');">
+                                    <label class="form-check-label" for="boardRadio2">
+                                       Leipzig
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio5" value="metrob" onclick="setBoardDefault('metro');">
+                                    <label class="form-check-label" for="boardRadio2">
+                                       Metro
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio6" value="symbolb" onclick="setBoardDefault('symbol');">
+                                    <label class="form-check-label" for="boardRadio2">
+                                       Symbol
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio7" value="uscfb" onclick="setBoardDefault('uscf');">
+                                    <label class="form-check-label" for="boardRadio2">
+                                       Uscf
+                                    </label>
+                                 </div>
+                                 <div class="form-check classpad">
+                                    <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio8" value="wikipediab" onclick="setBoardDefault('wikipedia');">
+                                    <label class="form-check-label" for="boardRadio2">
+                                       Wikipedia
+                                    </label>
+                                 </div>
+                              </li>
+                           </ul>
+                        </li>
+                        <li>
+                        <div class="dropdown-divider"></div>
+                        <li><a class="dropdown-item dropdown-toggle" href="#">Page Theme</a>
+                        <ul class="dropdown-menu">
+                           <a href="#" class="dropdown-item toggleDark" id="pagetheme">
+                              <i class="fa fa-moon"></i>
+                           </a>
+                        </ul>
+                        </li>
+                        </li>
+                     </ul>
+                  </li>
+               </ul>
             </li>
          </ul>
       </div>
@@ -58,8 +196,14 @@
         </div>
         <div class="col-md-6 col-6 text-center">
           <div id="google_adverts">
-            <script async="" type="text/javascript" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <ins class="adsbygoogle" style="display:inline-block; width: 100%;" data-ad-client="ca-pub-6544406400639567" data-ad-slot="8395728881"></ins>
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- TCEC beta -->
+            <ins class="adsbygoogle"
+                style="display:block;"
+                data-ad-client="ca-pub-6544406400639567"
+                data-ad-slot="9455537361"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
           </div>
           <div id="encouragement" style="display: none;">
             TCEC is based on voluntary work. Please consider whitelisting http://tcec.chessdom.com in your ad blocker - or send a donation. Thank you!
@@ -129,52 +273,34 @@
           </div>
 
           <div class="navigation-buttons row text-center" style="margin-top: 5px; margin-left: 0">
-            <div class="col-1 col-md-1" style="padding: 0px;">
-              &nbsp;
-            </div>
-            <div class="col-1 col-md-1" style="padding: 0px;">
-              <a href="http://tcec.chessdom.com/archive.php" class="board-navigation btn btn-primary btn-sm">
-                <i class="fa fa-archive"></i>
-              </a>
-            </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
-              <a class="board-navigation btn btn-primary btn-sm" style="color: #dfdfdf;" onClick="copyFen()" title="Click to copy FEN" id="fen">
-                FEN
-              </a>
-            </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
+            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
               <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-to-first">
                 <i class="fa fa-angle-double-left"></i>
               </a>
             </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
+            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
               <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-previous">
                 <i class="fa fa-angle-left"></i>
               </a>
             </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
+            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
               <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-autoplay">
                 <i class="fa fa-play"></i>
               </a>
             </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
+            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
               <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-next">
                 <i class="fa fa-angle-right"></i>
               </a>
             </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
+            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
               <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-to-last">
                 <i class="fa fa-angle-double-right"></i>
               </a>
             </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
+            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
               <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-reverse">
-                <i class="fa fa-sync"></i>
-              </a>
-            </div>
-            <div class="col-1 col-md-1" style="padding: 0px; padding-left: 3px">
-              <a href="#" class="board-navigation btn btn-primary btn-sm toggleDark">
-                <i class="fa fa-moon"></i>
+                <i class="fa fa-random"></i>
               </a>
             </div>
           </div>
@@ -223,8 +349,8 @@
             <div class="engine-pv alert alert-dark" id="black-engine-pv"></div>
             <div class="row text-center">
               <div class="col-md-6 col-12">
-                <img src="img/chesspieces/wikipedia/bK.png" style="height: 32px">
-                <span class="h5 d-inline black-engine-name"></span>
+                <img src="img/chesspieces/wikipedia/bK.png" style="height: 32px; padding-bottom: 5px;">
+                <span class="h6 d-inline black-engine-name"></span>
               </div>
               <div class="col-md-6 col-12">
                 <span id="black-material">
@@ -274,8 +400,8 @@
             <div class="engine-pv alert alert-dark" id="white-engine-pv"></div>
             <div class="row text-center">
               <div class="col-md-6 col-12">
-                <img src="img/chesspieces/wikipedia/wK.png" style="height: 32px">
-                <span class="h5 d-inline white-engine-name"></span>
+                <img src="img/chesspieces/wikipedia/wK.png" style="height: 32px; padding-bottom: 5px;">
+                <span class="h6 d-inline white-engine-name"></span>
               </div>
               <div class="col-md-6 col-12">
                 <span id="white-material">
@@ -347,7 +473,7 @@
 
         <div class="col-md-4">
           <div>
-            <iframe frameborder="0" style="width: 100%" scrolling="no" id="chatright" src="http://www.twitch.tv/embed/TCEC_Chess_TV/chat?popout"></iframe>
+            <iframe frameborder="0" style="width: 100%" scrolling="no" id="chatright"></iframe>
           </div>
           <div class="text-center">
             <a target="_blank" href="https://www.twitch.tv/products/tcecpoc/ticket" class="btn btn-primary">Subscribe</a>
@@ -386,26 +512,24 @@
         </div>
       </div>
 
-        <br>
-
-      <div class="row">
-        <div class="col-md-12">
-          <ins class="adsbygoogle" style="display: inline-block; width: 300px; height: 250px;" data-ad-client="ca-pub-6544406400639567" data-ad-slot="2712361177" data-adsbygoogle-status="done">
-            <ins id="aswift_1_expand" style="display:inline-table;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent;">
-              <ins id="aswift_1_anchor" style="display:block;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent;">
-                <iframe width="300" height="250" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;width:300px;height:250px;"></iframe>
-              </ins>
-            </ins>
-          </ins>
-        </div>
-      </div>
-
       <br>
 
       <div class="row d-none d-sm-block">
-          <div class="col-md-12 text-center">
+          <div class="col-md-6">
+            <!-- TCEC beta -->
+            <ins class="adsbygoogle"
+                style="display:block;"
+                data-ad-client="ca-pub-6544406400639567"
+                data-ad-slot="9455537361"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+          </div>
+          <div class="col-md-6 text-center">
             <iframe
-                src="https://player.twitch.tv/?TCEC_Chess_TV"
+                id="twitchvid"
                 height="400"
                 width="340"
                 frameborder="0"
@@ -414,14 +538,15 @@
                 autoplay="true"
                 muted="true">
             </iframe>
+          </div>
+          <div class="col-md-12 text-center">
             <div>
                 &copy;<a href="http://tcec.chessdom.com/">TCEC</a>
                 <a target="_blank" href="http://www.chessdom.com">Chessdom</a>
                 &copy;<a target="_blank" href="https://arena.chessdom.com/">Chess Arena</a> 2010-2018
             </div>
             <div>
-                TCEC is powered by <a target="_blank" href="http://chessboardjs.com">chessboard.js</a> and <a target="_blank" href="https://github.com/gvreuls/cutechess">cutechess-cli</a>
-            </div>    
+                TCEC is powered by ... <a target="_blank" href="http://chessboardjs.com">chessboard.js</a> and <a target="_blank" href="https://github.com/gvreuls/cutechess">cutechess-cli</a>
             </div>
           </div>
         </div>
@@ -652,10 +777,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
-    <script src="dist/js/graphs.js?v=1000000000000000000007"></script>
-    <script src="dist/js/chessboard-0.3.0.min.js"></script>
-    <script src="dist/js/tcec.js?v=1000000000000000000007"></script>
-    <!-- vch -->
+    <script src="dist/js/graphs.js?v=10000000000000000000042"></script>
+    <script src="dist/js/chessboard.js?v=10000000000000000000042"></script>
+    <script src="dist/js/tcec.js?v=10000000000000000000042"></script>
+    <script src="http://172.93.55.172:8888/socket.io/socket.io.js"></script>
 
     <script>
       $(document).ready(function () {
@@ -666,57 +791,27 @@
                   $("button.navbar-toggle").click();
               }
           });
+          window.setTimeout(function() 
+                            { 
+                               $('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?TCEC_Chess_TV');
+                             }, 10000);
+          $('iframe#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat?popout');
       });
-      window.onload = function() {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      }
-      var cfg = {
-        position: 'start',
-        onMoveEnd: onMoveEnd,
-        moveSpeed: 1,
-        appearSpeed: 1
-      };
 
-      var chess = new Chess();
-      var board = ChessBoard('board', cfg);
-
-      function setDark()
-      {
-          $('.toggleDark').find('i').removeClass('fa-moon');
-          $('.toggleDark').find('i').addClass('fa-sun');
-          $('body').addClass('dark');
-          $('#chatright').attr('src', 'http://www.twitch.tv/embed/TCEC_Chess_TV/chat?darkpopout');
-          $('#crosstable').addClass('table-dark');
-          $('#standtable').addClass('table-dark');
-          $('#schedule').addClass('table-dark');
-          setDarkMode(1);
-          updateSchedule();
-          updateCrosstable();
-          updateStandtable();
-      }
-
-      function setLight()
-      {
-          $('body').removeClass('dark');
-          $('.toggleDark').find('i').addClass('fa-moon');
-          $('.toggleDark').find('i').removeClass('fa-sun');
-          $('input.toggleDark').prop('checked', false);
-          $('#crosstable').removeClass('table-dark');
-          $('#standtable').removeClass('table-dark');
-          $('#schedule').removeClass('table-dark');
-          setDarkMode(0);
-          updateSchedule();
-          updateCrosstable();
-          updateStandtable();
-      }
+      var board =  ChessBoard('board', {
+         position: 'start',
+         onMoveEnd: onMoveEnd,
+         moveSpeed: 1,
+         appearSpeed: 1
+      });
 
       $('.toggleDark').click(function() {
-        var darkMode = Cookies.get('tcec-dark-mode');
+        var darkMode = localStorage.getItem('tcec-dark-mode');
         if (darkMode == 20) {
-          Cookies.set('tcec-dark-mode', 10);
+          localStorage.setItem('tcec-dark-mode', 10);
           setLight();  
         } else {
-          Cookies.set('tcec-dark-mode', 20);
+          localStorage.setItem('tcec-dark-mode', 20);
           setDark();
         }
         $(".navbar-toggle").click();
@@ -755,6 +850,10 @@
           {
               field: 'ECO',
               title: 'ECO'
+          },
+          {
+              field: 'Viewers',
+              title: 'Viewers'
           }
         ]
       });
@@ -838,53 +937,7 @@
         ]
       });
 
-      $('#live-eval').bootstrapTable({
-          columns: [
-          {
-              field: 'engine',
-              title: 'Eng',
-              width: '30'
-          },
-          {
-              field: 'eval',
-              title: 'Eval',
-              width: '20'
-          },
-          {
-              field: 'pv',
-              title: 'PV',
-              width: '290'
-          },
-          {
-              field: 'depth',
-              title: 'Depth',
-              width: '20'
-          },
-          {
-              field: 'speed',
-              title: 'Speed',
-              width: '20'
-          },
-          {
-              field: 'nodes',
-              title: 'Nodes',
-              width: '20'
-          },
-          {
-              field: 'tbhits',
-              title: 'TB',
-              width: '20'
-          }
-        ]
-      });
-
       $(function() {
-        var darkMode = Cookies.get('tcec-dark-mode');
-        if (darkMode == 20) {
-          setDark();
-        } else {
-          setLight();
-        }
 
         if ($('#google_adverts').height() <= 0) {
           $('#encouragement').show();
@@ -906,84 +959,62 @@
         });
 
         updatePgn();
-        updateSchedule();
-        updateCrosstable();
-        updateStandtable();
-        updateLiveEval();
-        updateLiveChart();
-
-        var pgnInterval = window.setInterval(function() { updatePgn() }, 3000);
-        var scheduleInterval = window.setInterval(function() { updateSchedule() }, 15000);
-        var crosstableInterval = window.setInterval(function() { updateCrosstable() }, 60000);
-        var standtableInterval = window.setInterval(function() { updateStandtable() }, 60000);
-        var liveEvalInterval = window.setInterval(function() { updateLiveEval() }, 5000);
-        var liveChartInterval = window.setInterval(function() { updateLiveChart() }, 15000);
+        updateLiveEvalInit();
+      $(document).ready(function () {
+          window.setTimeout(function() 
+                            { 
+        		       setDefaultThemes();
+                            }, 1000);
+          window.setTimeout(function() 
+                            { 
+                               $('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?TCEC_Chess_TV');
+                            }, 10000);
+          window.setTimeout(function() 
+                            { 
+                               updateLiveChart();
+                               updateLiveEval();
+                            }, 2000);
       });
 
-      function updateLiveEval() {
-          axios.get('data.json')
-          .then(function (response) {
-            /* ARUN: Should do for all engines */
-            var score = 0;
-            var tbhits = response.data[0].tbhits;
-            if (!isNaN(response.data[0].eval))
-            {
-               score = parseFloat(response.data[0].eval);
-            }
-            else
-            {
-               score = response.data[0].eval;
-            }
+        //var pgnInterval = window.setInterval(function() { updatePgn() }, 3000);
+        //var crosstableInterval = window.setInterval(function() { updateCrosstable() }, 60000);
+        //var scheduleInterval = window.setInterval(function() { updateSchedule() }, 15000);
+        //var standtableInterval = window.setInterval(function() { updateStandtable() }, 60000);
+        //var liveChartInterval = window.setInterval(function() { updateLiveChart() }, 15000);
+      });
 
-            var pv = response.data[0].pv;
-            pv = pv.split(/\s+/).slice(0,4).join(" ");
-            if (pv.search(/.*\.\.\..*/i) == 0)
-            {
-               if (!isNaN(score))
-               {
-                  score = parseFloat(score) * -1;
-                  if (score === 0)
-                  {
-                     score = 0;
-                  }
-               }
-            }
-            if (!isNaN(score))
-            {
-               score = score.toFixed(2);
-            }
-            tbhits= tbhits.toFixed(0);
-            tbhits = tbhits + "k";
-            response.data[0].eval = score;
-            response.data[0].pv = pv;
 
-            $('#live-eval').bootstrapTable('load', response.data);
-            // handle success
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error);
-          });
+      var socket = io.connect('http://172.93.55.172:8888');
+      if (0)
+      {
+      $(document).ready(function () {
+         socket.emit('getLastmovetime', "arun");
+         });
       }
+      socket.on('crosstable', function(data){
+         updateCrosstableData(data);
+         updateStandtableData(data);
+         });
+      socket.on('liveeval', function(data){
+         updateLiveEvalData(data);
+         });
+      socket.on('pgn', function(data){
+         updatePgnData(data);
+         });
+      socket.on('schedule', function(data){
+         updateScheduleData(data);
+         });
+      socket.on('livechart', function(data){
+         updateLiveChartData(data);
+         });
+      socket.on('lastpgntime', function(data){
+        setLastMoveTime(data);
+        });
+      socket.on('users', function(data){
+        setUsers(data);
+        });
 
-      var liveEngineEval = [];
 
-      function updateLiveChart() {
-          axios.get('liveeval.json')
-          .then(function (response) {
-            if (typeof response.data.moves != 'undefined') {
-              liveEngineEval = response.data.moves;
-              updateChartData();
-            } else {
-              liveEngineEval = [];
-            }
-            // handle success
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error);
-          });
-      }
     </script>
   </body>
 </html>
