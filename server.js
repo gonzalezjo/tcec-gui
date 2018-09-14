@@ -75,6 +75,13 @@ listener.sockets.on('connection', function(s){
        socket.broadcast.emit('users', {'count': count});
    });
    console.log ("Sending user count too all:" + count + ",from pid:" + pid);
+
+   //recieve client data
+   socket.on('getLastmovetime', function(data){
+      socket.emit('lastpgntime', lastPgnTime);
+      process.stdout.write('req came' + lastPgnTime);
+   });
+
 });
 
 watcher.on('change', (path, stats) => {
@@ -96,7 +103,7 @@ watcher.on('change', (path, stats) => {
       {
          //console.log ("path changed:" + path);
          socket.broadcast.emit('pgn', data);
-         lastPgn= Date.now(); 
+         lastPgnTime = Date.now(); 
       }
       if (path.match(/crosstable/))
       {

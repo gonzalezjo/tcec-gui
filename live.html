@@ -998,7 +998,7 @@
          updateLiveEvalData(data);
          });
       socket.on('pgn', function(data){
-         updatePgnData(data);
+         updatePgnData(data, 0);
          });
       socket.on('schedule', function(data){
          updateScheduleData(data);
