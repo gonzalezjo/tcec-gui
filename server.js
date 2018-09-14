@@ -32,13 +32,13 @@ var lastPgnTime = Date.now();
 var count = 0;
 listener.sockets.on('connection', function(socket){
    count ++;
-   socket.broadcast.emit('users', { count: count });
+   socket.broadcast.emit('users', {'count': count});
 
    socket.on('disconnect', function(){
        count--;
-       socket.broadcast.emit('users', { count: count });
+       socket.broadcast.emit('users', {'count': count});
    });
-   console.log ("__dirname:" + count);
+   console.log ("Sending user count to all:" + count);
    var callback = function(err, contents) {
       console.log(contents);
       return contents;
@@ -50,8 +50,8 @@ listener.sockets.on('connection', function(socket){
       followSymlinks: true,
       disableGlobbing: false,
       usePolling: true,
-      interval: 100,
-      binaryInterval: 300,
+      interval: 500,
+      binaryInterval: 500,
       alwaysStat: false,
       depth: 99,
       //awaitWriteFinish: {
