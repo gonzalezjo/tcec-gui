@@ -84,9 +84,10 @@ body {
    margin-bottom: 10px;
 }
 
-.active-move {
+.active-move, 
+.active-pv-move {
 	background-color: #1e1e1e;
-   color: yellow;
+	color: yellow;
 }
 
 .smallfont
