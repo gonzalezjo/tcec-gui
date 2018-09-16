@@ -778,25 +778,25 @@ function setPvFromKey(moveKey)
   moveTo = activePv[moveKey].to;
   fen = activePv[moveKey].fen;
 
-  $('#pv-board-text').html('');
-  lastMoveNumber = 0;
-  _.each(activePv, function(pv, key) {
-    currentMoveNumber = pv.fen.substring(pv.fen.lastIndexOf(' '), pv.fen.length);
+  // $('#pv-board-text').html('');
+  // lastMoveNumber = 0;
+  // _.each(activePv, function(pv, key) {
+  //   currentMoveNumber = pv.fen.substring(pv.fen.lastIndexOf(' '), pv.fen.length);
 
-    if (lastMoveNumber == 0 || lastMoveNumber == currentMoveNumber) {
-      if (lastMoveNumber == 0 && activePvColor == 'black') {
-        currentMoveNumber--;
-      }
-      $('#pv-board-text').append(currentMoveNumber + '. ');
-    }
+  //   if (lastMoveNumber == 0 || lastMoveNumber == currentMoveNumber) {
+  //     if (lastMoveNumber == 0 && activePvColor == 'black') {
+  //       currentMoveNumber--;
+  //     }
+  //     $('#pv-board-text').append(currentMoveNumber + '. ');
+  //   }
 
-    lastMoveNumber = currentMoveNumber;
-    if (key == moveKey) {
-      $('#pv-board-text').append('<strong>' + pv.m + '</strong> ');
-    } else {
-      $('#pv-board-text').append(pv.m + ' ');
-    }
-  });
+  //   lastMoveNumber = currentMoveNumber;
+  //   if (key == moveKey) {
+  //     $('#pv-board-text').append('<strong>' + pv.m + '</strong> ');
+  //   } else {
+  //     $('#pv-board-text').append(pv.m + ' ');
+  //   }
+  // });
 
   $('.active-pv-move').removeClass('active-pv-move');
   $(this).addClass('active-pv-move');
