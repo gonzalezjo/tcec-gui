@@ -1,6 +1,8 @@
 boardEl = $('#board');
+pvBoardEl = $('#pv-board');
 
 var squareToHighlight = '';
+var pvSquareToHighlight = '';
 var crossTableInitialized = false;
 var standTableInitialized = false;
 var gameActive = false;
@@ -39,6 +41,10 @@ var onMoveEnd = function() {
     .addClass('highlight-white');
 };
 
+var onMoveEndPv = function() {
+  pvBoardEl.find('.square-' + pvSquareToHighlight)
+    .addClass('highlight-white');
+}
 
 function updatePgnData(data, read)
 {
@@ -529,10 +535,21 @@ function updateMoveValues(whiteToPlay, whiteEval, blackEval)
    $('.black-time-remaining').html(blackEval.timeleft);
 }
 
+var whitePv = [];
+var blackPv = [];
+var livePv = [];
+var activePv = [];
+
 function updateEnginePv(color, whiteToPlay, moves)
 {
   if (typeof moves != 'undefined') {
     currentMove = Math.floor(activePly / 2);
+
+    if (color == 'white') {
+      whitePv = moves;
+    } else {
+      blackPv = moves;
+    }
 
     keyOffset = 0;
     if (color == 'black' && !whiteToPlay) {
@@ -564,7 +581,7 @@ function updateEnginePv(color, whiteToPlay, moves)
         currentMove++;
       }
 
-      $('#' + color + '-engine-pv').append(move.m + ' ');
+      $('#' + color + '-engine-pv').append("<a href='#' class='set-pv-board' move-key='" + key + "' color='" + color + "'>" + move.m + '</a> ');
     });
   } else {
     $('#' + color + '-engine-pv').html('');
@@ -722,8 +739,133 @@ function handlePlyChange(handleclick)
    }
 }
 
+var activePvKey = 0;
+var activePvColor = '';
+
+$(document).on('click', '.set-pv-board', function(e) {
+  $('#v-pills-pv-tab').click();
+  moveKey = $(this).attr('move-key') * 1;
+  pvColor = $(this).attr('color');
+
+  activePvColor = pvColor;
+
+  if (pvColor == 'white') {
+    activePv = whitePv;
+    pvBoard.orientation('white');
+  } else if (pvColor == 'black') {
+    activePv = blackPv;
+    pvBoard.orientation('black');
+  } else {
+    activePv = livePv;
+    pvBoard.orientation('white');
+  }
+
+  setPvFromKey(moveKey);
+
+  e.preventDefault(); 
+});
+
+function setPvFromKey(moveKey)
+{
+  if (activePv.length < 1) {
+    activePvKey = 0;
+    return;
+  }
+
+  activePvKey = moveKey;
+
+  moveFrom = activePv[moveKey].from;
+  moveTo = activePv[moveKey].to;
+  fen = activePv[moveKey].fen;
+
+  $('#pv-board-text').html('');
+  lastMoveNumber = 0;
+  _.each(activePv, function(pv, key) {
+    currentMoveNumber = pv.fen.substring(pv.fen.lastIndexOf(' '), pv.fen.length);
+
+    if (lastMoveNumber == 0 || lastMoveNumber == currentMoveNumber) {
+      if (lastMoveNumber == 0 && activePvColor == 'black') {
+        currentMoveNumber--;
+      }
+      $('#pv-board-text').append(currentMoveNumber + '. ');
+    }
+
+    lastMoveNumber = currentMoveNumber;
+    if (key == moveKey) {
+      $('#pv-board-text').append('<strong>' + pv.m + '</strong> ');
+    } else {
+      $('#pv-board-text').append(pv.m + ' ');
+    }
+  });
+
+  $('.active-pv-move').removeClass('active-pv-move');
+  $(this).addClass('active-pv-move');
+
+  viewingActiveMove = false;
+
+  pvBoardEl.find('.' + squareClass).removeClass('highlight-white');
+  pvBoardEl.find('.square-' + moveFrom).addClass('highlight-white');
+  pvBoardEl.find('.square-' + moveTo).addClass('highlight-white');
+  pvSquareToHighlight = moveTo;
+
+  pvBoard.position(fen, false);
+}
+
+$('#pv-board-to-first').click(function(e) {
+  setPvFromKey(0);
+  e.preventDefault();
+});
+
+$('#pv-board-previous').click(function(e) {
+  if (activePvKey > 0) {
+    setPvFromKey(activePvKey - 1);
+  }
+  e.preventDefault();
+});
+
+var isPvAutoplay = false;
+
+$('#pv-board-autoplay').click(function(e) {
+  if (isPvAutoplay) {
+    isPvAutoplay = false;
+    $('#pv-board-autoplay i').removeClass('fa-pause');
+    $('#pv-board-autoplay i').addClass('fa-play');
+  } else {
+    isPvAutoplay = true;
+    $('#pv-board-autoplay i').removeClass('fa-play')
+    $('#pv-board-autoplay i').addClass('fa-pause');
+    pvBoardAutoplay();
+  }
+  e.preventDefault();
+});
+
+function pvBoardAutoplay()
+{
+  if (isPvAutoplay && activePvKey >= 0 && activePvKey < activePv.length) {
+    setPvFromKey(activePvKey + 1);
+    setTimeout(function() { pvBoardAutoplay(); }, 750);
+  } else {
+    isPvAutoplay = false;
+    $('#pv-board-autoplay i').removeClass('fa-pause');
+    $('#pv-board-autoplay i').addClass('fa-play');
+  }
+}
+
+$('#pv-board-next').click(function(e) {
+  if (activePvKey < activePv.length) {
+    setPvFromKey(activePvKey + 1);
+  }
+  e.preventDefault();
+});
+
+$('#pv-board-to-last').click(function(e) {
+  setPvFromKey(activePv.length - 1);
+  e.preventDefault();
+});
+
 function setMoveMaterial(material, whiteToPlay)
 {
+  whiteToPlay = !whiteToPlay;
   _.forOwn(material, function(value, key) {
     setPieces(key, value, whiteToPlay);
   })
@@ -731,10 +873,10 @@ function setMoveMaterial(material, whiteToPlay)
 
 function setPieces(piece, value, whiteToPlay) {
   var target = 'white-material';
-  var color = 'b';
+  var color = 'w';
   if ((whiteToPlay && value > 0) || (!whiteToPlay && value < 0)) {
     target = 'black-material';
-    color = 'w';
+    color = 'b';
   }
   
   value = Math.abs(value);
@@ -1046,6 +1188,19 @@ function setBoard()
    localStorage.setItem('tcec-piece-theme', ptheme);
    $('input[value='+ptheme+']').prop('checked', true);
    $('input[value='+btheme+'b]').prop('checked', true);
+
+   var fen = pvBoard.fen();
+   pvBoard =  ChessBoard('pv-board', {
+      pieceTheme: window[ptheme + "_piece_theme"],
+      position: 'start',
+      onMoveEnd: onMoveEnd,
+      moveSpeed: 1,
+      appearSpeed: 1,
+      boardTheme: window[btheme + "_board_theme"]
+   });
+   pvBoard.position(fen, false);
+   localStorage.setItem('tcec-board-theme', btheme);
+   localStorage.setItem('tcec-piece-theme', ptheme);
 }
 
 function updateTables()
