@@ -751,13 +751,13 @@ $(document).on('click', '.set-pv-board', function(e) {
 
   if (pvColor == 'white') {
     activePv = whitePv;
-    pvBoard.orientation('white');
+    // pvBoard.orientation('white');
   } else if (pvColor == 'black') {
     activePv = blackPv;
-    pvBoard.orientation('black');
+    // pvBoard.orientation('black');
   } else {
     activePv = livePv;
-    pvBoard.orientation('white');
+    // pvBoard.orientation('white');
   }
 
   setPvFromKey(moveKey);
@@ -860,6 +860,11 @@ $('#pv-board-next').click(function(e) {
 
 $('#pv-board-to-last').click(function(e) {
   setPvFromKey(activePv.length - 1);
+  e.preventDefault();
+});
+
+$('#pv-board-reverse').click(function(e) {
+  pvBoard.flip();
   e.preventDefault();
 });
 
