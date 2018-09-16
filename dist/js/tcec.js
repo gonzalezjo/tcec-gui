@@ -1047,6 +1047,19 @@ function setBoard()
    localStorage.setItem('tcec-piece-theme', ptheme);
    $('input[value='+ptheme+']').prop('checked', true);
    $('input[value='+btheme+'b]').prop('checked', true);
+
+   var fen = pvBoard.fen();
+   pvBoard =  ChessBoard('pv-board', {
+      pieceTheme: window[ptheme + "_piece_theme"],
+      position: 'start',
+      onMoveEnd: onMoveEnd,
+      moveSpeed: 1,
+      appearSpeed: 1,
+      boardTheme: window[btheme + "_board_theme"]
+   });
+   pvBoard.position(fen, false);
+   localStorage.setItem('tcec-board-theme', btheme);
+   localStorage.setItem('tcec-piece-theme', ptheme);
 }
 
 function updateTables()
