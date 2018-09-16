@@ -45,7 +45,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="tcecpointer nav-link py-0" id="refreshBoard" title="Refresh the board">
+              <a class="tcecpointer nav-link py-0 refreshBoard" title="Refresh the board">
                 <i class="fa fa-sync"></i>
               </a>
             </li>
@@ -270,6 +270,11 @@
               <span class="h5 d-inline board-bottom-engine-eval white-engine-eval">
               </span>
             </div>
+            <div class="col-12 d-inline-block d-sm-none d-md-none d-lg-none d-xl-none text-center"">
+              <a class="tcecpointer nav-link py-0 refreshBoard" title="Refresh the board">
+                <i class="fa fa-sync"></i> Refresh Game
+              </a>
+            </div>
           </div>
 
           <div class="navigation-buttons row text-center" style="margin-top: 5px; margin-left: 0">
@@ -446,6 +451,11 @@
                     TB
                   </a>
                     </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="v-pills-pv-tab" data-toggle="pill" href="#v-pills-pv" role="tab" aria-controls="v-pills-pv" aria-selected="false">
+                        PV
+                      </a>
+                    </li>
                   </ul>
               </div>
               <div class="col-12">
@@ -454,16 +464,19 @@
                     <canvas height="285" id="eval-graph"></canvas>
                   </div>
                   <div class="tab-pane fade show" id="v-pills-time" role="tabpanel" aria-labelledby="v-pills-time-tab">
-                    <canvas height="178" id="time-graph"></canvas>
+                    <canvas height="285" id="time-graph"></canvas>
                   </div>
                   <div class="tab-pane fade" id="v-pills-speed" role="tabpanel" aria-labelledby="v-pills-speed-tab">
-                    <canvas height="178" id="speed-graph"></canvas>
+                    <canvas height="285" id="speed-graph"></canvas>
                   </div>
                   <div class="tab-pane fade" id="v-pills-depth" role="tabpanel" aria-labelledby="v-pills-depth-tab">
-                    <canvas height="178" id="depth-graph"></canvas>
+                    <canvas height="285" id="depth-graph"></canvas>
                   </div>
                   <div class="tab-pane fade" id="v-pills-tbhits" role="tabpanel" aria-labelledby="v-pills-tbhits-tab">
-                    <canvas height="178" id="tbhits-graph"></canvas>
+                    <canvas height="285" id="tbhits-graph"></canvas>
+                  </div>
+                  <div class="tab-pain fade" id="v-pills-pv" role="tabpanel" aria-labelledby="v-pills-pv">
+                    <div id="pv-board" style="height: 285px"></div>
                   </div>
                 </div>
               </div>
@@ -807,6 +820,13 @@
          appearSpeed: 1
       });
 
+      var pv-board =  ChessBoard('pv-board', {
+         position: 'start',
+         onMoveEnd: onMoveEnd,
+         moveSpeed: 1,
+         appearSpeed: 1
+      });
+
       $('.toggleDark').click(function() {
         var darkMode = localStorage.getItem('tcec-dark-mode');
         if (darkMode == 20) {
@@ -819,7 +839,7 @@
         $(".navbar-toggle").click();
       });
 
-      $('#refreshBoard').on('click', function() {
+      $('.refreshBoard').on('click', function() {
         updatePgn();
       });
 

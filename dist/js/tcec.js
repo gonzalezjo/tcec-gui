@@ -724,6 +724,7 @@ function handlePlyChange(handleclick)
 
 function setMoveMaterial(material, whiteToPlay)
 {
+  whiteToPlay = !whiteToPlay;
   _.forOwn(material, function(value, key) {
     setPieces(key, value, whiteToPlay);
   })
@@ -731,10 +732,10 @@ function setMoveMaterial(material, whiteToPlay)
 
 function setPieces(piece, value, whiteToPlay) {
   var target = 'white-material';
-  var color = 'b';
+  var color = 'w';
   if ((whiteToPlay && value > 0) || (!whiteToPlay && value < 0)) {
     target = 'black-material';
-    color = 'w';
+    color = 'b';
   }
   
   value = Math.abs(value);
