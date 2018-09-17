@@ -239,7 +239,7 @@ $(function() {
 				  		nodes = Math.round (nodes / 100000) / 10;
 				  		nodes += 'M'
 				  	}
-				    return value + '(' + nodes + ')';
+				    return value + ' (' + nodes + ' nodes)';
 	            }
 	      } // end callbacks:
 	    },
