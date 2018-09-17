@@ -196,7 +196,6 @@
         </div>
         <div class="col-md-6 col-6 text-center">
           <div id="google_adverts">
-            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             <!-- TCEC beta -->
             <ins class="adsbygoogle"
                 style="display:block;"
@@ -204,6 +203,9 @@
                 data-ad-slot="9455537361"
                 data-ad-format="auto"
                 data-full-width-responsive="true"></ins>
+            <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
           </div>
           <div id="encouragement" style="display: none;">
             TCEC is based on voluntary work. Please consider whitelisting http://tcec.chessdom.com in your ad blocker - or send a donation. Thank you!
@@ -270,7 +272,7 @@
               <span class="h5 d-inline board-bottom-engine-eval white-engine-eval">
               </span>
             </div>
-            <div class="col-12 d-inline-block d-sm-none d-md-none d-lg-none d-xl-none text-center"">
+            <div class="col-12 d-inline-block d-sm-none d-md-none d-lg-none d-xl-none text-center">
               <a class="tcecpointer nav-link py-0 refreshBoard" title="Refresh the board">
                 <i class="fa fa-sync"></i> Refresh Game
               </a>
@@ -368,9 +370,16 @@
               </div>
             </div>
           </div>
-
-          <br>
-
+         
+          <div class="text-center">
+            <!-- Automatic -->
+            <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px"
+     data-full-width-responsive="true" data-ad-client="ca-pub-6544406400639567" data-ad-slot="2712361177"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+         </div>
+   
           <div id="white-engine-information" class="border">
             <div class="row text-center">
               <div class="col-md-4 col-sm-6 col-4">
@@ -577,19 +586,7 @@
       <br>
 
       <div class="row d-none d-sm-block">
-          <div class="col-md-6">
-            <!-- TCEC beta -->
-            <ins class="adsbygoogle"
-                style="display:block;"
-                data-ad-client="ca-pub-6544406400639567"
-                data-ad-slot="9455537361"
-                data-ad-format="auto"
-                data-full-width-responsive="true"></ins>
-            <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-          </div>
-          <div class="col-md-6 text-center">
+          <div class="col-md-12 text-center">
             <iframe
                 id="twitchvid"
                 height="400"
@@ -677,7 +674,7 @@
                 TCEC runs 24/7 until all games have been played. One game is played at a time - the next one starts automatically.<br><br>
 
                 <b>Time control</b><br>
-                Classical time control will be used through the season and it is increased the deeper the Season goes. For Division 2, 3 and 4, the time control is 30 minutes + 10 seconds added per move for the whole game. For Division 1, the time control is 60 minutes + 10 seconds added per move for the whole game. For Division Premier, the time control is 90 minutes + 10 seconds added per move for the whole game. For the Superfinal, the time control is 120 minutes + 15 seconds added per move for the whole game. If an engine loses on time, the result will not be changed or the game replayed. If the TCEC game server locks up at any time during a game (BSOD, freeze etc), that game will be restarted unless the last position was a 6-man or less tablebase position, then it will be manually adjudicated. Prior to Season 9, different time controls have been used. Check the individual games in the "Archive page"" for info.<br><br>
+                Classical time control will be used through the season and it is increased the deeper the Season goes. For Division 2, 3 and 4, the time control is 30 minutes + 10 seconds added per move for the whole game. For Division 1, the time control is 60 minutes + 10 seconds added per move for the whole game. For Division Premier, the time control is 90 minutes + 10 seconds added per move for the whole game. For the Superfinal, the time control is 120 minutes + 15 seconds added per move for the whole game. If an engine loses on time, the result will not be changed or the game replayed. If the TCEC game server locks up at any time during a game (BSOD, freeze etc), that game will be restarted unless the last position was a 6-man or less tablebase position, then it will be manually adjudicated. Prior to Season 9, different time controls have been used. Check the individual games in the "Archive page" for info.<br><br>
 
                 <b>Game adjudication</b><br>
                 A game can be drawn by the normal 3-fold repetition rule or the 50-move rule. However, a game can also be drawn at move 40 or later if the eval from both playing engines are within +0.05 to -0.05 pawns for the last 5 moves, or 10 plies. If there is a pawn advance, or a capture by any kind, this special draw rule will reset and start over. In the website this rule is shown as "TCEC draw rule" with a number indicating how many plies there are left until it kicks in. It will adjudicate as won for one side if both playing engines have an eval of at least 6.50 pawns (or -6.50 in case of a black win) for 4 consecutive moves, or 8 plies - this rule is in effect as soon as the game starts. In the website this rule is shown as "TCEC win rule" with a number indicating how many plies there are left until it kicks in. Cutechess will also adjudicate 5-men or less endgame positions automatically with Gaviota tablebases.  The Gaviota adjudication ignores the 50-move rule.<br><br>
@@ -842,9 +839,10 @@
     <script src="dist/js/graphs.js?v=10000000000000000000042"></script>
     <script src="dist/js/chessboard.js?v=10000000000000000000042"></script>
     <script src="dist/js/tcec.js?v=10000000000000000000042"></script>
-    <script src="http://172.93.55.172:8888/socket.io/socket.io.js"></script>
+    <script src="http://172.93.55.172:8080/socket.io/socket.io.js"></script>
     <script src="dist/js/bootstrap-4-navbar.js?v=1000000000000000000042"></script>
 
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
     <script>
       $(document).ready(function () {
@@ -1052,7 +1050,7 @@
       });
 
 
-      var socket = io.connect('http://172.93.55.172:8888');
+      var socket = io.connect('http://172.93.55.172:8080');
       if (0)
       {
       $(document).ready(function () {
