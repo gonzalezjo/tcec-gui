@@ -863,6 +863,23 @@ $('#pv-board-to-last').click(function(e) {
   e.preventDefault();
 });
 
+$('#pv-board-black').click(function(e) {
+  activePv = blackPv;
+  setPvFromKey(0);
+  e.preventDefault();
+});
+
+$('#pv-board-white').click(function(e) {
+  activePv = whitePv;
+  setPvFromKey(0);
+  e.preventDefault();
+});
+
+$('#pv-board-to-last').click(function(e) {
+  setPvFromKey(activePv.length - 1);
+  e.preventDefault();
+});
+
 $('#pv-board-reverse').click(function(e) {
   pvBoard.flip();
   e.preventDefault();
