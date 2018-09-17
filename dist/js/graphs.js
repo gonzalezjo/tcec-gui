@@ -236,7 +236,7 @@ $(function() {
 			  			nodes = Math.round (nodes / 10000000) / 100000;
 				  		nodes += 'B'
 				  	} else {
-				  		nodes = Math.round (nodes / 10000) / 100000;
+				  		nodes = Math.round (nodes / 10000) / 100;
 				  		nodes += 'M'
 				  	}
 				    return value + '(' + nodes + ')';
