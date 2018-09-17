@@ -233,7 +233,7 @@ $(function() {
 
 				  	var nodes = parseInt(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].nodes);
 	                if (nodes >= 1000000000) {
-			  			nodes = Math.round (nodes / 1000000000) / 10;
+			  			nodes = Math.round (nodes / 100000000) / 10;
 				  		nodes += 'B'
 				  	} else {
 				  		nodes = Math.round (nodes / 100000) / 10;
