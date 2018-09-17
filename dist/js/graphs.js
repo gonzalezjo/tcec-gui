@@ -68,7 +68,7 @@ var speedChartData = {
     fill: false,
     data: [
     ],
-    yAxisID: 'y-axis-1',
+    yAxisID: 'tb-y-axis-1',
   }, {
     label: 'Black Engine Speed',
     lineTension: 0,
@@ -78,7 +78,7 @@ var speedChartData = {
     fill: false,
     data: [
     ],
-    yAxisID: 'y-axis-2'
+    yAxisID: 'tb-y-axis-2'
   }]
 };
 
@@ -112,6 +112,7 @@ var tbHitsChartData = {
     borderColor: '#EFEFEF',
     backgroundColor: '#EFEFEF',
     fill: false,
+    yAxisID: 'y-axis-1',
     data: [
     ]
   }, {
@@ -119,8 +120,8 @@ var tbHitsChartData = {
     lineTension: 0,
     borderColor: '#000000',
     backgroundColor: '#FFFFFF',
-    
     fill: false,
+    yAxisID: 'y-axis-2',
     data: [
     ]
   }]
@@ -330,7 +331,40 @@ $(function() {
 	        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
 	        display: true,
 	        position: 'left',
-	        id: 'y-axis-1',
+	        id: 'tb-y-axis-1',
+	        ticks: {
+			  callback: function(value, index, values) {
+			  	if (value >= 1000000) {
+			  		value = Math.round (value / 100000) / 10;
+			  		value += 'M'
+			  	} else {
+			  		value = Math.round (value / 100) / 10;
+			  		value += 'K'
+			  	}
+			    return value;
+			  }
+			}
+	      }, {
+	        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+	        display: true,
+	        position: 'right',
+	        id: 'tb-y-axis-2',
+	        // grid line settings
+	        gridLines: {
+	          drawOnChartArea: false, // only want the grid lines for one axis to show up
+	        },
+	        ticks: {
+			  callback: function(value, index, values) {
+			  	if (value >= 1000000) {
+			  		value = Math.round (value / 100000) / 10;
+			  		value += 'M'
+			  	} else {
+			  		value = Math.round (value / 100) / 10;
+			  		value += 'K'
+			  	}
+			    return value;
+			  }
+			}
 	      }],
 	      xAxes: [{
 	      	ticks: {
