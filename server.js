@@ -8,12 +8,10 @@ var path = require('path');
 const md5 = require('md5');
 const axios = require('axios');
 var chokidar = require('chokidar');
+var _ = require('lodash');
+var lastPgnTime = Date.now();
 
 const pid = process.pid;
-
-// first parameter is the mount point, second is the location in the file system
-var app = express();
-app.use(express.static(__dirname));
 
 if (typeof process.argv[2] == 'undefined')
 {
@@ -26,12 +24,12 @@ else
 
 console.log ("Port is " + portnum);
 
+// first parameter is the mount point, second is the location in the file system
+var app = express();
+app.use(express.static(__dirname));
 var server = require('http').createServer(app);  
 server.listen(parseInt(portnum));
-var listener = io.listen(server);
-
-   //send data to client
-var lastPgnTime = Date.now();
+var listener = io.listen(server);                                                                                                                                                                                                             
 
 var watcher = chokidar.watch('json/crosstable.json', {
       persistent: true,
@@ -39,8 +37,8 @@ var watcher = chokidar.watch('json/crosstable.json', {
       followSymlinks: true,
       disableGlobbing: false,
       usePolling: true,
-      interval: 1000,
-      binaryInterval: 1000,
+      interval: 500,
+      binaryInterval: 500,
       alwaysStat: false,
       depth: 99,
       //awaitWriteFinish: {
@@ -52,12 +50,12 @@ var watcher = chokidar.watch('json/crosstable.json', {
 var liveeval = 'json/data.json';
 var ctable = 'json/crosstable.json';
 watcher.add(liveeval);
-watcher.add('json/live.json');
+watcher.add('live.json');
 watcher.add('json/schedule.json');
 watcher.add('json/liveeval.json');
 
 var count = 0;
-var socket = '';
+var socket = 0;
 var totalCount = 0;
 
 listener.sockets.on('connection', function(s){
@@ -68,6 +66,7 @@ listener.sockets.on('connection', function(s){
       totalCount = count;
    }
    socket.broadcast.emit('users', {'count': totalCount});
+   console.log ("coutn connected:" + count);
 
    socket.on('disconnect', function(){
        count--;
@@ -76,7 +75,7 @@ listener.sockets.on('connection', function(s){
 
    //recieve client data
    socket.on('getLastmovetime', function(data){
-      socket.emit('lastpgntime', lastPgnTime);
+      socket.broadcast.emit('lastpgntime', lastPgnTime);
       process.stdout.write('req came' + lastPgnTime);
    });
 
@@ -84,24 +83,141 @@ listener.sockets.on('connection', function(s){
 
 var liveChartInterval = setInterval(function() { process.send({'workers': count}) }, 15000);
 
+function broadCastData(socket, message, file, currData, prevData)
+{
+   var a = JSON.stringify(currData);
+   var b = JSON.stringify(prevData);
+
+   if (a == b)
+   {
+      //console.log ("File "+ file + " did not change:" + a + ",b" + b);
+      console.log ("File "+ file + " did not change:");
+      return;
+   }
+   socket.broadcast.emit(message, currData); 
+}
+
+function checkSend(currData, prevData)
+{
+   var a = JSON.stringify(currData);                                                                                                                                                                                                          
+   var b = JSON.stringify(prevData);                                                                                                                                                                                                          
+                                                                                                                                                                                                                                              
+   if (a == b)                                                                                                                                                                                                                                
+   {                                                                                                                                                                                                                                          
+      //console.log ("File "+ file + " did not change:" + a + ",b" + b);                                                                                                                                                                      
+      console.log ("File "+ file + " did not change:");                                                                                                                                                                                       
+      return 0;
+   }                    
+   else
+   {
+      return 1;
+   }
+}
+
+function getDeltaPgn1(pgn)
+{
+   var count = 0;
+   console.log ("came here");
+   
+   _.eachRight(pgn.Moves, function(move, key) {
+      move.Moveno = key + 1;
+   });
+   //_.drop(pgn.Moves, pgn.Moves.length - 10);
+   _.drop(pgn.Moves, 3);
+   _.eachRight(pgn.Moves, function(move, key) {
+      console.log ("pgn.Moves.Moveno is " + move.Moveno);
+   });
+   return pgn;
+}
+
+function getDeltaPgn(pgnX)
+{
+   var pgn = {};
+   var count = 0;
+   console.log ("came here");
+
+   if (prevData && JSON.stringify(prevData.Headers) != JSON.stringify(pgnX.Headers))
+   {
+      return pgnX;
+   }
+   
+   console.log ("Found prev data");
+
+  var keys = _.keys(pgnX);
+  _.each(keys, function(index, key) {
+      if (index != "Moves")
+      { 
+         pgn[index] = pgnX[index];
+      }
+      else
+      {
+         console.log ("Noy copying moves");
+      }
+  });
+
+   pgn.Moves = [];
+   _.eachRight(pgnX.Moves, function(move, key) {
+      pgn.Moves[key] = {};
+      if (count <= 8)
+      {
+         pgn.Moves[key]= pgnX.Moves[key];
+         pgn.Moves[key].Moveno = key + 1;
+      }
+      else
+      {
+         pgn.Moves[key].Moveno = 0;
+      }
+      count = count + 1;
+   });
+
+   _.each(pgn.Moves, function(move, key) {
+      if (pgn.Moves[key])
+      {
+         //console.log ("pgnX.Moves.Moveno is " + move.Moveno + ",length:" + pgnX.Moves.length);
+      }
+   });
+   return pgn;
+}
+
+
+var prevData = 0;
+var prevliveData = 0;
+var prevevalData = 0;
 watcher.on('change', (path, stats) => {
    console.log ("path changed:" + path + ",count is " + count);
+   if (!socket)
+   {
+      return;
+   }
    var content = fs.readFileSync(path, "utf8");
    try 
    {
       var data = JSON.parse(content);
-      if (path.match(/data/))
+      if (path.match(/data.json/))
       {
-         socket.broadcast.emit('liveeval', data);
+         broadCastData(socket, 'liveeval', path, data, prevliveData);
+         prevliveData = data;
       }
       if (path.match(/liveeval.json/))
       {
-         socket.broadcast.emit('livechart', data);
+         broadCastData(socket, 'livechart', path, data, prevevalData);
+         prevevalData = data;
       }
       if (path.match(/live.json/))
       {
-         socket.broadcast.emit('pgn', data);
-         lastPgnTime = Date.now(); 
+         console.log ("json changed");
+         var delta = {};
+         var changed = checkSend(data, prevData);
+         if (changed)
+         {
+            delta = getDeltaPgn(data, prevData);
+            //broadCastData(socket, 'pgn', path, delta, delta);
+            socket.emit('pgn', delta); 
+            socket.broadcast.emit('pgn', delta); 
+            console.log ("Sent pgn is " + JSON.stringify(delta).length + ",orig" + JSON.stringify(data).length);
+            lastPgnTime = Date.now(); 
+         }
+         prevData = data;
       }
       if (path.match(/crosstable/))
       {
