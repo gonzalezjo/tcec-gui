@@ -877,11 +877,11 @@ function setMoveMaterial(material, whiteToPlay)
 }
 
 function setPieces(piece, value, whiteToPlay) {
-  var target = 'white-material';
-  var color = 'w';
+  var target = 'black-material';
+  var color = 'b';
   if ((whiteToPlay && value > 0) || (!whiteToPlay && value < 0)) {
-    target = 'black-material';
-    color = 'b';
+    target = 'white-material';
+    color = 'w';
   }
   
   value = Math.abs(value);
