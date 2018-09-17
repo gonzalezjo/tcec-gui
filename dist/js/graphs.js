@@ -68,7 +68,7 @@ var speedChartData = {
     fill: false,
     data: [
     ],
-    yAxisID: 'tb-y-axis-1',
+    yAxisID: 'y-axis-1',
   }, {
     label: 'Black Engine Speed',
     lineTension: 0,
@@ -78,7 +78,7 @@ var speedChartData = {
     fill: false,
     data: [
     ],
-    yAxisID: 'tb-y-axis-2'
+    yAxisID: 'y-axis-2'
   }]
 };
 
@@ -112,7 +112,7 @@ var tbHitsChartData = {
     borderColor: '#EFEFEF',
     backgroundColor: '#EFEFEF',
     fill: false,
-    yAxisID: 'y-axis-1',
+    yAxisID: 'tb-y-axis-1',
     data: [
     ]
   }, {
@@ -121,7 +121,7 @@ var tbHitsChartData = {
     borderColor: '#000000',
     backgroundColor: '#FFFFFF',
     fill: false,
-    yAxisID: 'y-axis-2',
+    yAxisID: 'tb-y-axis-2',
     data: [
     ]
   }]
@@ -166,7 +166,7 @@ $(function() {
 	        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
 	        display: true,
 	        position: 'left',
-	        id: 'y-axis-1',
+	        id: 'e-y-axis-1',
 	      }],
 	      xAxes: [{
 	      	ticks: {
@@ -195,7 +195,7 @@ $(function() {
 	        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
 	        display: true,
 	        position: 'left',
-	        id: 'y-axis-1',
+	        id: 't-y-axis-1',
 	      }],
 	      xAxes: [{
 	      	ticks: {
@@ -302,7 +302,7 @@ $(function() {
 	        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
 	        display: true,
 	        position: 'left',
-	        id: 'y-axis-1',
+	        id: 'd-y-axis-1',
 	      }],
 	      xAxes: [{
 	      	ticks: {
