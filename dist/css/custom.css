@@ -166,9 +166,10 @@ canvas {
 
 .engine-pv
 {
+   padding: 3px;
    overflow-y: scroll;
    font-size: small;
-   height:70px;
+   height: 48px;
    margin-bottom: 5px;
 }
 

@@ -131,7 +131,7 @@ function getDeltaPgn1(pgn)
 }
 
 /* Deltapgn: Configure this to less value for less data */
-var numMovesToSend = 8;
+var numMovesToSend = 4;
 
 function getDeltaPgn(pgnX)
 {
