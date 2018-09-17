@@ -230,7 +230,16 @@ $(function() {
 				  		value = Math.round (value / 10) / 100;
 				  		value += 'Knps'
 				  	}
-				    return value;
+
+				  	var nodes = parseInt(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].nodes);
+	                if (nodes >= 1000000000) {
+			  			nodes = Math.round (nodes / 10000000) / 100000;
+				  		nodes += 'B'
+				  	} else {
+				  		nodes = Math.round (nodes / 10000) / 100000;
+				  		nodes += 'M'
+				  	}
+				    return value + '(' + nodes + ')';
 	            }
 	      } // end callbacks:
 	    },
@@ -465,7 +474,8 @@ function updateChartData()
 			speed = [
 				{
 					'x': moveNumber,
-					'y': move.s
+					'y': move.s,
+					'nodes': move.n
 				}
 			];
 
