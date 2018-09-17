@@ -37,8 +37,8 @@ var watcher = chokidar.watch('json/crosstable.json', {
       followSymlinks: true,
       disableGlobbing: false,
       usePolling: true,
-      interval: 500,
-      binaryInterval: 500,
+      interval: 100,
+      binaryInterval: 100,
       alwaysStat: false,
       depth: 99,
       //awaitWriteFinish: {
@@ -99,10 +99,10 @@ function broadCastData(socket, message, file, currData, prevData)
 
 function checkSend(currData, prevData)
 {
-   var a = JSON.stringify(currData);                                                                                                                                                                                                          
-   var b = JSON.stringify(prevData);                                                                                                                                                                                                          
-                                                                                                                                                                                                                                              
-   if (a == b)                                                                                                                                                                                                                                
+   var a = JSON.stringify(currData);
+   var b = JSON.stringify(prevData);
+
+   if (a == b)
    {                                                                                                                                                                                                                                          
       //console.log ("File "+ file + " did not change:" + a + ",b" + b);                                                                                                                                                                      
       console.log ("File "+ file + " did not change:");                                                                                                                                                                                       
@@ -138,8 +138,10 @@ function getDeltaPgn(pgnX)
 
    if (prevData && JSON.stringify(prevData.Headers) != JSON.stringify(pgnX.Headers))
    {
+      pgnX.gameChanged = 1;
       return pgnX;
    }
+   pgnX.gameChanged = 0;
    
    console.log ("Found prev data");
 
@@ -214,7 +216,7 @@ watcher.on('change', (path, stats) => {
             //broadCastData(socket, 'pgn', path, delta, delta);
             socket.emit('pgn', delta); 
             socket.broadcast.emit('pgn', delta); 
-            console.log ("Sent pgn is " + JSON.stringify(delta).length + ",orig" + JSON.stringify(data).length);
+            console.log ("Sent pgn data:" + JSON.stringify(delta).length + ",orig" + JSON.stringify(data).length + ",changed" + delta.gameChanged);
             lastPgnTime = Date.now(); 
          }
          prevData = data;

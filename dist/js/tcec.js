@@ -206,6 +206,12 @@ function setPgn(pgn)
 
    console.log ("Came to setpgn");
 
+   if (pgn.gameChanged)
+   {
+      console.log ("Came to setpgn need to reread dataa");
+      prevPgnData = 0;
+   }
+
    if (prevPgnData)
    {
       _.each(prevPgnData.Moves, function(move, key) {
