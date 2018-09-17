@@ -842,7 +842,7 @@
     <script src="dist/js/graphs.js?v=10000000000000000000042"></script>
     <script src="dist/js/chessboard.js?v=10000000000000000000042"></script>
     <script src="dist/js/tcec.js?v=10000000000000000000042"></script>
-    <script src="http://172.93.55.172:8888/socket.io/socket.io.js"></script>
+    <script src="http://172.93.55.172:8181/socket.io/socket.io.js"></script>
     <script src="dist/js/bootstrap-4-navbar.js?v=1000000000000000000042"></script>
 
 
@@ -1052,7 +1052,8 @@
       });
 
 
-      var socket = io.connect('http://172.93.55.172:8888');
+      var socket = io.connect('http://172.93.55.172:8181');
+     
       if (0)
       {
       $(document).ready(function () {
@@ -1067,6 +1068,7 @@
          updateLiveEvalData(data);
          });
       socket.on('pgn', function(data){
+         console.log ("XXX: Sending updatePgnData");
          updatePgnData(data, 1);
          });
       socket.on('schedule', function(data){

@@ -25,7 +25,7 @@ if (cluster.isMaster)
       for (const id in cluster.workers) 
       {
          console.log("Calling callback for id:" + id + ",count:" + count);
-         callback(cluster.workers[id]);
+         //callback(cluster.workers[id]);
       }
    }
 
