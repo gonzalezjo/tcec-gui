@@ -801,8 +801,6 @@ function setPvFromKey(moveKey)
   $('.active-pv-move').removeClass('active-pv-move');
   $(this).addClass('active-pv-move');
 
-  viewingActiveMove = false;
-
   pvBoardEl.find('.' + squareClass).removeClass('highlight-white');
   pvBoardEl.find('.square-' + moveFrom).addClass('highlight-white');
   pvBoardEl.find('.square-' + moveTo).addClass('highlight-white');
