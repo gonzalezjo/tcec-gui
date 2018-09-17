@@ -428,11 +428,19 @@ function setInfoFromCurrentHeaders()
 {
   var header = loadedPgn.Headers.White;
   $('.white-engine-name').html(header);
-  var imgsrc = 'img/engines/' + header.substring(0, header.indexOf(' ')) + '.jpg';
+  var name = header;
+  if (header.indexOf(' ') > 0) {
+    name = header.substring(0, header.indexOf(' '))
+  }
+  var imgsrc = 'img/engines/' + name + '.jpg';
   $('#white-engine').attr('src', imgsrc);
   header = loadedPgn.Headers.Black;
   $('.black-engine-name').html(header);
-  var imgsrc = 'img/engines/' + header.substring(0, header.indexOf(' ')) + '.jpg';
+  name = header;
+  if (header.indexOf(' ') > 0) {
+    name = header.substring(0, header.indexOf(' '))
+  }
+  var imgsrc = 'img/engines/' + name + '.jpg';
   $('#black-engine').attr('src', imgsrc);
 }
 
