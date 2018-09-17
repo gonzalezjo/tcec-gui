@@ -54,7 +54,7 @@
                   Options
                </a>
                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li class="nav-item dropdown">
+                  <ul class="nav-item dropdown">
                      <li><a class="dropdown-item dropdown-toggle" href="#">Download</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown06">
                            <a class="dropdown-item" href="http://tcec.chessdom.com/archive/crosstable.json" target="_blank">Crosstable</a>
@@ -63,7 +63,7 @@
                            <a class="dropdown-item" href="http://tcec.chessdom.com/live/live.pgn" target="_blank">Current PGN</a>
                         </div>
                      </li>
-                  </li>
+                  </ul>
                   <div class="dropdown-divider"></div>
                   <li><a class="dropdown-item dropdown-toggle" href="#">Themes</a>
                      <ul class="dropdown-menu">
@@ -370,15 +370,8 @@
               </div>
             </div>
           </div>
-         
-          <div class="text-center">
-            <!-- Automatic -->
-            <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px"
-     data-full-width-responsive="true" data-ad-client="ca-pub-6544406400639567" data-ad-slot="2712361177"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-         </div>
+
+          <br>
    
           <div id="white-engine-information" class="border">
             <div class="row text-center">
@@ -539,6 +532,15 @@
                 </div>
               </div>
             </div>
+          </div>
+
+          <div class="text-center">
+            <!-- Automatic -->
+            <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px"
+                 data-full-width-responsive="true" data-ad-client="ca-pub-6544406400639567" data-ad-slot="2712361177"></ins>
+            <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
           </div>
         </div>
 
@@ -839,7 +841,7 @@
     <script src="dist/js/graphs.js?v=10000000000000000000042"></script>
     <script src="dist/js/chessboard.js?v=10000000000000000000042"></script>
     <script src="dist/js/tcec.js?v=10000000000000000000042"></script>
-    <script src="http://172.93.55.172:8080/socket.io/socket.io.js"></script>
+    <script src="http://172.93.55.172:8888/socket.io/socket.io.js"></script>
     <script src="dist/js/bootstrap-4-navbar.js?v=1000000000000000000042"></script>
 
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -1050,7 +1052,7 @@
       });
 
 
-      var socket = io.connect('http://172.93.55.172:8080');
+      var socket = io.connect('http://172.93.55.172:8888');
       if (0)
       {
       $(document).ready(function () {
