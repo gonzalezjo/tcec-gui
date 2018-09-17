@@ -130,6 +130,9 @@ function getDeltaPgn1(pgn)
    return pgn;
 }
 
+/* Deltapgn: Configure this to less value for less data */
+var numMovesToSend = 8;
+
 function getDeltaPgn(pgnX)
 {
    var pgn = {};
@@ -160,7 +163,7 @@ function getDeltaPgn(pgnX)
    pgn.Moves = [];
    _.eachRight(pgnX.Moves, function(move, key) {
       pgn.Moves[key] = {};
-      if (count <= 8)
+      if (count <= numMovesToSend)
       {
          pgn.Moves[key]= pgnX.Moves[key];
          pgn.Moves[key].Moveno = key + 1;
