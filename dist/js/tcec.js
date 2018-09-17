@@ -35,6 +35,7 @@ var pageNum = 1;
 var gamesDone = 0;
 var timeDiff = 0;
 var timeDiffRead = 0;
+var prevPgnData = 0;
 
 var onMoveEnd = function() {
   boardEl.find('.square-' + squareToHighlight)
@@ -66,6 +67,7 @@ function updatePgn()
          timeDiff = currTime.getTime() - lastMod.getTime();
       }
       console.log ("Setting time diff to " + timeDiff);
+      prevPgnData = 0;
       updatePgnData(response.data, 0);
    })
    .catch(function (error) {
@@ -200,18 +202,50 @@ function setUsers(data)
 
 function setPgn(pgn)
 {
-  var previousPosition = '';
-  if (typeof previousPosition == 'undefined') {
-    previousPosition = '';
-  }
-  if (previousPosition.length > 0) {
-    currentPosition = previousPosition;
-  }
+   var currentPlyCount = 0;
 
-  var currentPlyCount = 0;
-  if (typeof pgn.Moves != 'undefined') {
-    currentPlyCount = pgn.Moves.length;
-  }
+   console.log ("Came to setpgn");
+
+   if (prevPgnData)
+   {
+      _.each(prevPgnData.Moves, function(move, key) {
+         //console.log ("prev Ply is :" + move);
+      });
+
+      _.each(pgn.Moves, function(move, key) {
+         if (typeof move.Moveno != 'undefined' && parseInt(move.Moveno) > 0)
+         {
+            if (!prevPgnData.Moves[key])
+            {
+               console.log ("XXXXX : setting for moveno" + move.Moveno);// + ",key" + JSON.stringify(move));
+               prevPgnData.Moves.push(pgn.Moves[key]);
+            }
+         }
+      });
+
+      _.each(prevPgnData.Moves, function(move, key) {
+         //console.log ("After prev Ply is :" + move.Moveno);
+      });
+
+      prevPgnData.BlackEngineOptions = pgn.BlackEngineOptions;
+      prevPgnData.WhiteEngineOptions = pgn.WhiteEngineOptions;
+      prevPgnData.Headers = pgn.Headers;
+      pgn = prevPgnData;
+      loadedPgn = prevPgnData;
+   }
+   else
+   {
+   if (typeof pgn.Moves != 'undefined') 
+   {
+      console.log ("no prevpgn");
+      prevPgnData = pgn;
+   }
+   }
+
+   if (typeof pgn.Moves != 'undefined') 
+   {
+      currentPlyCount = pgn.Moves.length;
+   }
 
   var moveFrom = '';
   var moveTo = '';
@@ -416,6 +450,7 @@ function setPgn(pgn)
   });
   $('#engine-history').append(pgn.Headers.Result);
   $("#engine-history").scrollTop($("#engine-history")[0].scrollHeight);
+  console.log ("end Ply is :" + pgn.Moves.length);
 }
 
 function copyFen()
@@ -759,13 +794,13 @@ $(document).on('click', '.set-pv-board', function(e) {
 
   if (pvColor == 'white') {
     activePv = whitePv;
-    pvBoard.orientation('white');
+    // pvBoard.orientation('white');
   } else if (pvColor == 'black') {
     activePv = blackPv;
-    pvBoard.orientation('black');
+    // pvBoard.orientation('black');
   } else {
     activePv = livePv;
-    pvBoard.orientation('white');
+    // pvBoard.orientation('white');
   }
 
   setPvFromKey(moveKey);
@@ -868,6 +903,11 @@ $('#pv-board-next').click(function(e) {
 
 $('#pv-board-to-last').click(function(e) {
   setPvFromKey(activePv.length - 1);
+  e.preventDefault();
+});
+
+$('#pv-board-reverse').click(function(e) {
+  pvBoard.flip();
   e.preventDefault();
 });
 

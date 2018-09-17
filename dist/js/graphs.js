@@ -112,6 +112,7 @@ var tbHitsChartData = {
     borderColor: '#EFEFEF',
     backgroundColor: '#EFEFEF',
     fill: false,
+    yAxisID: 'tb-y-axis-1',
     data: [
     ]
   }, {
@@ -119,8 +120,8 @@ var tbHitsChartData = {
     lineTension: 0,
     borderColor: '#000000',
     backgroundColor: '#FFFFFF',
-    
     fill: false,
+    yAxisID: 'tb-y-axis-2',
     data: [
     ]
   }]
@@ -165,7 +166,7 @@ $(function() {
 	        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
 	        display: true,
 	        position: 'left',
-	        id: 'y-axis-1',
+	        id: 'e-y-axis-1',
 	      }],
 	      xAxes: [{
 	      	ticks: {
@@ -194,7 +195,7 @@ $(function() {
 	        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
 	        display: true,
 	        position: 'left',
-	        id: 'y-axis-1',
+	        id: 't-y-axis-1',
 	      }],
 	      xAxes: [{
 	      	ticks: {
@@ -229,7 +230,16 @@ $(function() {
 				  		value = Math.round (value / 10) / 100;
 				  		value += 'Knps'
 				  	}
-				    return value;
+
+				  	var nodes = parseInt(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].nodes);
+	                if (nodes >= 1000000000) {
+			  			nodes = Math.round (nodes / 100000000) / 10;
+				  		nodes += 'B'
+				  	} else {
+				  		nodes = Math.round (nodes / 100000) / 10;
+				  		nodes += 'M'
+				  	}
+				    return value + ' (' + nodes + ' nodes)';
 	            }
 	      } // end callbacks:
 	    },
@@ -301,7 +311,7 @@ $(function() {
 	        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
 	        display: true,
 	        position: 'left',
-	        id: 'y-axis-1',
+	        id: 'd-y-axis-1',
 	      }],
 	      xAxes: [{
 	      	ticks: {
@@ -330,7 +340,40 @@ $(function() {
 	        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
 	        display: true,
 	        position: 'left',
-	        id: 'y-axis-1',
+	        id: 'tb-y-axis-1',
+	        ticks: {
+			  callback: function(value, index, values) {
+			  	if (value >= 1000000) {
+			  		value = Math.round (value / 100000) / 10;
+			  		value += 'M'
+			  	} else {
+			  		value = Math.round (value / 100) / 10;
+			  		value += 'K'
+			  	}
+			    return value;
+			  }
+			}
+	      }, {
+	        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+	        display: true,
+	        position: 'right',
+	        id: 'tb-y-axis-2',
+	        // grid line settings
+	        gridLines: {
+	          drawOnChartArea: false, // only want the grid lines for one axis to show up
+	        },
+	        ticks: {
+			  callback: function(value, index, values) {
+			  	if (value >= 1000000) {
+			  		value = Math.round (value / 100000) / 10;
+			  		value += 'M'
+			  	} else {
+			  		value = Math.round (value / 100) / 10;
+			  		value += 'K'
+			  	}
+			    return value;
+			  }
+			}
 	      }],
 	      xAxes: [{
 	      	ticks: {
@@ -431,7 +474,8 @@ function updateChartData()
 			speed = [
 				{
 					'x': moveNumber,
-					'y': move.s
+					'y': move.s,
+					'nodes': move.n
 				}
 			];
 
