@@ -984,13 +984,13 @@
            sliderVale = 100;
         }
         var chatHeight = $("#board-container").height();
-        chatHeight = parseInt(chatHeight * sliderVale/100);
+        var chatHeight1 = parseInt(chatHeight * sliderVale/100);
 
-        $('#chatright').height(chatHeight);
+        $('#chatright').height(chatHeight1);
 
         $( window ).resize(function() {
           board.resize();
-          $('#chatright').height(chatHeight);
+          $('#chatright').height(chatHeight1);
           $('#chatright').width('100%');
         });
 
