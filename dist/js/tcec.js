@@ -1553,7 +1553,7 @@ function updateLiveEvalData(data)
         if (isNaN(move.charAt(0)) && move != '..') {
           pvLocation = livePv[moveCount];
           // moveContainer = _.union(moveContainer, ["<a href='#' class='set-pv-board' move-key='" + moveCount + "' color='live'>" + pvLocation.m + '</a>']);
-          moveContainer = _.union(moveContainer, pvLocation.m);
+          moveContainer = _.union(moveContainer, [pvLocation.m]);
           moveCount++;
         } else {
           moveContainer = _.union(moveContainer, [move]);
