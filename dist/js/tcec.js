@@ -1489,7 +1489,7 @@ function updateLiveEvalData(data)
 
      pvs = [];
 
-     console.log(datum.pv);
+     // console.log(datum.pv);
 
      if (datum.pv.length > 0 && datum.pv.trim() != "no info") {
       var chess = new Chess(activeFen);
@@ -1503,11 +1503,11 @@ function updateLiveEvalData(data)
 
             chess.move(move);
 
-            console.log(chess.history());
+            // console.log(chess.history());
 
             history = chess.history({ 'verbose': true });
 
-            console.log(history);
+            // console.log(history);
 
             currentLastMove = {'from':'', 'to':''}; //history[history.length - 1];
 
