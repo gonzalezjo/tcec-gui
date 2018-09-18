@@ -226,11 +226,13 @@ function setPgn(pgn)
          {
             setTimeout(function() { updateAll(); }, 100);
             console.log ("Need to update pgn bcos moves are not in syn");
+            return;
          }
          else if (parseFloat(prevPgnData.Headers.Round) != parseFloat(pgn.Headers.Round))
          {
             setTimeout(function() { updateAll(); }, 100);
             console.log ("Need to update pgn because header changed");
+            return;
          }
       }
    }
