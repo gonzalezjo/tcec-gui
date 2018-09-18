@@ -974,11 +974,6 @@
 
       $(function() {
 
-        if ($('#google_adverts').height() <= 0) {
-          $('#encouragement').show();
-        } else {
-          $('#encouragement').hide();
-        }
         var options = {
           sloppy: true
         };
@@ -1011,9 +1006,16 @@
                             { 
                                updateTables();
                             }, 5000);
+          window.setTimeout(function() 
+                            { 
+                               if ($('#google_adverts').height() <= 0) {
+                                 $('#encouragement').show();
+                               } else {
+                                 $('#encouragement').hide();
+                               }
+                            }, 15000);
          });
       });
-
 
       var socket = io.connect('http://172.93.55.172:8888');
      
