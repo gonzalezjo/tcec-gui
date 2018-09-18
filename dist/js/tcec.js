@@ -475,6 +475,7 @@ function setInfoFromCurrentHeaders()
   }
   var imgsrc = 'img/engines/' + name + '.jpg';
   $('#white-engine').attr('src', imgsrc);
+  $('#white-engine').attr('alt', header);
   header = loadedPgn.Headers.Black;
   $('.black-engine-name').html(header);
   name = header;
@@ -483,6 +484,7 @@ function setInfoFromCurrentHeaders()
   }
   var imgsrc = 'img/engines/' + name + '.jpg';
   $('#black-engine').attr('src', imgsrc);
+  $('#black-engine').attr('alt', header);
 }
 
 function getMoveFromPly(ply)
