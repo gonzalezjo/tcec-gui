@@ -44,6 +44,7 @@
                 FEN
               </a>
             </li>
+<!--
             <li class="nav-item">
               <a class="tcecpointer nav-link py-0 refreshBoard" title="Refresh the board">
                 <i class="fa fa-sync"></i>
@@ -54,6 +55,7 @@
                 <i class="fa fa-moon"></i>
               </a>
             </li>
+--!>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle py-0" href="http://tcecbeta.com" id="dd-download" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Download</a>
               <div class="dropdown-menu" aria-labelledby="dd-download">
@@ -267,38 +269,33 @@
             </div>
           </div>
 
-          <div class="navigation-buttons row text-center" style="margin-top: 5px; margin-left: 0; padding-right: 18px;">
-            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
-              <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-to-first">
-                <i class="fa fa-angle-double-left"></i>
-              </a>
-            </div>
-            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
-              <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-previous">
+          <div class="btn-group d-flex navigation-buttons" role="group">
+            <a href="#" class="btn btn-primary btn-sm w-100" id="board-to-first" style="border-right: 2px solid black">
+              <i class="fa fa-angle-double-left"></i>
+            </a>
+            <a href="#" class="btn btn-primary btn-sm w-100" id="board-previous" style="border-right: 2px solid black">
                 <i class="fa fa-angle-left"></i>
-              </a>
-            </div>
-            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
-              <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-autoplay">
+            </a>
+            <a href="#" class="btn btn-primary btn-sm w-100" id="board-autoplay" style="border-right: 2px solid black">
                 <i class="fa fa-play"></i>
-              </a>
-            </div>
-            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
-              <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-next">
+            </a>
+            <a href="#" class="btn btn-primary btn-sm w-100" id="board-next" style="border-right: 2px solid black">
                 <i class="fa fa-angle-right"></i>
-              </a>
-            </div>
-            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
-              <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-to-last">
+            </a>
+            <a href="#" class="btn btn-primary btn-sm w-100" id="board-to-last" style="border-right: 2px solid black">
                 <i class="fa fa-angle-double-right"></i>
-              </a>
-            </div>
-            <div class="col-2 col-md-2" style="padding: 0px; padding-left: 3px">
-              <a href="#" class="board-navigation btn btn-primary btn-sm" id="board-reverse">
+            </a>
+            <a href="#" class="btn btn-primary btn-sm w-100" id="board-reverse" style="border-right: 2px solid black">
                 <i class="fa fa-random"></i>
-              </a>
-            </div>
+            </a>
+            <a href="#" class="toggleDark btn btn-primary btn-sm w-100" id="board-to-theme" style="border-right: 2px solid black">
+                <i class="fa fa-moon"></i>
+            </a>
+            <a href="#" class="refreshBoard btn btn-primary btn-sm w-100" id="board-to-sync">
+                <i class="fa fa-sync"></i>
+            </a>
           </div>
+
           <br>
           <div id="engine-history"></div>
           <hr />
@@ -482,47 +479,29 @@
                         <div id="pv-board" style="width: 250px; margin-left: auto; margin-right: auto;"></div>
                       </div>
                     </div>
-                    <div class="row">
-                      <div class="col-2 col-sm-2 col-md-2">
-                        &nbsp;
-                      </div>
-                      <div class="col-1 col-sm-1 col-md-1" style="padding: 2px;">
-                        <a href="#" class="board-navigation btn btn-primary btn-sm" id="pv-board-black">
-                          <img src="img/chesspieces/wikipedia/bP.png" style="height: 16px" />                          
+                     <div class="btn-group d-flex navigation-buttons" style="width: 250px; margin-left: auto; margin-right: auto;"  role="group">
+                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-black" style="border-right: 2px solid black">
+                          <img src="img/chesspieces/wikipedia/bP.png" style="height: 16px" />
                         </a>
-                      </div>
-                      <div class="col-1 col-sm-1 col-md-1" style="padding: 2px;">
-                        <a href="#" class="board-navigation btn btn-primary btn-sm" id="pv-board-to-first">
+                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-to-first" style="border-right: 2px solid black">
                           <i class="fa fa-angle-double-left"></i>
                         </a>
-                      </div>
-                      <div class="col-1 col-sm-1 col-md-1" style="padding: 2px;">
-                        <a href="#" class="board-navigation btn btn-primary btn-sm" id="pv-board-previous">
+                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-previous" style="border-right: 2px solid black">
                           <i class="fa fa-angle-left"></i>
                         </a>
-                      </div>
-                      <div class="col-1 col-sm-1 col-md-1" style="padding: 2px;">
-                        <a href="#" class="board-navigation btn btn-primary btn-sm" id="pv-board-autoplay">
+                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-autoplay" style="border-right: 2px solid black">
                           <i class="fa fa-play"></i>
                         </a>
-                      </div>
-                      <div class="col-1 col-sm-1 col-md-1" style="padding: 2px;">
-                        <a href="#" class="board-navigation btn btn-primary btn-sm" id="pv-board-next">
+                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-next" style="border-right: 2px solid black">
                           <i class="fa fa-angle-right"></i>
                         </a>
-                      </div>
-                      <div class="col-1 col-sm-1 col-md-1" style="padding: 2px;">
-                        <a href="#" class="board-navigation btn btn-primary btn-sm" id="pv-board-to-last">
+                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-to-last" style="border-right: 2px solid black">
                           <i class="fa fa-angle-double-right"></i>
                         </a>
-                      </div>
-                      <div class="col-1 col-sm-1 col-md-1" style="padding: 2px;">
-                        <a href="#" class="board-navigation btn btn-primary btn-sm" id="pv-board-reverse">
+                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-reverse" style="border-right: 2px solid black">
                           <i class="fa fa-random"></i>
                         </a>
-                      </div>
-                      <div class="col-1 col-sm-1 col-md-1" style="padding: 2px;">
-                        <a href="#" class="board-navigation btn btn-primary btn-sm" id="pv-board-white">
+                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-white">
                           <img src="img/chesspieces/wikipedia/wP.png" style="height: 16px" />
                         </a>
                       </div>
