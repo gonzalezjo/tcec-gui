@@ -27,6 +27,8 @@ var activePly = 0;
 
 var loadedPgn = '';
 
+var activeFen = '';
+var lastMove = '';
 var currentPosition = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 var bookmove = 0;
 
@@ -311,8 +313,10 @@ function setPgn(pgn)
 
   eval = getEvalFromPly(pgn.Moves.length - 1);
 
+  activeFen = pgn.Moves[pgn.Moves.length - 1].fen;
   if (viewingActiveMove) {
     currentMove = pgn.Moves[pgn.Moves.length - 1];
+    lastMove = currentMove.to;
     setMoveMaterial(currentMove.material, 0);
   }
 
@@ -598,14 +602,16 @@ function updateMoveValues(whiteToPlay, whiteEval, blackEval)
    speed = whiteEval.speed;
 
    $('.white-engine-eval').html(whiteEval.eval);
-   $('.white-engine-speed').html(whiteEval.speed + ' ' + whiteEval.nodes);
+   $('.white-engine-speed').html(whiteEval.speed);
+   $('.white-engine-nodes').html(whiteEval.nodes);
    $('.white-engine-depth').html(whiteEval.depth);
    $('.white-engine-tbhits').html(whiteEval.tbhits);
    updateEnginePv('white', whiteToPlay, whiteEval.pv);
    $('.white-time-remaining').html(whiteEval.timeleft);
 
    $('.black-engine-eval').html(blackEval.eval);
-   $('.black-engine-speed').html(blackEval.speed + ' ' + blackEval.nodes);
+   $('.black-engine-speed').html(blackEval.speed);
+   $('.black-engine-nodes').html(blackEval.nodes);
    $('.black-engine-depth').html(blackEval.depth);
    $('.black-engine-tbhits').html(blackEval.tbhits);
    updateEnginePv('black', whiteToPlay, blackEval.pv);
@@ -959,18 +965,17 @@ $('#pv-board-reverse').click(function(e) {
 
 function setMoveMaterial(material, whiteToPlay)
 {
-  whiteToPlay = !whiteToPlay;
   _.forOwn(material, function(value, key) {
     setPieces(key, value, whiteToPlay);
   })
 }
 
 function setPieces(piece, value, whiteToPlay) {
-  var target = 'white-material';
-  var color = 'w';
-  if ((whiteToPlay && value > 0) || (!whiteToPlay && value < 0)) {
-    target = 'black-material';
-    color = 'b';
+  var target = 'black-material';
+  var color = 'b';
+  if ((whiteToPlay && value < 0) || (!whiteToPlay && value > 0)) {
+    target = 'white-material';
+    color = 'w';
   }
   
   value = Math.abs(value);
@@ -1458,41 +1463,108 @@ function updateLiveEvalInit()
 
 function updateLiveEvalData(data) 
 {
-   /* ARUN: Should do for all engines */
-   var score = 0;
-   var tbhits = data[0].tbhits;
-   if (!isNaN(data[0].eval))
-   {
-      score = parseFloat(data[0].eval);
-   }
-   else
-   {
-      score = data[0].eval;
-   }
+   var engineData = [];
+   _.each(data, function(datum) {
+     var score = 0;
+     var tbhits = datum.tbhits;
+     if (!isNaN(datum.eval))
+     {
+        score = parseFloat(datum.eval);
+     }
+     else
+     {
+        score = datum.eval;
+     }
 
-   var pv = data[0].pv;
-   pv = pv.split(/\s+/).slice(0,4).join(" ");
-   if (pv.search(/.*\.\.\..*/i) == 0)
-   {
+     if (datum.pv.search(/.*\.\.\..*/i) == 0)
+     {
       if (!isNaN(score))
       {
-         score = parseFloat(score) * -1;
-         if (score === 0)
-         {
-            score = 0;
-         }
+        score = parseFloat(score) * -1;
+        if (score === 0) {
+          score = 0;
+        }
       }
-   }
-   if (!isNaN(score))
-   {
-      score = score.toFixed(2);
-   }
-   tbhits= tbhits.toFixed(0);
-   tbhits = tbhits + "k";
-   data[0].eval = score;
-   data[0].pv = pv;
+     }
 
-   $('#live-eval').bootstrapTable('load', data);
+     pvs = [];
+
+     console.log(datum.pv);
+
+     if (datum.pv.length > 0 && datum.pv.trim() != "no info") {
+      var chess = new Chess(activeFen);
+
+      var currentLastMove = '';
+      var currentFen = activeFen;
+
+      datum.pv = datum.pv.replace("...", ". .. ");
+      _.each(datum.pv.split(' '), function(move) {
+          if (isNaN(move.charAt(0)) && move != '..') {
+
+            chess.move(move);
+
+            console.log(chess.history());
+
+            history = chess.history({ 'verbose': true });
+
+            console.log(history);
+
+            currentLastMove = {'from':'', 'to':''}; //history[history.length - 1];
+
+            newPv = {
+              'from': currentLastMove.from,
+              'to': currentLastMove.to,
+              'm': move,
+              'fen': currentFen
+            };
+
+            currentFen = chess.fen();
+            currentLastMove = move.slice(-2);
+
+            pvs = _.union(pvs, [newPv]);
+          }
+      });
+     }
+
+     if (pvs.length > 0) {
+      livePv = pvs;
+     }
+
+     if (score > 0) {
+      score = '+' + score;
+     }
+
+     datum.eval = score;
+     tbhits= tbhits.toFixed(0);
+     tbhits = tbhits + "k";
+
+     if (datum.pv.length > 0 && datum.pv != "no info") {
+      engineData = _.union(engineData, [datum]);
+    }
+  });
+
+  $('#live-eval-cont').html('');
+  _.each(engineData, function(engineDatum) {
+    $('#live-eval-cont').append('<h5>' + engineDatum.engine + ' PV ' + engineDatum.eval + '</h5><small>[Depth: ' + engineDatum.depth + ' Speed: ' + engineDatum.speed + ' ' + engineDatum.nodes + ' nodes]</small>');
+    var moveCount = 0;
+    var moveContainer = [];
+    if (livePv.length > 0) {
+      _.each(engineDatum.pv.split(' '), function(move) {
+        if (isNaN(move.charAt(0)) && move != '..') {
+          pvLocation = livePv[moveCount];
+          // moveContainer = _.union(moveContainer, ["<a href='#' class='set-pv-board' move-key='" + moveCount + "' color='live'>" + pvLocation.m + '</a>']);
+          moveContainer = _.union(moveContainer, pvLocation.m);
+          moveCount++;
+        } else {
+          moveContainer = _.union(moveContainer, [move]);
+        }
+      });
+    }
+    $('#live-eval-cont').append('<div class="engine-pv alert alert-dark">' + moveContainer.join(' ') + '</div>');
+  });
+
+
+   // $('#live-eval').bootstrapTable('load', engineData);
    // handle success
 }
 

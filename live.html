@@ -192,8 +192,8 @@
                 data-ad-format="auto"
                 data-full-width-responsive="true"></ins>
             <script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
           </div>
           <div id="encouragement" style="display: none;">
             TCEC is based on voluntary work. Please consider whitelisting http://tcec.chessdom.com in your ad blocker - or send a donation. Thank you!
@@ -301,114 +301,125 @@
           </div>
           <br>
           <div id="engine-history"></div>
-          <div id="live-eval-cont">
-            <table id="live-eval"></table>
-          </div>
+          <hr />
+          <div id="live-eval-cont"></div>
+          <h5><span class="black-engine-name"></span> PV (Black)</h5>
+          <div class="engine-pv alert alert-dark" id="black-engine-pv"></div>
+          <h5><span class="white-engine-name"></span> PV (White)</h5>
+          <div class="engine-pv alert alert-dark" id="white-engine-pv"></div>
         </div>
 
         <div class="col-md-4 col-sm-6 col-12" id="middle-data-column">
-          <div class="d-block d-sm-none d-md-none d-lg-none d-xl-none" style="height: 8px"></div>
-          <div id="black-engine-information" style="border:1px solid black">
-            <div class="row text-center">
-              <div class="col-md-4 col-sm-6 col-4">
-                <img src="img/tcec.jpg" alt="tcec" class="engineimage" id="black-engine" />
-              </div>
-              <div class="col-md-4 col-sm-6 col-4">
-                <span class="align-middle h2 d-inline black-engine-eval">
-                </span>
-                
-              </div>
-              <div class="col-md-4 col-sm-12 col-4">
-                <span class="h5 d-inline black-time-remaining">
-                  0:00:00
-                </span>
-                <span class="badge badge-dark black-time-used">
-                  0:00
-                </span>
-              </div>
-            </div>
-            <div class="row">
-            </div>
-            <div class="row text-center">
-              <div class="col-md-4 col-4">
-                <span class="black-engine-speed"></span>
-              </div>
-              <div class="col-md-4 col-4">
-                <span class="d-none d-md-inline-block">Depth: </span>
-                <span class="black-engine-depth"></span>
-              </div>
-              <div class="col-md-4 col-4">
-                <span class="black-engine-tbhits"></span> TB hits
-              </div>
-            </div>
-            <div class="engine-pv alert alert-dark" id="black-engine-pv"></div>
-<!--             <div class="row text-center">
-              <div class="col-md-6 col-12">
-                <img src="img/chesspieces/wikipedia/bK.png" style="height: 32px; padding-bottom: 5px;">
-                <span class="h6 d-inline black-engine-name"></span>
-              </div>
-              <div class="col-md-6 col-12">
-                <span id="black-material">
-                  <span class="q"></span>
-                  <span class="r"></span>
-                  <span class="b"></span>
-                  <span class="n"></span>
-                  <span class="p"></span>
-                </span>
-              </div>
-            </div> -->
-          </div>
-
-          <br>
-   
-          <div id="white-engine-information" class="border">
-            <div class="row text-center">
-              <div class="col-md-4 col-sm-6 col-4">
-                <img src="img/tcec.jpg" alt="tcec" class="engineimage" id="white-engine" />
-              </div>
-              <div class="col-md-4 col-sm-6 col-4">
-                <span class="align-middle h2 d-inline white-engine-eval">
-                </span>
-                
-              </div>
-              <div class="col-md-4 col-sm-12 col-4">
-                <span class="h5 d-inline white-time-remaining">
-                  0:00:00
-                </span>
-                <span class="badge badge-dark white-time-used">
-                  0:00
-                </span>
-              </div>
-            </div>
-            <div class="row text-center">
-              <div class="col-md-4 col-4">
-                <span class="white-engine-speed"></span>
-              </div>
-              <div class="col-md-4 col-4">
-                <span class="d-none d-md-inline-block">Depth: </span>
-                <span class="white-engine-depth"></span>
-              </div>
-              <div class="col-md-4 col-4">
-                <span class="white-engine-tbhits"></span> TB hits
-              </div>
-            </div>
-            <div class="engine-pv alert alert-dark" id="white-engine-pv"></div>
-<!--             <div class="row text-center">
-              <div class="col-md-6 col-12">
-                <img src="img/chesspieces/wikipedia/wK.png" style="height: 32px; padding-bottom: 5px;">
-                <span class="h6 d-inline white-engine-name"></span>
-              </div>
-              <div class="col-md-6 col-12">
-                <span id="white-material">
-                  <span class="q"></span>
-                  <span class="r"></span>
-                  <span class="b"></span>
-                  <span class="n"></span>
-                  <span class="p"></span>
-                </span>
-              </div>
-            </div> -->
-          </div>
+          <table class="table table-striped text-center py-0 engine-eval">
+            <tbody>
+              <tr>
+                <td>Black</td>
+                <td>&nbsp;</td>
+                <td>White</td>
+              </tr>
+              <tr>
+                <td>
+                  <img src="img/tcec.jpg" alt="tcec" class="engineimage" id="black-engine" />
+                </td>
+                <td class="col-md-2">Engine</td>
+                <td class="col-md-5">
+                  <img src="img/tcec.jpg" alt="tcec" class="engineimage" id="white-engine" />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="align-middle h2 d-inline black-engine-eval"></span>
+                </td>
+                <td>Eval</td>
+                <td>
+                  <span class="align-middle h2 d-inline white-engine-eval"></span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="h5 d-inline black-time-remaining">
+                    0:00:00
+                  </span>
+                </td>
+                <td>Clock</td>
+                <td>
+                  <span class="h5 d-inline white-time-remaining">
+                    0:00:00
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="black-time-used">
+                    0:00
+                  </span>
+                </td>
+                <td>Cur. Move</td>
+                <td>
+                  <span class="white-time-used">
+                    0:00
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="black-engine-depth"></span>
+                </td>
+                <td>Depth</td>
+                <td>
+                  <span class="white-engine-depth"></span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="black-engine-speed"></span>
+                </td>
+                <td>Speed</td>
+                <td>
+                  <span class="white-engine-speed"></span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="black-engine-nodes"></span>
+                </td>
+                <td>Nodes</td>
+                <td>
+                  <span class="white-engine-nodes"></span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="black-engine-tbhits"></span>
+                </td>
+                <td>TB</td>
+                <td>
+                  <span class="white-engine-tbhits"></span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span id="black-material">
+                    <span class="q"></span>
+                    <span class="r"></span>
+                    <span class="b"></span>
+                    <span class="n"></span>
+                    <span class="p"></span>
+                  </span>
+                </td>
+                <td>Material</td>
+                <td>
+                  <span id="white-material">
+                    <span class="q"></span>
+                    <span class="r"></span>
+                    <span class="b"></span>
+                    <span class="n"></span>
+                    <span class="p"></span>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
    
           <br>
 
@@ -826,11 +837,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.2/chess.js"></script>
     <script src="dist/js/graphs.js?v=10000000000000000000042"></script>
     <script src="dist/js/chessboard.js?v=10000000000000000000042"></script>
     <script src="dist/js/tcec.js?v=10000000000000000000042"></script>
-    <script src="http://172.93.55.172:8080/socket.io/socket.io.js"></script>
     <script src="dist/js/bootstrap-4-navbar.js?v=1000000000000000000042"></script>
+    <script src="http://172.93.55.172:8888/socket.io/socket.io.js"></script>
 
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
@@ -1022,7 +1034,7 @@
       });
 
 
-      var socket = io.connect('http://172.93.55.172:8080');
+      var socket = io.connect('http://172.93.55.172:8888');
      
       socket.on('crosstable', function(data){
          updateCrosstableData(data);

@@ -148,17 +148,16 @@ body.dark div.modal-content {
    font-weight: bolder;
 }
 
-.eventoverview,
-#engine-eval
+#live-eval
 {
    font-size: 14px;
+   padding: 3px !important;
    text-align: center;
 }
 
-#live-eval
-{
-   font-size: 13px;
-   text-align: center;
+#live-eval .th-inner,
+#live-eval td {
+	padding: 1px !important;
 }
 
 canvas {
@@ -183,6 +182,7 @@ canvas {
 {
    font-size: 15px;
    padding: 3px !important;
+   text-align: center;
 }
 
 #event-overview .th-inner,
@@ -235,4 +235,8 @@ canvas {
 .tcecpointer
 {
    cursor:pointer
+}
+
+.engine-eval td {
+	padding: .15rem !important;
 }
