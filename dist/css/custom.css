@@ -19,6 +19,18 @@ body {
 	min-height: 350px;
 }
 
+@media (min-width: 576px) {
+	.container {
+		max-width: 768px !important;
+	}
+}
+
+@media (min-width: 768px) {
+	.container {
+		min-width: 920px;
+	}
+}
+
 @media (max-width: 800px) {
 	.banner-image {
 		height: 30px;

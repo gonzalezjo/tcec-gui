@@ -506,6 +506,7 @@ function getEvalFromPly(ply)
        'eval': "n/a",
        'pv': {},
        'speed': "n/a",
+       'nodes': "n/a",
        'mtime': "n/a",
        'depth': "n/a",
        'tbhits': "n/a",
@@ -521,6 +522,7 @@ function getEvalFromPly(ply)
        'eval': "book",
        'pv': {},
        'speed': "book",
+       'nodes': "book",
        'mtime': "book",
        'depth': "book",
        'tbhits': "book",
@@ -539,6 +541,13 @@ function getEvalFromPly(ply)
     speed = Math.round(speed / 1000000) + 'Mnps';
   }
 
+  nodes = selectedMove.n;
+  if (nodes < 1000000) {
+    nodes = Math.round(nodes / 1000) + 'K';
+  } else {
+    nodes = Math.round(nodes / 1000000) + 'M';
+  }
+
   var depth = selectedMove.d + '/' + selectedMove.sd;
   var tbHits = 0;
   if (selectedMove.tb) {
@@ -554,6 +563,7 @@ function getEvalFromPly(ply)
     'eval': selectedMove.wv,
     'pv': selectedMove.pv.Moves,
     'speed': speed,
+    'nodes': nodes,
     'mtime': secFormatNoH(selectedMove.mt),
     'depth': depth,
     'tbhits': tbHits,
@@ -569,15 +579,17 @@ function updateMoveValues(whiteToPlay, whiteEval, blackEval)
       $('.black-time-used').html(blackEval.mtime);
    }
 
+   speed = whiteEval.speed;
+
    $('.white-engine-eval').html(whiteEval.eval);
-   $('.white-engine-speed').html(whiteEval.speed);
+   $('.white-engine-speed').html(whiteEval.speed + ' ' + whiteEval.nodes);
    $('.white-engine-depth').html(whiteEval.depth);
    $('.white-engine-tbhits').html(whiteEval.tbhits);
    updateEnginePv('white', whiteToPlay, whiteEval.pv);
    $('.white-time-remaining').html(whiteEval.timeleft);
 
    $('.black-engine-eval').html(blackEval.eval);
-   $('.black-engine-speed').html(blackEval.speed);
+   $('.black-engine-speed').html(blackEval.speed + ' ' + blackEval.nodes);
    $('.black-engine-depth').html(blackEval.depth);
    $('.black-engine-tbhits').html(blackEval.tbhits);
    updateEnginePv('black', whiteToPlay, blackEval.pv);
