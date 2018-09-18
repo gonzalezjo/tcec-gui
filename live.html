@@ -978,8 +978,13 @@
           sloppy: true
         };
 
-        var chatHeight = $("#board-container").height() + 5;
-        chatHeight = parseInt(chatHeight * 90 /100);
+        var sliderVale = localStorage.getItem('tcec-chat-slider');
+        if (sliderVale == undefined)
+        {
+           sliderVale = 100;
+        }
+        var chatHeight = $("#board-container").height();
+        chatHeight = parseInt(chatHeight * sliderVale/100);
 
         $('#chatright').height(chatHeight);
 
@@ -1019,10 +1024,11 @@
         $('#chatsize').bootstrapSlider({
           min:40,
           max:100,
-          value: 80,
+          value: sliderVale,
           handle: 'round',
           formatter: function(value) {
             $('#chatright').height(parseInt(value/100 * chatHeight));
+            localStorage.setItem('tcec-chat-slider', value);
           }
         });
       });
