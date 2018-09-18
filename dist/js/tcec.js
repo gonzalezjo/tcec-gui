@@ -47,6 +47,12 @@ var onMoveEndPv = function() {
     .addClass('highlight-white');
 }
 
+function updateAll()
+{
+   updatePgn();
+   setTimeout(function() { updateTables(); }, 5000);
+}
+
 function updatePgnData(data, read)
 {
     loadedPgn = data;
@@ -211,28 +217,35 @@ function setPgn(pgn)
       console.log ("Came to setpgn need to reread dataa");
       prevPgnData = 0;
    }
+   else
+   {
+      if (prevPgnData)
+      {
+         console.log ("pgn.Moves.length: " + prevPgnData.Moves.length + ", prevPgnData.lastMoveLoaded" + pgn.lastMoveLoaded);
+         if (prevPgnData.Moves.length < pgn.lastMoveLoaded)
+         {
+            setTimeout(function() { updateAll(); }, 100);
+            console.log ("Need to update pgn bcos moves are not in syn");
+         }
+         else if (parseFloat(prevPgnData.Headers.Round) != parseFloat(pgn.Headers.Round))
+         {
+            setTimeout(function() { updateAll(); }, 100);
+            console.log ("Need to update pgn because header changed");
+         }
+      }
+   }
 
    if (prevPgnData)
    {
-      _.each(prevPgnData.Moves, function(move, key) {
-         //console.log ("prev Ply is :" + move);
-      });
-
       _.each(pgn.Moves, function(move, key) {
          if (typeof move.Moveno != 'undefined' && parseInt(move.Moveno) > 0)
          {
             if (!prevPgnData.Moves[key])
             {
-               console.log ("XXXXX : setting for moveno" + move.Moveno);// + ",key" + JSON.stringify(move));
                prevPgnData.Moves.push(pgn.Moves[key]);
             }
          }
       });
-
-      _.each(prevPgnData.Moves, function(move, key) {
-         //console.log ("After prev Ply is :" + move.Moveno);
-      });
-
       prevPgnData.BlackEngineOptions = pgn.BlackEngineOptions;
       prevPgnData.WhiteEngineOptions = pgn.WhiteEngineOptions;
       prevPgnData.Headers = pgn.Headers;
@@ -241,11 +254,10 @@ function setPgn(pgn)
    }
    else
    {
-   if (typeof pgn.Moves != 'undefined') 
-   {
-      console.log ("no prevpgn");
-      prevPgnData = pgn;
-   }
+      if (typeof pgn.Moves != 'undefined') 
+      {
+         prevPgnData = pgn;
+      }
    }
 
    if (typeof pgn.Moves != 'undefined') 
@@ -1249,8 +1261,47 @@ window.Clipboard = (function(window, document, navigator) {
     };
 })(window, document, navigator);
 
-var btheme = "wikipedia";
-var ptheme = "wikipedia";
+var btheme = "chess24";
+var ptheme = "chess24";
+
+function setBoardInit()
+{
+   var boardTheme = localStorage.getItem('tcec-board-theme');
+   var pieceTheme = localStorage.getItem('tcec-piece-theme');
+
+   if (boardTheme != undefined)
+   {
+      btheme = boardTheme;
+      ptheme = pieceTheme;
+   }
+
+   var board =  ChessBoard('board', {
+         pieceTheme: window[ptheme + "_piece_theme"],
+         position: 'start',
+         onMoveEnd: onMoveEnd,
+         moveSpeed: 1,
+         appearSpeed: 1,
+         boardTheme: window[btheme + "_board_theme"]
+   });
+
+   $('input[value='+ptheme+']').prop('checked', true);
+   $('input[value='+btheme+'b]').prop('checked', true);
+
+   var pvBoard =  ChessBoard('pv-board', {
+      pieceTheme: window[ptheme + "_piece_theme"],
+      position: 'start',
+      onMoveEnd: onMoveEnd,
+      moveSpeed: 1,
+      appearSpeed: 1,
+      boardTheme: window[btheme + "_board_theme"]
+   });
+   pvBoard.position(fen, false);
+   localStorage.setItem('tcec-board-theme', btheme);
+   localStorage.setItem('tcec-piece-theme', ptheme);
+
+   return {board,pvBoard};
+
+}
 
 function setBoard()
 {
@@ -1299,9 +1350,7 @@ function setDark()
   $('#crosstable').addClass('table-dark');
   $('#schedule').addClass('table-dark');
   $('#standtable').addClass('table-dark');
-  //$('#pagetheme').text("Light");
   setDarkMode(1);
-  updateTables();
 }
 
 function setLight()
@@ -1314,9 +1363,7 @@ function setLight()
   $('#schedule').removeClass('table-dark');
   $('#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat');
   $('#standtable').removeClass('table-dark');
-  //$('#pagetheme').text("Dark");
   setDarkMode(0);
-  updateTables();
 }
 
 function setDefaultThemes()
@@ -1331,8 +1378,6 @@ function setDefaultThemes()
    {
       setLight();
    }
-
-   drawBoards();
 }
 
 function drawBoards()

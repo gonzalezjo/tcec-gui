@@ -90,7 +90,6 @@ function broadCastData(socket, message, file, currData, prevData)
 
    if (a == b)
    {
-      //console.log ("File "+ file + " did not change:" + a + ",b" + b);
       console.log ("File "+ file + " did not change:");
       return;
    }
@@ -103,31 +102,14 @@ function checkSend(currData, prevData)
    var b = JSON.stringify(prevData);
 
    if (a == b)
-   {                                                                                                                                                                                                                                          
-      //console.log ("File "+ file + " did not change:" + a + ",b" + b);                                                                                                                                                                      
-      console.log ("File "+ file + " did not change:");                                                                                                                                                                                       
+   {
+      console.log ("File "+ file + " did not change:");
       return 0;
    }                    
    else
    {
       return 1;
    }
-}
-
-function getDeltaPgn1(pgn)
-{
-   var count = 0;
-   console.log ("came here");
-   
-   _.eachRight(pgn.Moves, function(move, key) {
-      move.Moveno = key + 1;
-   });
-   //_.drop(pgn.Moves, pgn.Moves.length - 10);
-   _.drop(pgn.Moves, 3);
-   _.eachRight(pgn.Moves, function(move, key) {
-      console.log ("pgn.Moves.Moveno is " + move.Moveno);
-   });
-   return pgn;
 }
 
 /* Deltapgn: Configure this to less value for less data */
@@ -167,6 +149,8 @@ function getDeltaPgn(pgnX)
       {
          pgn.Moves[key]= pgnX.Moves[key];
          pgn.Moves[key].Moveno = key + 1;
+         pgn.lastMoveLoaded = key;
+         console.log ("Setting pgn.lastMoveLoaded to " + pgn.lastMoveLoaded);
       }
       else
       {
@@ -175,12 +159,6 @@ function getDeltaPgn(pgnX)
       count = count + 1;
    });
 
-   _.each(pgn.Moves, function(move, key) {
-      if (pgn.Moves[key])
-      {
-         //console.log ("pgnX.Moves.Moveno is " + move.Moveno + ",length:" + pgnX.Moves.length);
-      }
-   });
    return pgn;
 }
 

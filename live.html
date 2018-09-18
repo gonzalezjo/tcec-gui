@@ -829,7 +829,7 @@
     <script src="dist/js/graphs.js?v=10000000000000000000042"></script>
     <script src="dist/js/chessboard.js?v=10000000000000000000042"></script>
     <script src="dist/js/tcec.js?v=10000000000000000000042"></script>
-    <script src="http://172.93.55.172:8888/socket.io/socket.io.js"></script>
+    <script src="http://172.93.55.172:8080/socket.io/socket.io.js"></script>
     <script src="dist/js/bootstrap-4-navbar.js?v=1000000000000000000042"></script>
 
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -843,37 +843,21 @@
                   $("button.navbar-toggle").click();
               }
           });
-          window.setTimeout(function() 
-                            { 
-                               $('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?TCEC_Chess_TV');
-                             }, 10000);
-          $('iframe#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat?popout');
       });
 
-      var board =  ChessBoard('board', {
-         position: 'start',
-         onMoveEnd: onMoveEnd,
-         moveSpeed: 1,
-         appearSpeed: 1
-      });
-
-      var pvBoard =  ChessBoard('pv-board', {
-         position: 'start',
-         onMoveEnd: onMoveEndPv,
-         moveSpeed: 1,
-         appearSpeed: 1
-      });
+      var {board, pvBoard } = setBoardInit();
 
       $('.toggleDark').click(function() {
         var darkMode = localStorage.getItem('tcec-dark-mode');
         if (darkMode == 20) {
           localStorage.setItem('tcec-dark-mode', 10);
-          setLight();  
         } else {
           localStorage.setItem('tcec-dark-mode', 20);
-          setDark();
         }
+        setDefaultThemes();
+        updateTables();
         $(".navbar-toggle").click();
+         
       });
 
       $('.refreshBoard').on('click', function() {
@@ -1019,8 +1003,8 @@
 
         updatePgn();
         updateLiveEvalInit();
-      $(document).ready(function () {
-        	setDefaultThemes();
+        $(document).ready(function () {
+        	 setDefaultThemes();
           window.setTimeout(function() 
                             { 
                                $('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?TCEC_Chess_TV');
@@ -1029,25 +1013,17 @@
                             { 
                                updateLiveChart();
                                updateLiveEval();
-                            }, 2000);
-      });
-
-        //var pgnInterval = window.setInterval(function() { updatePgn() }, 3000);
-        //var crosstableInterval = window.setInterval(function() { updateCrosstable() }, 60000);
-        //var scheduleInterval = window.setInterval(function() { updateSchedule() }, 15000);
-        //var standtableInterval = window.setInterval(function() { updateStandtable() }, 60000);
-        //var liveChartInterval = window.setInterval(function() { updateLiveChart() }, 15000);
-      });
-
-
-      var socket = io.connect('http://172.93.55.172:8888');
-     
-      if (0)
-      {
-      $(document).ready(function () {
-         socket.emit('getLastmovetime', "arun");
+                            }, 3000);
+          window.setTimeout(function() 
+                            { 
+                               updateTables();
+                            }, 5000);
          });
-      }
+      });
+
+
+      var socket = io.connect('http://172.93.55.172:8080');
+     
       socket.on('crosstable', function(data){
          updateCrosstableData(data);
          updateStandtableData(data);
@@ -1056,7 +1032,6 @@
          updateLiveEvalData(data);
          });
       socket.on('pgn', function(data){
-         console.log ("XXX: Sending updatePgnData");
          updatePgnData(data, 1);
          });
       socket.on('schedule', function(data){

@@ -12,7 +12,6 @@ if (cluster.isMaster)
       count = 0;
       worker.on('message', function(msg) 
       {
-         //console.log('Master ' + process.pid + ' received message from worker ' + msg.workers + ",count:" + count);
          if (typeof msg.workers != 'undefined')
          {
             count = parseInt(count) + parseInt(msg.workers);
@@ -24,8 +23,7 @@ if (cluster.isMaster)
    {
       for (const id in cluster.workers) 
       {
-         console.log("Calling callback for id:" + id + ",count:" + count);
-         //callback(cluster.workers[id]);
+         callback(cluster.workers[id]);
       }
    }
 
