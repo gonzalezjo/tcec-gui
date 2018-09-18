@@ -46,6 +46,7 @@ wikipedia_board_theme = ['#FFCE9E', '#D18B47'];
 dilena_board_theme = ['#FFE5B6', '#B16228'];
 uscf_board_theme = ['#C3C6BE', '#727FA2'];
 symbol_board_theme = ['#FFFFFF', '#58AC8A'];
+dark_board_theme = ['#797877', '#585655'];
 
 var chsspieces =  {
   "alpha": {

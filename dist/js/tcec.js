@@ -616,6 +616,7 @@ function updateMoveValues(whiteToPlay, whiteEval, blackEval)
    $('.black-engine-tbhits').html(blackEval.tbhits);
    updateEnginePv('black', whiteToPlay, blackEval.pv);
    $('.black-time-remaining').html(blackEval.timeleft);
+   $('#infotable').addClass('table-striped');
 }
 
 var whitePv = [];
