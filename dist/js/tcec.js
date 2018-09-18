@@ -874,6 +874,18 @@ function setPvFromKey(moveKey)
   pvBoard.position(fen, false);
 }
 
+$('#pv-board-black').click(function(e) {
+  activePv = blackPv;
+  setPvFromKey(0);
+  e.preventDefault();
+});
+
+$('#pv-board-white').click(function(e) {
+  activePv = whitePv;
+  setPvFromKey(0);
+  e.preventDefault();
+});
+
 $('#pv-board-to-first').click(function(e) {
   setPvFromKey(0);
   e.preventDefault();
