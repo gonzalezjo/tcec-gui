@@ -306,6 +306,7 @@ function setPgn(pgn)
   }
   if (viewingActiveMove && activePly != currentPlyCount) {
     activePly = currentPlyCount;
+    $('#move_sound').play();
   }
 
   var whiteEval = {};
