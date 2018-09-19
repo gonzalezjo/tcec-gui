@@ -500,7 +500,15 @@ function setInfoFromCurrentHeaders()
   $('#white-engine').attr('src', imgsrc);
   $('#white-engine').attr('alt', header);
   header = loadedPgn.Headers.Black;
-  $('.black-engine-name').html(header);
+  var header1 = header.split(" "); 
+  if (header1[0])
+  { 
+     $('.black-engine-name').html(header1[0]);
+  }
+  else
+  { 
+     $('.black-engine-name').html(header);
+  }
   name = header;
   if (header.indexOf(' ') > 0) {
     name = header.substring(0, header.indexOf(' '))
