@@ -7,7 +7,7 @@ var tbHitsChart;
 var evalChartData = {
   labels: [],
   datasets: [{
-    label: 'White Engine Eval',
+    label: 'White',
     lineTension: 0,
     borderColor: '#EFEFEF',
     backgroundColor: '#EFEFEF',
@@ -15,7 +15,7 @@ var evalChartData = {
     data: [
     ]
   }, {
-    label: 'Black Engine Eval',
+    label: 'Black',
     lineTension: 0,
     borderColor: '#000000',
     backgroundColor: '#FFFFFF',
@@ -24,7 +24,7 @@ var evalChartData = {
     data: [
     ]
   }, {
-    label: 'Live Engine Eval [SF Dev]',
+    label: 'Live [SF Dev]',
     lineTension: 0,
     borderColor: '#007bff',
     backgroundColor: '#007bff',
