@@ -252,3 +252,10 @@ canvas {
 #ex1Slider .slider-selection {
    background: #BABABA;
 }
+
+.black-time-remaining,
+.white-time-remaining,
+.black-time-used,
+.white-time-used {
+	font-family: monospace;
+}
