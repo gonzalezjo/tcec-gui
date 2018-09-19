@@ -1189,6 +1189,7 @@ function updateScheduleData(data)
    var momentDate = 0;
    var diff = 0;
    var gameDiff = 0;
+   var timezoneDiff = moment().utcOffset() * 60 * 1000;
 
    _.each(data, function(engine, key) 
    {
@@ -1200,6 +1201,7 @@ function updateScheduleData(data)
             diff = diff + momentDate.diff(prevDate);
             gameDiff = diff/(engine.Game-1);
          }
+         momentDate.add(timezoneDiff);
          engine.Start = momentDate.format('HH:mm:ss on YYYY.MM.DD');
          prevDate = momentDate;
       }
@@ -1207,7 +1209,7 @@ function updateScheduleData(data)
       {
          if (gameDiff)
          {
-            prevDate.add(gameDiff);
+            prevDate.add(gameDiff + timezoneDiff);
             engine.Start = "Estd: " + prevDate.format('HH:mm:ss on YYYY.MM.DD');
          }
       }
