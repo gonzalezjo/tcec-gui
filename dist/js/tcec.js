@@ -880,6 +880,11 @@ function setPvFromKey(moveKey)
   pvBoard.position(fen, false);
 }
 
+$('#pv-board-fen').click(function(e) {
+  Clipboard.copy($(this).html());
+  return false;
+});
+
 $('#pv-board-black').click(function(e) {
   activePv = blackPv;
   setPvFromKey(0);
