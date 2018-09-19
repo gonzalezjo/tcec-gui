@@ -1189,7 +1189,7 @@ function updateScheduleData(data)
    var momentDate = 0;
    var diff = 0;
    var gameDiff = 0;
-   var timezoneDiff = moment().utcOffset() * 60 * 1000;
+   var timezoneDiff = moment().utcOffset() * 60 * 1000 - 3600 * 1000;
 
    _.each(data, function(engine, key) 
    {
