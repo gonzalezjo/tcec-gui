@@ -1009,21 +1009,6 @@ function openCross(gamen)
    window.open(link,'_blank');
 }
 
-function schedformatter(value, row, index, field) 
-{
-   var retStr = value;
-
-   _.each(row, function(valuer, keyr)
-   {
-      if (keyr.match(/Moves/))
-      {
-         retStr = '<a title="TBD" style="cursor:pointer; color: red;"onclick="openCross(' + value + ')">' + value + '</a>';
-      }
-   });
-      
-   return retStr;
-}
-
 var gameArrayClass = ['#39FF14', 'red', 'whitesmoke'];
 
 function setDarkMode(value)
@@ -1216,6 +1201,7 @@ function updateScheduleData(data)
       if (typeof engine.Moves != 'undefined')
       {
          gamesDone = engine.Game;
+         engine.Game = '<a title="TBD" style="cursor:pointer; color: red;"onclick="openCross(' + engine.Game + ')">' + engine.Game + '</a>';
       }
    });
 
