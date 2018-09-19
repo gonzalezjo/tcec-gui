@@ -260,3 +260,8 @@ canvas {
 .white-time-used {
 	font-family: monospace;
 }
+
+.rightborder
+{
+   border-right: 2px solid black;
+}

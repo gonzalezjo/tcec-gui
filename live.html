@@ -40,11 +40,6 @@
               Archive
             </a>
           </li>
-          <li class="nav-item">
-            <a class="tcecpointer nav-link py-0" onClick="copyFen()" title="Click to copy FEN" id="fen">
-              FEN
-            </a>
-          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle py-0" href="http://tcecbeta.com" id="dd-download" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Download</a>
             <div class="dropdown-menu" aria-labelledby="dd-download">
@@ -295,28 +290,31 @@
           </div>
 
           <div class="btn-group d-flex navigation-buttons" role="group">
-            <a href="#" class="btn btn-primary btn-sm w-100" id="board-to-first" style="border-right: 2px solid black">
+            <a href="#" class="btn btn-primary btn-sm w-100 rightborder" id="board-to-first">
               <i class="fa fa-angle-double-left"></i>
             </a>
-            <a href="#" class="btn btn-primary btn-sm w-100" id="board-previous" style="border-right: 2px solid black">
+            <a href="#" class="btn btn-primary btn-sm w-100 rightborder" id="board-previous">
                 <i class="fa fa-angle-left"></i>
             </a>
-            <a href="#" class="btn btn-primary btn-sm w-100" id="board-autoplay" style="border-right: 2px solid black">
+            <a href="#" class="btn btn-primary btn-sm w-100 rightborder" id="board-autoplay">
                 <i class="fa fa-play"></i>
             </a>
-            <a href="#" class="btn btn-primary btn-sm w-100" id="board-next" style="border-right: 2px solid black">
+            <a href="#" class="btn btn-primary btn-sm w-100 rightborder" id="board-next">
                 <i class="fa fa-angle-right"></i>
             </a>
-            <a href="#" class="btn btn-primary btn-sm w-100" id="board-to-last" style="border-right: 2px solid black">
+            <a href="#" class="btn btn-primary btn-sm w-100 rightborder" id="board-to-last">
                 <i class="fa fa-angle-double-right"></i>
             </a>
-            <a href="#" class="btn btn-primary btn-sm w-100" id="board-reverse" style="border-right: 2px solid black">
+            <a href="#" class="btn btn-primary btn-sm w-100 rightborder" id="board-reverse" title="Reverse board">
                 <i class="fa fa-random"></i>
             </a>
-            <a href="#" class="toggleDark btn btn-primary btn-sm w-100" id="board-to-theme" style="border-right: 2px solid black">
+            <a href="#" class="toggleDark btn btn-primary btn-sm w-100 rightborder" id="board-to-theme" title="Toggle page theme">
                 <i class="fa fa-moon"></i>
             </a>
-            <a href="#" class="refreshBoard btn btn-primary btn-sm w-100" id="board-to-sync">
+            <a href="#" class="btn btn-primary btn-sm w-100 rightborder" id="board-fen" onClick="copyFen()" title="Copy FEN">
+                <i class="fa fa-copy"></i>
+            </a>
+            <a href="#" class="refreshBoard btn btn-primary btn-sm w-100" id="board-to-sync" title="Resync pgn">
                 <i class="fa fa-sync"></i>
             </a>
           </div>
@@ -510,25 +508,25 @@
                       </div>
                     </div>
                      <div class="btn-group d-flex navigation-buttons" style="width: 250px; margin-left: auto; margin-right:auto;" role="group">
-                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-black" style="border-right: 2px solid black">
+                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-black">
                           <img src="img/chesspieces/wikipedia/bP.png" style="height: 16px" />
                         </a>
-                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-to-first" style="border-right: 2px solid black">
+                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-to-first">
                           <i class="fa fa-angle-double-left"></i>
                         </a>
-                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-previous" style="border-right: 2px solid black">
+                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-previous">
                           <i class="fa fa-angle-left"></i>
                         </a>
-                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-autoplay" style="border-right: 2px solid black">
+                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-autoplay">
                           <i class="fa fa-play"></i>
                         </a>
-                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-next" style="border-right: 2px solid black">
+                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-next">
                           <i class="fa fa-angle-right"></i>
                         </a>
-                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-to-last" style="border-right: 2px solid black">
+                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-to-last">
                           <i class="fa fa-angle-double-right"></i>
                         </a>
-                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-reverse" style="border-right: 2px solid black">
+                        <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-reverse">
                           <i class="fa fa-random"></i>
                         </a>
                         <a href="#" class="btn btn-primary btn-sm w-100" id="pv-board-white">
