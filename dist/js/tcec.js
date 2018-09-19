@@ -1708,3 +1708,34 @@ function setLastMoveTime(data)
 {
    console.log ("Setting last move time:" + data);
 }
+
+function checkTwitch(checkbox)
+{
+   if (checkbox.checked)
+   {
+      $('iframe#twitchvid').hide();
+      localStorage.setItem('tcec-twitch-video', 1);
+   }
+   else
+   {
+      $('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?TCEC_Chess_TV');
+      $('iframe#twitchvid').show();
+      localStorage.setItem('tcec-twitch-video', 0);
+   }
+}
+
+function setTwitch()
+{
+   var getVideoCheck = localStorage.getItem('tcec-twitch-video');        
+   if (getVideoCheck == undefined || getVideoCheck == 0)
+   {
+      $('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?TCEC_Chess_TV');
+      $('iframe#twitchvid').show();
+      $('#twitchcheck').prop('checked', false);
+   }
+   else
+   {
+      $('iframe#twitchvid').hide();
+      $('#twitchcheck').prop('checked', true);
+   }
+}

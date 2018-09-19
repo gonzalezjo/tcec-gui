@@ -173,6 +173,17 @@
                     <input id="chatsize"/>
                   </ul>
                 </li>
+                <div class="dropdown-divider"></div>
+                <li><a class="dropdown-item dropdown-toggle" href="#">Twitch Video</a>
+                  <ul class="dropdown-menu">
+                    <div class="form-check" style="margin-left: 10px">
+                      <input class="form-check-input" type="checkbox" onclick="checkTwitch(this)" value="" id="twitchcheck">
+                      <label class="form-check-label" for="defaultCheck1">
+                        Disable
+                      </label>
+                    </div>
+                  </ul>
+                </li>
               </ul>
             </li>
           </ul>
@@ -999,9 +1010,9 @@
         $(document).ready(function () {
         	 setDefaultThemes();
           window.setTimeout(function() 
-                            { 
-                               $('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?TCEC_Chess_TV');
-                            }, 10000);
+          { 
+             setTwitch();
+          }, 10000);
           window.setTimeout(function() 
                             { 
                                updateLiveChart();
