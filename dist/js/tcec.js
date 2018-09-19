@@ -1012,6 +1012,7 @@ function openCross(gamen)
 function schedformatter(value, row, index, field) 
 {
    var retStr = value;
+
    _.each(row, function(valuer, keyr)
    {
       if (keyr.match(/Moves/))
@@ -1184,15 +1185,40 @@ function updateCrosstable()
 
 function updateScheduleData(data) 
 {
-   $('#schedule').bootstrapTable('load', data);
-   var options = $('#schedule').bootstrapTable('getOptions');
+   var prevDate = 0;
+   var momentDate = 0;
+   var diff = 0;
+   var gameDiff = 0;
+
    _.each(data, function(engine, key) 
    {
+      if (engine.Start)
+      {
+         momentDate = moment(engine.Start, 'HH:mm:ss on YYYY.MM.DD');
+         if (prevDate)
+         {
+            diff = diff + momentDate.diff(prevDate);
+            gameDiff = diff/(engine.Game-1);
+         }
+         engine.Start = momentDate.format('HH:mm:ss on YYYY.MM.DD');
+         prevDate = momentDate;
+      }
+      else
+      {
+         if (gameDiff)
+         {
+            prevDate.add(gameDiff);
+            engine.Start = "Estd: " + prevDate.format('HH:mm:ss on YYYY.MM.DD');
+         }
+      }
       if (typeof engine.Moves != 'undefined')
       {
          gamesDone = engine.Game;
       }
    });
+
+   $('#schedule').bootstrapTable('load', data);
+   var options = $('#schedule').bootstrapTable('getOptions');
    pageNum = parseInt(gamesDone/options.pageSize) + 1;
    $('#schedule').bootstrapTable('selectPage', pageNum);
 }
