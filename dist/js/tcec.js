@@ -565,25 +565,25 @@ function getEvalFromPly(ply)
   clockPreviousMove = selectedMove;
   speed = selectedMove.s;
   if (speed < 1000000) {
-    speed = Math.round(speed / 1000) + 'Knps';
+    speed = Math.round(speed / 1000) + ' Knps';
   } else {
-    speed = Math.round(speed / 1000000) + 'Mnps';
+    speed = Math.round(speed / 1000000) + ' Mnps';
   }
 
   nodes = selectedMove.n;
   if (nodes < 1000000) {
-    nodes = Math.round(nodes / 1000) + 'K';
+    nodes = Math.round(nodes / 1000) + ' K';
   } else {
-    nodes = Math.round(nodes / 1000000) + 'M';
+    nodes = Math.round(nodes / 1000000) + ' M';
   }
 
   var depth = selectedMove.d + '/' + selectedMove.sd;
   var tbHits = 0;
   if (selectedMove.tb) {
     if (selectedMove.tb < 1000000) {
-      tbHits = Math.round(selectedMove.tb / 1000) + 'K';
+      tbHits = Math.round(selectedMove.tb / 1000) + ' K';
     } else {
-      tbHits = Math.round(selectedMove.tb * 1 / 1000000) + 'M';
+      tbHits = Math.round(selectedMove.tb * 1 / 1000000) + ' M';
     }
   }
 
