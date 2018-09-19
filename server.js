@@ -65,6 +65,7 @@ listener.sockets.on('connection', function(s){
    {
       totalCount = count;
    }
+   socket.emit('users', {'count': totalCount});
    socket.broadcast.emit('users', {'count': totalCount});
    console.log ("coutn connected:" + count);
 
