@@ -856,7 +856,7 @@
     <script src="dist/js/tcec.js?v=10000000000000000000042"></script>
     <script src="dist/js/bootstrap-4-navbar.js?v=1000000000000000000042"></script>
     <script src="dist/js/bootstrap-slider.min.js"></script>
-    <script src="http://172.93.55.172:8080/socket.io/socket.io.js"></script>
+    <script src="http://172.93.55.172:8888/socket.io/socket.io.js"></script>
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
     <script>
@@ -1065,7 +1065,7 @@
         });
       });
 
-      var socket = io.connect('http://172.93.55.172:8080');
+      var socket = io.connect('http://172.93.55.172:8888');
      
       socket.on('crosstable', function(data){
          updateCrosstableData(data);
@@ -1094,5 +1094,21 @@
     <audio id="move_sound">
       <source src="dist/audio/movesound.mp3" type="audio/mpeg"><embed src="dist/audio/movesound.mp3">
     </audio>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(
+        ['_setAccount', 'UA-37458566-1'],
+        ['_trackPageview'],
+        ['b._setAccount', 'UA-1679851-1'],
+        ['b._trackPageview']
+      );
+     
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
   </body>
 </html>
