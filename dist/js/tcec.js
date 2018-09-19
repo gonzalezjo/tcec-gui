@@ -616,7 +616,6 @@ function updateMoveValues(whiteToPlay, whiteEval, blackEval)
    $('.black-engine-tbhits').html(blackEval.tbhits);
    updateEnginePv('black', whiteToPlay, blackEval.pv);
    $('.black-time-remaining').html(blackEval.timeleft);
-   $('#infotable').addClass('table-striped');
 }
 
 var whitePv = [];
@@ -1358,6 +1357,7 @@ function setDark()
   $('#crosstable').addClass('table-dark');
   $('#schedule').addClass('table-dark');
   $('#standtable').addClass('table-dark');
+  $('#infotable').addClass('table-dark');
   setDarkMode(1);
 }
 
@@ -1371,6 +1371,7 @@ function setLight()
   $('#schedule').removeClass('table-dark');
   $('#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat');
   $('#standtable').removeClass('table-dark');
+  $('#infotable').removeClass('table-dark');
   setDarkMode(0);
 }
 
