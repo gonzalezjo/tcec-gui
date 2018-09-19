@@ -491,28 +491,20 @@ function copyFen()
 function setInfoFromCurrentHeaders()
 {
   var header = loadedPgn.Headers.White;
-  $('.white-engine-name').html(header);
   var name = header;
   if (header.indexOf(' ') > 0) {
     name = header.substring(0, header.indexOf(' '))
   }
+  $('.white-engine-name').html(name);
   var imgsrc = 'img/engines/' + name + '.jpg';
   $('#white-engine').attr('src', imgsrc);
   $('#white-engine').attr('alt', header);
   header = loadedPgn.Headers.Black;
-  var header1 = header.split(" "); 
-  if (header1[0])
-  { 
-     $('.black-engine-name').html(header1[0]);
-  }
-  else
-  { 
-     $('.black-engine-name').html(header);
-  }
   name = header;
   if (header.indexOf(' ') > 0) {
     name = header.substring(0, header.indexOf(' '))
   }
+  $('.black-engine-name').html(name);
   var imgsrc = 'img/engines/' + name + '.jpg';
   $('#black-engine').attr('src', imgsrc);
   $('#black-engine').attr('alt', header);
