@@ -52,6 +52,8 @@ var onMoveEndPv = function() {
 
 function updateAll()
 {
+   stopClock('black');
+   stopClock('white');
    updatePgn();
    setTimeout(function() { updateTables(); }, 5000);
 }
