@@ -131,6 +131,14 @@ body.dark div.modal-content {
 	color: #dfdfdf !important;
 }
 
+body.dark #v-pills-pv {
+	background: #333 !important;
+}
+
+#v-pills-pv {
+	background: #dcdcdc !important;
+}
+
 .green
 {
    color: green;
