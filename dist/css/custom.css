@@ -227,6 +227,7 @@ canvas {
 	max-height: 900px;
 	overflow: auto;
 	overflow-y: scroll;
+   -webkit-overflow-scrolling: touch;
 }
 
 #opening_desc {
