@@ -65,8 +65,13 @@ function updatePgnData(data, read)
     setPgn(data);
 }
 
-function updatePgn()
+function updatePgn(resettime)
 {
+   if (resettime != undefined)
+   {
+      timeDiffRead = 0;
+   }
+
    axios.get('live.json?no-cache' + (new Date()).getTime())
    .then(function (response) 
    {
