@@ -38,6 +38,7 @@ var gamesDone = 0;
 var timeDiff = 0;
 var timeDiffRead = 0;
 var prevPgnData = 0;
+var playSound = 1;
 
 var onMoveEnd = function() {
   boardEl.find('.square-' + squareToHighlight)
@@ -304,9 +305,12 @@ function setPgn(pgn)
   if (activePly == currentPlyCount) {
     viewingActiveMove = true;
   }
-  if (viewingActiveMove && activePly != currentPlyCount) {
-    activePly = currentPlyCount;
-    $('#move_sound')[0].play();
+   if (viewingActiveMove && activePly != currentPlyCount) {
+      activePly = currentPlyCount;
+      if (playSound)
+      {
+         $('#move_sound')[0].play();
+      }
   }
 
   var whiteEval = {};
@@ -1739,5 +1743,32 @@ function setTwitch()
    {
       $('iframe#twitchvid').hide();
       $('#twitchcheck').prop('checked', true);
+   }
+}
+
+function checkSound(checkbox)
+{
+   if (checkbox.checked)
+   {
+      localStorage.setItem('tcec-sound-video', 1);
+      playSound = 0;
+   }
+   else
+   {
+      localStorage.setItem('tcec-sound-video', 0);
+      playSound = 1;
+   }
+}
+
+function setSound()
+{
+   var getSound = localStorage.getItem('tcec-sound-video');        
+   if (getSound == undefined || getSound == 0)
+   {
+      playSound = 1;
+   }
+   else
+   {
+      playSound = 0;
    }
 }
