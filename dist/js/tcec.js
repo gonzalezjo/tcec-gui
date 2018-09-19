@@ -625,7 +625,7 @@ function updateMoveValues(whiteToPlay, whiteEval, blackEval)
 
 var whitePv = [];
 var blackPv = [];
-var livePv = [];
+var livePvs = [];
 var activePv = [];
 
 function updateEnginePv(color, whiteToPlay, moves)
@@ -844,7 +844,8 @@ $(document).on('click', '.set-pv-board', function(e) {
     activePv = blackPv;
     // pvBoard.orientation('black');
   } else {
-    activePv = livePv;
+    liveKey = $(this).attr('live-pv-key');
+    activePv = livePvs[liveKey];
     // pvBoard.orientation('white');
   }
 
@@ -865,26 +866,6 @@ function setPvFromKey(moveKey)
   moveFrom = activePv[moveKey].from;
   moveTo = activePv[moveKey].to;
   fen = activePv[moveKey].fen;
-
-  // $('#pv-board-text').html('');
-  // lastMoveNumber = 0;
-  // _.each(activePv, function(pv, key) {
-  //   currentMoveNumber = pv.fen.substring(pv.fen.lastIndexOf(' '), pv.fen.length);
-
-  //   if (lastMoveNumber == 0 || lastMoveNumber == currentMoveNumber) {
-  //     if (lastMoveNumber == 0 && activePvColor == 'black') {
-  //       currentMoveNumber--;
-  //     }
-  //     $('#pv-board-text').append(currentMoveNumber + '. ');
-  //   }
-
-  //   lastMoveNumber = currentMoveNumber;
-  //   if (key == moveKey) {
-  //     $('#pv-board-text').append('<strong>' + pv.m + '</strong> ');
-  //   } else {
-  //     $('#pv-board-text').append(pv.m + ' ');
-  //   }
-  // });
 
   $('.active-pv-move').removeClass('active-pv-move');
   $(this).addClass('active-pv-move');
@@ -1485,6 +1466,7 @@ function updateLiveEvalInit()
 function updateLiveEvalData(data) 
 {
    var engineData = [];
+   livePvs = [];
    _.each(data, function(datum) {
      var score = 0;
      var tbhits = datum.tbhits;
@@ -1515,40 +1497,34 @@ function updateLiveEvalData(data)
      if (datum.pv.length > 0 && datum.pv.trim() != "no info") {
       var chess = new Chess(activeFen);
 
-      var currentLastMove = '';
       var currentFen = activeFen;
 
       datum.pv = datum.pv.replace("...", ". .. ");
       _.each(datum.pv.split(' '), function(move) {
           if (isNaN(move.charAt(0)) && move != '..') {
+            moveResponse = chess.move(move);
 
-            chess.move(move);
+            if (typeof moveResponse == 'undefined') {
+              console.log(move);
+            } else {
+              newPv = {
+                'from': moveResponse.from,
+                'to': moveResponse.to,
+                'm': moveResponse.san,
+                'fen': currentFen
+              };
 
-            // console.log(chess.history());
+              currentFen = chess.fen();
+              currentLastMove = move.slice(-2);
 
-            history = chess.history({ 'verbose': true });
-
-            // console.log(history);
-
-            currentLastMove = {'from':'', 'to':''}; //history[history.length - 1];
-
-            newPv = {
-              'from': currentLastMove.from,
-              'to': currentLastMove.to,
-              'm': move,
-              'fen': currentFen
-            };
-
-            currentFen = chess.fen();
-            currentLastMove = move.slice(-2);
-
-            pvs = _.union(pvs, [newPv]);
+              pvs = _.union(pvs, [newPv]);
+            }
           }
       });
      }
 
      if (pvs.length > 0) {
-      livePv = pvs;
+      livePvs = _.union(livePvs, [pvs]);
      }
 
      if (score > 0) {
@@ -1564,21 +1540,24 @@ function updateLiveEvalData(data)
     }
   });
 
+   console.log(livePvs);
+
   $('#live-eval-cont').html('');
   _.each(engineData, function(engineDatum) {
     $('#live-eval-cont').append('<h5>' + engineDatum.engine + ' PV ' + engineDatum.eval + '</h5><small>[Depth: ' + engineDatum.depth + ' Speed: ' + engineDatum.speed + ' ' + engineDatum.nodes + ' nodes]</small>');
-    var moveCount = 0;
     var moveContainer = [];
-    if (livePv.length > 0) {
-      _.each(engineDatum.pv.split(' '), function(move) {
-        if (isNaN(move.charAt(0)) && move != '..') {
-          pvLocation = livePv[moveCount];
-          // moveContainer = _.union(moveContainer, ["<a href='#' class='set-pv-board' move-key='" + moveCount + "' color='live'>" + pvLocation.m + '</a>']);
-          moveContainer = _.union(moveContainer, [pvLocation.m]);
-          moveCount++;
-        } else {
-          moveContainer = _.union(moveContainer, [move]);
-        }
+    if (livePvs.length > 0) {
+      _.each(livePvs, function(livePv, pvKey) {
+        var moveCount = 0;
+        _.each(engineDatum.pv.split(' '), function(move) {
+          if (isNaN(move.charAt(0)) && move != '..') {
+            pvLocation = livePvs[pvKey][moveCount];
+            moveContainer = _.union(moveContainer, ["<a href='#' class='set-pv-board' live-pv-key='" + pvKey + "' move-key='" + moveCount + "' color='live'>" + pvLocation.m + '</a>']);
+            moveCount++;
+          } else {
+            moveContainer = _.union(moveContainer, [move]);
+          }
+        });
       });
     }
     $('#live-eval-cont').append('<div class="engine-pv alert alert-dark">' + moveContainer.join(' ') + '</div>');
