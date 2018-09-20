@@ -90,12 +90,6 @@ body {
    margin-bottom: 10px;
 }
 
-.active-move, 
-.active-pv-move {
-	background-color: #1e1e1e;
-	color: yellow;
-}
-
 .smallfont
 {
    font-size: small;
@@ -133,6 +127,12 @@ body.dark div.modal-content {
 
 body.dark #v-pills-pv {
 	background: #333 !important;
+}
+
+.active-move, 
+.active-pv-move {
+	background-color: #1e1e1e !important;
+	color: yellow !important;
 }
 
 #v-pills-pv {
