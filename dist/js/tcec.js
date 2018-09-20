@@ -214,11 +214,26 @@ function setUsers(data)
    }
 }
 
+var newMovesCount = 0;
+
 function setPgn(pgn)
 {
    var currentPlyCount = 0;
 
-   console.log ("Came to setpgn");
+   console.log ("Came to setpgn:" + viewingActiveMove);
+
+   if (!viewingActiveMove)
+   {
+      $('#newmove').removeClass('d-none');
+      newMovesCount = newMovesCount + 1;
+      $('#newmove').attr('data-count', newMovesCount);
+   }
+   else
+   {
+      $('#newmove').addClass('d-none');
+      newMovesCount = 0;
+      $('#newmove').attr('data-count', 0);
+   }
 
    if (pgn.gameChanged)
    {
@@ -309,6 +324,9 @@ function setPgn(pgn)
   }
   if (activePly == currentPlyCount) {
     viewingActiveMove = true;
+    $('#newmove').addClass('d-none');
+    newMovesCount = 0;
+    $('#newmove').attr('data-count', 0);
   }
    if (viewingActiveMove && activePly != currentPlyCount) {
       activePly = currentPlyCount;
@@ -707,9 +725,11 @@ $(document).on('click', '.change-move', function(e) {
 
   if (clickedPly == loadedPlies)
   {
-     viewingActiveMove = true;
-  }  
-
+    viewingActiveMove = true;
+    $('#newmove').addClass('d-none');
+    newMovesCount = 0;
+    $('#newmove').attr('data-count', 0);
+   }
 });
 
 $(document).on('click', '#board-to-first', function(e) {
@@ -765,10 +785,15 @@ $(document).on('click', '#board-next', function(e) {
   e.preventDefault();
 });
 
-$(document).on('click', '#board-to-last', function(e) {
+function onLastMove()
+{
   activePly = loadedPlies;
   viewingActiveMove = true;
   handlePlyChange();
+}
+
+$(document).on('click', '#board-to-last', function(e) {
+  onLastMove();
   e.preventDefault();
 });
 

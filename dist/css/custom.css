@@ -265,3 +265,20 @@ canvas {
 {
    border-right: 2px solid black;
 }
+
+.p1[data-count]:after
+{
+   position:absolute;
+   right:40%;
+   top:8%;
+   content: attr(data-count);
+   font-size:100%;
+   padding:.2em;
+   border-radius:100%;
+   line-height:1em;
+   color: white;
+   background:rgba(255,0,0,.85);
+   text-align:center;
+   min-width: 1em;
+   background:red;
+}
