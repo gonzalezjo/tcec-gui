@@ -31,7 +31,7 @@ var server = require('http').createServer(app);
 server.listen(parseInt(portnum));
 var listener = io.listen(server);                                                                                                                                                                                                             
 
-var watcher = chokidar.watch('json/crosstable.json', {
+var watcher = chokidar.watch('crosstable.json', {
       persistent: true,
       ignoreInitial: false,
       followSymlinks: true,
@@ -47,12 +47,12 @@ var watcher = chokidar.watch('json/crosstable.json', {
       //}
       //atomic: true // or a custom 'atomicity delay', in milliseconds (default 100)
 });
-var liveeval = 'json/data.json';
-var ctable = 'json/crosstable.json';
+var liveeval = 'data.json';
+var ctable = 'crosstable.json';
 watcher.add(liveeval);
 watcher.add('live.json');
-watcher.add('json/schedule.json');
-watcher.add('json/liveeval.json');
+watcher.add('schedule.json');
+watcher.add('liveeval.json');
 
 var count = 0;
 var socket = 0;
