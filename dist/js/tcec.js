@@ -1541,8 +1541,8 @@ function updateLiveEvalData(data)
           if (isNaN(move.charAt(0)) && move != '..') {
             moveResponse = chess.move(move);
 
-            if (typeof moveResponse == 'undefined') {
-              console.log(move);
+            if (!moveResponse || typeof moveResponse == 'undefined') {
+                 console.log("undefine move" + move);
             } else {
               newPv = {
                 'from': moveResponse.from,
@@ -1587,7 +1587,13 @@ function updateLiveEvalData(data)
         _.each(engineDatum.pv.split(' '), function(move) {
           if (isNaN(move.charAt(0)) && move != '..') {
             pvLocation = livePvs[pvKey][moveCount];
-            moveContainer = _.union(moveContainer, ["<a href='#' class='set-pv-board' live-pv-key='" + pvKey + "' move-key='" + moveCount + "' color='live'>" + pvLocation.m + '</a>']);
+            if (pvLocation) {
+               moveContainer = _.union(moveContainer, ["<a href='#' class='set-pv-board' live-pv-key='" + pvKey + "' move-key='" + moveCount + "' color='live'>" + pvLocation.m + '</a>']);
+               }
+            else
+            {
+               console.log ("pvlocation not defined");
+            }
             moveCount++;
           } else {
             moveContainer = _.union(moveContainer, [move]);
