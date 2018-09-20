@@ -1776,13 +1776,38 @@ function setSound()
    }
 }
 
-document.getElementById("eval-graph").onclick = function(evt)
+function goMoveFromChart(chartx, evt)
 {
-   var activePoints = evalChart.getElementAtEvent(evt);
+   var activePoints = chartx.getElementAtEvent(evt);
    var firstPoint = activePoints[0];
-   var plyNum = evalChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index].ply;
+   var plyNum = chartx.data.datasets[firstPoint._datasetIndex].data[firstPoint._index].ply;
    if (plyNum != undefined)
    {
       $('a[ply=' + plyNum + ']').click();
    }
+}
+
+document.getElementById("eval-graph").onclick = function(evt)
+{
+   goMoveFromChart(evalChart, evt);
+};
+
+document.getElementById("time-graph").onclick = function(evt)
+{
+   goMoveFromChart(timeChart, evt);
+};
+
+document.getElementById("speed-graph").onclick = function(evt)
+{
+   goMoveFromChart(speedChart, evt);
+};
+
+document.getElementById("tbhits-graph").onclick = function(evt)
+{
+   goMoveFromChart(tbHitsChart, evt);
+};
+
+document.getElementById("depth-graph").onclick = function(evt)
+{
+   goMoveFromChart(depthChart, evt);
 };

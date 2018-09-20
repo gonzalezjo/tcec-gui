@@ -476,7 +476,8 @@ function updateChartData()
 			time = [
 				{
 					'x': moveNumber,
-					'y': Math.round(move.mt / 1000)
+					'y': Math.round(move.mt / 1000),
+					'ply': plyNum
 				}
 			];
 
@@ -484,21 +485,24 @@ function updateChartData()
 				{
 					'x': moveNumber,
 					'y': move.s,
-					'nodes': move.n
+					'nodes': move.n,
+					'ply': plyNum
 				}
 			];
 
 			depth = [
 				{
 					'x': moveNumber,
-					'y': depth
+					'y': depth,
+					'ply': plyNum
 				}
 			];
 
 			tbHits = [
 				{
 					'x': moveNumber,
-					'y': move.tb
+					'y': move.tb,
+					'ply': plyNum
 				}
 			];
 
