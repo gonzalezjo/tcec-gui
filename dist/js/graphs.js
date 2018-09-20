@@ -127,6 +127,7 @@ var tbHitsChartData = {
   }]
 };
 
+
 $(function() {
 	evalChart = Chart.Line($('#eval-graph'), {
 	  data: evalChartData,
@@ -139,7 +140,7 @@ $(function() {
 	      display: true,
          labels: {
             boxWidth: 1
-         }
+         },
 	    },
 	    title: {
 	      display: false
@@ -427,13 +428,20 @@ function updateChartData()
 	whiteTBHits = [];
 	blackTBHits = [];
 
+   var plyNum = 0;
+
 	_.each(loadedPgn.Moves, function(move, key) {
 		if (!move.book) {
 			moveNumber = Math.round(key / 2) + 1;
 
 			if (key % 2 != 0) {
+            plyNum = key + 1;
 				moveNumber--;
 			}
+         else
+         {
+            plyNum = key + 1;
+         }
 
 			depth = move.d;
 			if (move.sd > depth) {
@@ -460,6 +468,7 @@ function updateChartData()
 				{
 					'x': moveNumber,
 					'y': move.wv,
+					'ply': plyNum,
 					'eval': evaluation
 				}
 			];

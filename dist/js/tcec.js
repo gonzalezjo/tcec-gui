@@ -1777,3 +1777,14 @@ function setSound()
       playSound = 0;
    }
 }
+
+document.getElementById("eval-graph").onclick = function(evt)
+{
+   var activePoints = evalChart.getElementAtEvent(evt);
+   var firstPoint = activePoints[0];
+   var plyNum = evalChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index].ply;
+   if (plyNum != undefined)
+   {
+      $('a[ply=' + plyNum + ']').click();
+   }
+};
