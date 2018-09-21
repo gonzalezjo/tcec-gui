@@ -1895,20 +1895,23 @@ document.getElementById("depth-graph").onclick = function(evt)
    goMoveFromChart(depthChart, evt);
 };
 
+function addToolTip(divx, divimg)
+{
+   var htmlx = '<table class="table table-dark table-striped table-dark">' + $(divx).html() + '</table>';
+   $(divimg).tooltipster('content', htmlx);
+}
+
+var columnsEng = [
+{
+   field: 'Name'
+},
+{
+   field: 'Value'
+}
+];
+
 function updateEngineInfo(divx, divimg, data) 
 {
-   columns = [
-   {
-      field: 'Name'
-   },
-   {
-      field: 'Value'
-   }
-   ];
-
-   $(divx).bootstrapTable({
-      columns: columns
-   });
    $(divx).bootstrapTable('load', data);
    addToolTip(divx, divimg);
 }
@@ -1921,17 +1924,19 @@ function addToolTipInit(divx, divimg)
       side: ['right'],
       theme: 'tooltipster-shadow',
       trigger: 'hover',
-      delay: 0
+      delay: 0,
+      contentCloning: true
    });
-}
-
-function addToolTip(divx, divimg)
-{
-   $(divimg).tooltipster('content', $(divx));
 }
 
 function initToolTip()
 {
+   $('#whiteenginetable').bootstrapTable({
+      columns: columnsEng
+   });
+   $('#blackenginetable').bootstrapTable({
+      columns: columnsEng
+   });
    addToolTipInit('#whiteenginetable', '#white-engine');
    addToolTipInit('#blackenginetable', '#black-engine');
 }
