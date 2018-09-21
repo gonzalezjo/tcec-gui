@@ -562,15 +562,51 @@
         </div>
 
         <div class="col-md-4">
-          <div>
-            <iframe frameborder="0" style="width: 100%" scrolling="no" id="chatright"></iframe>
-          </div>
-          <div class="text-center">
-            <a target="_blank" href="https://www.twitch.tv/products/tcecpoc/ticket" class="btn btn-primary">Subscribe</a>
-            <a target="_blank" href="https://streamlabs.com/TCEC_Chess_TV" class="btn btn-primary">Donate</a>
-          </div>
-        </div>
+         <ul class="nav nav-pills mb-3 nav-justified" id="pills-tab" role="tablist">
+            <li class="nav-item">
+               <a class="nav-link active" id="pills-chat-tab" data-toggle="pill" href="#pills-chat" role="tab" aria-controls="pills-chat" aria-selected="true">Chat</a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" id="pills-info-tab" data-toggle="pill" href="#pills-info" role="tab" aria-controls="pills-info" aria-selected="true">Information</a>
+            </li>
+         </ul>
+         <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane show active fade smallfont" id="pills-chat" role="tabpanel" aria-labelledby="pills-chat-tab">
+               <div>
+                  <iframe frameborder="0" style="width: 100%" scrolling="no" id="chatright"></iframe>
+               </div>
+               <div class="text-center">
+                  <a target="_blank" href="https://www.twitch.tv/products/tcecpoc/ticket" class="btn btn-primary">Subscribe</a>
+                  <a target="_blank" href="https://streamlabs.com/TCEC_Chess_TV" class="btn btn-primary">Donate</a>
+               </div>
+            </div>
+            <div class="tab-pane show fade smallfont" id="pills-info" role="tabpanel" aria-labelledby="pills-info-tab">
+               <div style="background: black" role="document">
+                  <div class="about_row_content" id="about_desc">
+
+                     <h4><u><i>Live</i></u></h4>
+                     <b>TCEC</b> Premier division is currently ongoing
+                     <a href="http://tcecbeta.club" target="_blank">http://tcecbeta.club</a>
+
+                     <h4></h4>
+                     <h4></h4>
+
+                     <h4><u><i>Bonus</i></u></h4>
+                     <b>TCEC</b> LCZero (11250), DeusX (Rev 2) on 2xV100s | SF Dev (18091012), Ethereal 11.05 on 92 vCPUs
+                     <a href="http://bonus.tcecbeta.club" target="_blank">http://bonus.tcecbeta.club</a>
+
+                     <h4></h4>
+                     <h4></h4>
+
+                     <h4><u><i>GUI Issues/Requests</i></u></h4>
+                     Please file an issue in git-hub
+                     <a href="https://github.com/scs-ben/tcec-gui/issues" target="_blank">https://github.com/scs-ben/tcec-gui/issues</a>
+                  </div>
+            </div>
+         </div>
       </div>
+   </div>
+   </div>
 
       <br>
 
