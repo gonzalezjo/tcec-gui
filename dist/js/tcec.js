@@ -640,17 +640,16 @@ function getEvalFromPly(ply)
 
 function updateMoveValues(whiteToPlay, whiteEval, blackEval)
 {
+  console.log('e');
    if (!viewingActiveMove) 
    {
-      console.log('here');
+    console.log('e1');
       $('.white-time-used').html(whiteEval.mtime);
       $('.black-time-used').html(blackEval.mtime);
       $('.white-time-remaining').html(whiteEval.timeleft);
       $('.black-time-remaining').html(blackEval.timeleft);
    }
-
-   speed = whiteEval.speed;
-
+console.log('e2');
    $('.white-engine-eval').html(whiteEval.eval);
    $('.white-engine-speed').html(whiteEval.speed);
    $('.white-engine-nodes').html(whiteEval.nodes);
@@ -815,10 +814,12 @@ function onLastMove()
 {
   activePly = loadedPlies;
   viewingActiveMove = true;
+  console.log('b');
   handlePlyChange();
 }
 
 $(document).on('click', '#board-to-last', function(e) {
+  console.log('a');
   onLastMove();
   e.preventDefault();
 
@@ -861,6 +862,7 @@ function handlePlyChange(handleclick)
       handleclick = true;
    }
 
+   console.log('d');
    whiteToPlay = (activePly % 2 == 0);
 
    whiteEval = blackEval = '';
@@ -881,6 +883,7 @@ function handlePlyChange(handleclick)
    if (typeof currentMove != 'undefined') {
     setMoveMaterial(currentMove.material, 0);
    }
+   console.log('d1');
    updateMoveValues(whiteToPlay, whiteEval, blackEval);
 
    if (handleclick)
