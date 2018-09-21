@@ -63,18 +63,18 @@ function updatePgnData(data, read)
 
    if (!prevPgnData)
    {
-      updateEngineInfo('#whiteenginetable', '#white-engine', data.WhiteEngineOptions);
-      updateEngineInfo('#blackenginetable', '#black-engine', data.BlackEngineOptions);
+      updateEngineInfo('#whiteenginetable', '#white-engine-info', data.WhiteEngineOptions);
+      updateEngineInfo('#blackenginetable', '#black-engine-info', data.BlackEngineOptions);
    }
    else
    {
       if (data.WhiteEngineOptions != prevPgnData.WhiteEngineOptions)
       {
-         updateEngineInfo('#whiteenginetable', '#white-engine', data.WhiteEngineOptions);
+         updateEngineInfo('#whiteenginetable', '#white-engine-info', data.WhiteEngineOptions);
       }
       if (data.BlackEngineOptions != prevPgnData.BlackEngineOptions)
       {
-         updateEngineInfo('#blackenginetable', '#black-engine', data.BlackEngineOptions);
+         updateEngineInfo('#blackenginetable', '#black-engine-info', data.BlackEngineOptions);
       }
    }
    setPgn(data);
@@ -1930,9 +1930,23 @@ function addToolTipInit(divx, divimg, direction)
       side: [direction],
       theme: 'tooltipster-shadow',
       trigger: 'hover',
-      delay: [100, 3000],
+      delay: [500, 200],
       contentCloning: true,
-      delayTouch: [10, 3000]
+      delayTouch: [10, 2000],
+      trigger: 'custom',
+         triggerOpen: {
+            mouseenter: true,
+            click: true,
+            touchstart: true,
+            tap: true
+         },
+         triggerClose: {
+            mouseleave: true,
+            click: true,
+            touchleave: true,
+            tap: true,
+            originClick: true
+         }
    });
 }
 
@@ -1946,6 +1960,6 @@ function initToolTip()
       columns: columnsEng,
       showHeader: false
    });
-   addToolTipInit('#whiteenginetable', '#white-engine', 'right');
-   addToolTipInit('#blackenginetable', '#black-engine', 'left');
+   addToolTipInit('#whiteenginetable', '#white-engine-info', 'right');
+   addToolTipInit('#blackenginetable', '#black-engine-info', 'left');
 }
