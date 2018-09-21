@@ -1926,7 +1926,7 @@ function addToolTipInit(divx, divimg, direction)
       trigger: 'hover',
       delay: [100, 3000],
       contentCloning: true,
-      delayTouch: [10, 5000]
+      delayTouch: [10, 3000]
    });
 }
 
