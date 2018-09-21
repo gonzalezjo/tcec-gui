@@ -602,6 +602,8 @@ function updateMoveValues(whiteToPlay, whiteEval, blackEval)
    {
       $('.white-time-used').html(whiteEval.mtime);
       $('.black-time-used').html(blackEval.mtime);
+      $('.white-time-remaining').html(whiteEval.timeleft);
+      $('.black-time-remaining').html(blackEval.timeleft);
    }
 
    speed = whiteEval.speed;
@@ -612,7 +614,6 @@ function updateMoveValues(whiteToPlay, whiteEval, blackEval)
    $('.white-engine-depth').html(whiteEval.depth);
    $('.white-engine-tbhits').html(whiteEval.tbhits);
    updateEnginePv('white', whiteToPlay, whiteEval.pv);
-   $('.white-time-remaining').html(whiteEval.timeleft);
 
    $('.black-engine-eval').html(blackEval.eval);
    $('.black-engine-speed').html(blackEval.speed);
@@ -620,7 +621,6 @@ function updateMoveValues(whiteToPlay, whiteEval, blackEval)
    $('.black-engine-depth').html(blackEval.depth);
    $('.black-engine-tbhits').html(blackEval.tbhits);
    updateEnginePv('black', whiteToPlay, blackEval.pv);
-   $('.black-time-remaining').html(blackEval.timeleft);
 }
 
 var whitePv = [];
@@ -703,6 +703,7 @@ $(document).on('click', '.change-move', function(e) {
      viewingActiveMove = true;
   }  
 
+  return false;
 });
 
 $(document).on('click', '#board-to-first', function(e) {
@@ -717,6 +718,8 @@ $(document).on('click', '#board-previous', function(e) {
   }
   handlePlyChange();
   e.preventDefault();
+
+  return false;
 });
 
 var isAutoplay = false;
@@ -733,6 +736,8 @@ $(document).on('click', '#board-autoplay', function(e) {
     $('#board-autoplay i').addClass('fa-pause');
     boardAutoplay();
   }
+
+  return false;
 });
 
 function boardAutoplay()
@@ -756,6 +761,8 @@ $(document).on('click', '#board-next', function(e) {
   }
   handlePlyChange();
   e.preventDefault();
+
+  return false;
 });
 
 $(document).on('click', '#board-to-last', function(e) {
@@ -763,6 +770,8 @@ $(document).on('click', '#board-to-last', function(e) {
   viewingActiveMove = true;
   handlePlyChange();
   e.preventDefault();
+
+  return false;
 });
 
 $(document).on('click', '#board-reverse', function(e) {
@@ -790,6 +799,8 @@ $(document).on('click', '#board-reverse', function(e) {
   handlePlyChange(false);
 
   e.preventDefault();
+
+  return false;
 });
 
 function handlePlyChange(handleclick) 
@@ -851,6 +862,8 @@ $(document).on('click', '.set-pv-board', function(e) {
   setPvFromKey(moveKey);
 
   e.preventDefault(); 
+
+  return false;
 });
 
 function setPvFromKey(moveKey)
@@ -865,26 +878,6 @@ function setPvFromKey(moveKey)
   moveFrom = activePv[moveKey].from;
   moveTo = activePv[moveKey].to;
   fen = activePv[moveKey].fen;
-
-  // $('#pv-board-text').html('');
-  // lastMoveNumber = 0;
-  // _.each(activePv, function(pv, key) {
-  //   currentMoveNumber = pv.fen.substring(pv.fen.lastIndexOf(' '), pv.fen.length);
-
-  //   if (lastMoveNumber == 0 || lastMoveNumber == currentMoveNumber) {
-  //     if (lastMoveNumber == 0 && activePvColor == 'black') {
-  //       currentMoveNumber--;
-  //     }
-  //     $('#pv-board-text').append(currentMoveNumber + '. ');
-  //   }
-
-  //   lastMoveNumber = currentMoveNumber;
-  //   if (key == moveKey) {
-  //     $('#pv-board-text').append('<strong>' + pv.m + '</strong> ');
-  //   } else {
-  //     $('#pv-board-text').append(pv.m + ' ');
-  //   }
-  // });
 
   $('.active-pv-move').removeClass('active-pv-move');
   $(this).addClass('active-pv-move');
@@ -903,17 +896,23 @@ $('#pv-board-black').click(function(e) {
   activePv = blackPv;
   setPvFromKey(0);
   e.preventDefault();
+
+  return false;
 });
 
 $('#pv-board-white').click(function(e) {
   activePv = whitePv;
   setPvFromKey(0);
   e.preventDefault();
+
+  return false;
 });
 
 $('#pv-board-to-first').click(function(e) {
   setPvFromKey(0);
   e.preventDefault();
+
+  return false;
 });
 
 $('#pv-board-previous').click(function(e) {
@@ -921,6 +920,8 @@ $('#pv-board-previous').click(function(e) {
     setPvFromKey(activePvKey - 1);
   }
   e.preventDefault();
+
+  return false;
 });
 
 var isPvAutoplay = false;
@@ -937,6 +938,8 @@ $('#pv-board-autoplay').click(function(e) {
     pvBoardAutoplay();
   }
   e.preventDefault();
+
+  return false;
 });
 
 function pvBoardAutoplay()
@@ -956,16 +959,22 @@ $('#pv-board-next').click(function(e) {
     setPvFromKey(activePvKey + 1);
   }
   e.preventDefault();
+
+  return false;
 });
 
 $('#pv-board-to-last').click(function(e) {
   setPvFromKey(activePv.length - 1);
   e.preventDefault();
+
+  return false;
 });
 
 $('#pv-board-reverse').click(function(e) {
   pvBoard.flip();
   e.preventDefault();
+
+  return false;
 });
 
 function setMoveMaterial(material, whiteToPlay)
