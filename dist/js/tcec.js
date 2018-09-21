@@ -58,9 +58,26 @@ function updateAll()
 
 function updatePgnData(data, read)
 {
-    loadedPgn = data;
-    timeDiffRead = read;
-    setPgn(data);
+   loadedPgn = data;
+   timeDiffRead = read;
+
+   if (!prevPgnData)
+   {
+      updateEngineInfo('#whiteenginetable', '#white-engine', data.WhiteEngineOptions);
+      updateEngineInfo('#blackenginetable', '#black-engine', data.BlackEngineOptions);
+   }
+   else
+   {
+      if (data.WhiteEngineOptions != prevPgnData.WhiteEngineOptions)
+      {
+         updateEngineInfo('#whiteenginetable', '#white-engine', data.WhiteEngineOptions);
+      }
+      if (data.BlackEngineOptions != prevPgnData.BlackEngineOptions)
+      {
+         updateEngineInfo('#blackenginetable', '#black-engine', data.BlackEngineOptions);
+      }
+   }
+   setPgn(data);
 }
 
 function updatePgn(resettime)
@@ -1842,3 +1859,44 @@ document.getElementById("depth-graph").onclick = function(evt)
 {
    goMoveFromChart(depthChart, evt);
 };
+
+function updateEngineInfo(divx, divimg, data) 
+{
+   columns = [
+   {
+      field: 'Name'
+   },
+   {
+      field: 'Value'
+   }
+   ];
+
+   $(divx).bootstrapTable({
+      columns: columns
+   });
+   $(divx).bootstrapTable('load', data);
+   addToolTip(divx, divimg);
+}
+
+function addToolTipInit(divx, divimg)
+{
+   $(divimg).tooltipster({
+      contentAsHTML: true,
+      interactive: true,
+      side: ['right'],
+      theme: 'tooltipster-shadow',
+      trigger: 'hover',
+      delay: 0
+   });
+}
+
+function addToolTip(divx, divimg)
+{
+   $(divimg).tooltipster('content', $(divx));
+}
+
+function initToolTip()
+{
+   addToolTipInit('#whiteenginetable', '#white-engine');
+   addToolTipInit('#blackenginetable', '#black-engine');
+}

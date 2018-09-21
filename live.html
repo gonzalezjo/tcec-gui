@@ -13,6 +13,7 @@
     <link href="dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="dist/css/chessboard-0.3.0.min.css" rel="stylesheet">
     <link href="dist/css/chessboard.css" rel="stylesheet">
+    <link href="dist/css/tooltipster.bundle.min.css" rel="stylesheet">
     <link href="dist/bootstrap-table.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <!-- Custom styles for this template -->
@@ -674,7 +675,8 @@
             </div>
           </div>
         </div>
-
+        <table id="whiteenginetable" class="table-dark table-striped hidden">
+        <table id="blackenginetable" class="table-dark table-striped hidden">
         <div class="modal" id="rules-modal" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -858,6 +860,7 @@
     <script src="dist/js/graphs.js?v=10000000000000000000042"></script>
     <script src="dist/js/chessboard.js?v=10000000000000000000042"></script>
     <script src="dist/js/tcec.js?v=10000000000000000000042"></script>
+    <script src="dist/js/tooltipster.bundle.min.js"></script>
     <script src="dist/js/bootstrap-4-navbar.js?v=1000000000000000000042"></script>
     <script src="dist/js/bootstrap-slider.min.js"></script>
     <script src="http://172.93.55.172:8888/socket.io/socket.io.js"></script>
@@ -1030,6 +1033,7 @@
         });
 
         setSound();  
+        initToolTip();
         updatePgn();
         updateLiveEvalInit();
         $(document).ready(function () {
