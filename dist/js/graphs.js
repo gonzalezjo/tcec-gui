@@ -7,7 +7,7 @@ var tbHitsChart;
 var evalChartData = {
   labels: [],
   datasets: [{
-    label: 'White Engine Eval',
+    label: 'White',
     lineTension: 0,
     borderColor: '#EFEFEF',
     backgroundColor: '#EFEFEF',
@@ -15,7 +15,7 @@ var evalChartData = {
     data: [
     ]
   }, {
-    label: 'Black Engine Eval',
+    label: 'Black',
     lineTension: 0,
     borderColor: '#000000',
     backgroundColor: '#FFFFFF',
@@ -24,7 +24,7 @@ var evalChartData = {
     data: [
     ]
   }, {
-    label: 'Live Engine Eval [SF Dev]',
+    label: 'Live [SF Dev]',
     lineTension: 0,
     borderColor: '#007bff',
     backgroundColor: '#007bff',
@@ -127,6 +127,7 @@ var tbHitsChartData = {
   }]
 };
 
+
 $(function() {
 	evalChart = Chart.Line($('#eval-graph'), {
 	  data: evalChartData,
@@ -139,7 +140,7 @@ $(function() {
 	      display: true,
          labels: {
             boxWidth: 1
-         }
+         },
 	    },
 	    title: {
 	      display: false
@@ -427,13 +428,20 @@ function updateChartData()
 	whiteTBHits = [];
 	blackTBHits = [];
 
+   var plyNum = 0;
+
 	_.each(loadedPgn.Moves, function(move, key) {
 		if (!move.book) {
 			moveNumber = Math.round(key / 2) + 1;
 
 			if (key % 2 != 0) {
+            plyNum = key + 1;
 				moveNumber--;
 			}
+         else
+         {
+            plyNum = key + 1;
+         }
 
 			depth = move.d;
 			if (move.sd > depth) {
@@ -460,6 +468,7 @@ function updateChartData()
 				{
 					'x': moveNumber,
 					'y': move.wv,
+					'ply': plyNum,
 					'eval': evaluation
 				}
 			];
@@ -467,7 +476,8 @@ function updateChartData()
 			time = [
 				{
 					'x': moveNumber,
-					'y': Math.round(move.mt / 1000)
+					'y': Math.round(move.mt / 1000),
+					'ply': plyNum
 				}
 			];
 
@@ -475,21 +485,24 @@ function updateChartData()
 				{
 					'x': moveNumber,
 					'y': move.s,
-					'nodes': move.n
+					'nodes': move.n,
+					'ply': plyNum
 				}
 			];
 
 			depth = [
 				{
 					'x': moveNumber,
-					'y': depth
+					'y': depth,
+					'ply': plyNum
 				}
 			];
 
 			tbHits = [
 				{
 					'x': moveNumber,
-					'y': move.tb
+					'y': move.tb,
+					'ply': plyNum
 				}
 			];
 

@@ -90,12 +90,6 @@ body {
    margin-bottom: 10px;
 }
 
-.active-move, 
-.active-pv-move {
-	background-color: #1e1e1e;
-	color: yellow;
-}
-
 .smallfont
 {
    font-size: small;
@@ -133,6 +127,12 @@ body.dark div.modal-content {
 
 body.dark #v-pills-pv {
 	background: #333 !important;
+}
+
+.active-move, 
+.active-pv-move {
+	background-color: #1e1e1e !important;
+	color: yellow !important;
 }
 
 #v-pills-pv {
@@ -227,6 +227,7 @@ canvas {
 	max-height: 900px;
 	overflow: auto;
 	overflow-y: scroll;
+   -webkit-overflow-scrolling: touch;
 }
 
 #opening_desc {
@@ -251,4 +252,33 @@ canvas {
 
 #ex1Slider .slider-selection {
    background: #BABABA;
+}
+
+.black-time-remaining,
+.white-time-remaining,
+.black-time-used,
+.white-time-used {
+	font-family: monospace;
+}
+
+.rightborder
+{
+   border-right: 2px solid black;
+}
+
+.p1[data-count]:after
+{
+   position:absolute;
+   right:40%;
+   top:8%;
+   content: attr(data-count);
+   font-size:100%;
+   padding:.2em;
+   border-radius:100%;
+   line-height:1em;
+   color: white;
+   background:rgba(255,0,0,.85);
+   text-align:center;
+   min-width: 1em;
+   background: red;
 }

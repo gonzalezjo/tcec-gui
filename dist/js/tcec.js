@@ -58,13 +58,35 @@ function updateAll()
 
 function updatePgnData(data, read)
 {
-    loadedPgn = data;
-    timeDiffRead = read;
-    setPgn(data);
+   loadedPgn = data;
+   timeDiffRead = read;
+
+   if (!prevPgnData)
+   {
+      updateEngineInfo('#whiteenginetable', '#white-engine', data.WhiteEngineOptions);
+      updateEngineInfo('#blackenginetable', '#black-engine', data.BlackEngineOptions);
+   }
+   else
+   {
+      if (data.WhiteEngineOptions != prevPgnData.WhiteEngineOptions)
+      {
+         updateEngineInfo('#whiteenginetable', '#white-engine', data.WhiteEngineOptions);
+      }
+      if (data.BlackEngineOptions != prevPgnData.BlackEngineOptions)
+      {
+         updateEngineInfo('#blackenginetable', '#black-engine', data.BlackEngineOptions);
+      }
+   }
+   setPgn(data);
 }
 
-function updatePgn()
+function updatePgn(resettime)
 {
+   if (resettime != undefined)
+   {
+      timeDiffRead = 0;
+   }
+
    axios.get('live.json?no-cache' + (new Date()).getTime())
    .then(function (response) 
    {
@@ -209,11 +231,26 @@ function setUsers(data)
    }
 }
 
+var newMovesCount = 0;
+
 function setPgn(pgn)
 {
    var currentPlyCount = 0;
 
-   console.log ("Came to setpgn");
+   console.log ("Came to setpgn:" + viewingActiveMove);
+
+   if (!viewingActiveMove)
+   {
+      $('#newmove').removeClass('d-none');
+      newMovesCount = newMovesCount + 1;
+      $('#newmove').attr('data-count', newMovesCount);
+   }
+   else
+   {
+      $('#newmove').addClass('d-none');
+      newMovesCount = 0;
+      $('#newmove').attr('data-count', 0);
+   }
 
    if (pgn.gameChanged)
    {
@@ -304,6 +341,9 @@ function setPgn(pgn)
   }
   if (activePly == currentPlyCount) {
     viewingActiveMove = true;
+    $('#newmove').addClass('d-none');
+    newMovesCount = 0;
+    $('#newmove').attr('data-count', 0);
   }
    if (viewingActiveMove && activePly != currentPlyCount) {
       activePly = currentPlyCount;
@@ -491,20 +531,22 @@ function copyFen()
 function setInfoFromCurrentHeaders()
 {
   var header = loadedPgn.Headers.White;
-  $('.white-engine-name').html(header);
   var name = header;
   if (header.indexOf(' ') > 0) {
     name = header.substring(0, header.indexOf(' '))
   }
+  $('.white-engine-name').html(name);
+  $('.white-engine-name-full').html(header);
   var imgsrc = 'img/engines/' + name + '.jpg';
   $('#white-engine').attr('src', imgsrc);
   $('#white-engine').attr('alt', header);
   header = loadedPgn.Headers.Black;
-  $('.black-engine-name').html(header);
   name = header;
   if (header.indexOf(' ') > 0) {
     name = header.substring(0, header.indexOf(' '))
   }
+  $('.black-engine-name').html(name);
+  $('.black-engine-name-full').html(header);
   var imgsrc = 'img/engines/' + name + '.jpg';
   $('#black-engine').attr('src', imgsrc);
   $('#black-engine').attr('alt', header);
@@ -561,25 +603,25 @@ function getEvalFromPly(ply)
   clockPreviousMove = selectedMove;
   speed = selectedMove.s;
   if (speed < 1000000) {
-    speed = Math.round(speed / 1000) + 'Knps';
+    speed = Math.round(speed / 1000) + ' Knps';
   } else {
-    speed = Math.round(speed / 1000000) + 'Mnps';
+    speed = Math.round(speed / 1000000) + ' Mnps';
   }
 
   nodes = selectedMove.n;
   if (nodes < 1000000) {
-    nodes = Math.round(nodes / 1000) + 'K';
+    nodes = Math.round(nodes / 1000) + ' K';
   } else {
-    nodes = Math.round(nodes / 1000000) + 'M';
+    nodes = Math.round(nodes / 1000000) + ' M';
   }
 
   var depth = selectedMove.d + '/' + selectedMove.sd;
   var tbHits = 0;
   if (selectedMove.tb) {
     if (selectedMove.tb < 1000000) {
-      tbHits = Math.round(selectedMove.tb / 1000) + 'K';
+      tbHits = Math.round(selectedMove.tb / 1000) + ' K';
     } else {
-      tbHits = Math.round(selectedMove.tb * 1 / 1000000) + 'M';
+      tbHits = Math.round(selectedMove.tb * 1 / 1000000) + ' M';
     }
   }
 
@@ -625,7 +667,7 @@ function updateMoveValues(whiteToPlay, whiteEval, blackEval)
 
 var whitePv = [];
 var blackPv = [];
-var livePv = [];
+var livePvs = [];
 var activePv = [];
 
 function updateEnginePv(color, whiteToPlay, moves)
@@ -700,10 +742,13 @@ $(document).on('click', '.change-move', function(e) {
 
   if (clickedPly == loadedPlies)
   {
-     viewingActiveMove = true;
-  }  
+    viewingActiveMove = true;
+    $('#newmove').addClass('d-none');
+    newMovesCount = 0;
+    $('#newmove').attr('data-count', 0);
+   }
 
-  return false;
+   return false;
 });
 
 $(document).on('click', '#board-to-first', function(e) {
@@ -765,10 +810,15 @@ $(document).on('click', '#board-next', function(e) {
   return false;
 });
 
-$(document).on('click', '#board-to-last', function(e) {
+function onLastMove()
+{
   activePly = loadedPlies;
   viewingActiveMove = true;
   handlePlyChange();
+}
+
+$(document).on('click', '#board-to-last', function(e) {
+  onLastMove();
   e.preventDefault();
 
   return false;
@@ -855,7 +905,8 @@ $(document).on('click', '.set-pv-board', function(e) {
     activePv = blackPv;
     // pvBoard.orientation('black');
   } else {
-    activePv = livePv;
+    liveKey = $(this).attr('live-pv-key');
+    activePv = livePvs[liveKey];
     // pvBoard.orientation('white');
   }
 
@@ -882,7 +933,7 @@ function setPvFromKey(moveKey)
   $('.active-pv-move').removeClass('active-pv-move');
   $(this).addClass('active-pv-move');
 
-  viewingActiveMove = false;
+  $('#pv-board-fen').html(fen);
 
   pvBoardEl.find('.' + squareClass).removeClass('highlight-white');
   pvBoardEl.find('.square-' + moveFrom).addClass('highlight-white');
@@ -891,6 +942,11 @@ function setPvFromKey(moveKey)
 
   pvBoard.position(fen, false);
 }
+
+$('#pv-board-fen').click(function(e) {
+  Clipboard.copy($(this).html());
+  return false;
+});
 
 $('#pv-board-black').click(function(e) {
   activePv = blackPv;
@@ -1016,20 +1072,6 @@ function openCross(gamen)
 {
    var link = "http://tcec.chessdom.com/archive.php?se=13&di=P&ga=" + gamen;
    window.open(link,'_blank');
-}
-
-function schedformatter(value, row, index, field) 
-{
-   var retStr = value;
-   _.each(row, function(valuer, keyr)
-   {
-      if (keyr.match(/Moves/))
-      {
-         retStr = '<a title="TBD" style="cursor:pointer; color: red;"onclick="openCross(' + value + ')">' + value + '</a>';
-      }
-   });
-      
-   return retStr;
 }
 
 var gameArrayClass = ['#39FF14', 'red', 'whitesmoke'];
@@ -1193,15 +1235,43 @@ function updateCrosstable()
 
 function updateScheduleData(data) 
 {
-   $('#schedule').bootstrapTable('load', data);
-   var options = $('#schedule').bootstrapTable('getOptions');
+   var prevDate = 0;
+   var momentDate = 0;
+   var diff = 0;
+   var gameDiff = 0;
+   var timezoneDiff = moment().utcOffset() * 60 * 1000 - 3600 * 1000;
+
    _.each(data, function(engine, key) 
    {
+      if (engine.Start)
+      {
+         momentDate = moment(engine.Start, 'HH:mm:ss on YYYY.MM.DD');
+         if (prevDate)
+         {
+            diff = diff + momentDate.diff(prevDate);
+            gameDiff = diff/(engine.Game-1);
+         }
+         momentDate.add(timezoneDiff);
+         engine.Start = momentDate.format('HH:mm:ss on YYYY.MM.DD');
+         prevDate = momentDate;
+      }
+      else
+      {
+         if (gameDiff)
+         {
+            prevDate.add(gameDiff + timezoneDiff);
+            engine.Start = "Estd: " + prevDate.format('HH:mm:ss on YYYY.MM.DD');
+         }
+      }
       if (typeof engine.Moves != 'undefined')
       {
          gamesDone = engine.Game;
+         engine.Game = '<a title="TBD" style="cursor:pointer; color: red;"onclick="openCross(' + engine.Game + ')">' + engine.Game + '</a>';
       }
    });
+
+   $('#schedule').bootstrapTable('load', data);
+   var options = $('#schedule').bootstrapTable('getOptions');
    pageNum = parseInt(gamesDone/options.pageSize) + 1;
    $('#schedule').bootstrapTable('selectPage', pageNum);
 }
@@ -1480,6 +1550,7 @@ function updateLiveEvalInit()
 function updateLiveEvalData(data) 
 {
    var engineData = [];
+   livePvs = [];
    _.each(data, function(datum) {
      var score = 0;
      var tbhits = datum.tbhits;
@@ -1510,40 +1581,34 @@ function updateLiveEvalData(data)
      if (datum.pv.length > 0 && datum.pv.trim() != "no info") {
       var chess = new Chess(activeFen);
 
-      var currentLastMove = '';
       var currentFen = activeFen;
 
       datum.pv = datum.pv.replace("...", ". .. ");
       _.each(datum.pv.split(' '), function(move) {
           if (isNaN(move.charAt(0)) && move != '..') {
+            moveResponse = chess.move(move);
 
-            chess.move(move);
+            if (!moveResponse || typeof moveResponse == 'undefined') {
+                 console.log("undefine move" + move);
+            } else {
+              newPv = {
+                'from': moveResponse.from,
+                'to': moveResponse.to,
+                'm': moveResponse.san,
+                'fen': currentFen
+              };
 
-            // console.log(chess.history());
+              currentFen = chess.fen();
+              currentLastMove = move.slice(-2);
 
-            history = chess.history({ 'verbose': true });
-
-            // console.log(history);
-
-            currentLastMove = {'from':'', 'to':''}; //history[history.length - 1];
-
-            newPv = {
-              'from': currentLastMove.from,
-              'to': currentLastMove.to,
-              'm': move,
-              'fen': currentFen
-            };
-
-            currentFen = chess.fen();
-            currentLastMove = move.slice(-2);
-
-            pvs = _.union(pvs, [newPv]);
+              pvs = _.union(pvs, [newPv]);
+            }
           }
       });
      }
 
      if (pvs.length > 0) {
-      livePv = pvs;
+      livePvs = _.union(livePvs, [pvs]);
      }
 
      if (score > 0) {
@@ -1562,18 +1627,25 @@ function updateLiveEvalData(data)
   $('#live-eval-cont').html('');
   _.each(engineData, function(engineDatum) {
     $('#live-eval-cont').append('<h5>' + engineDatum.engine + ' PV ' + engineDatum.eval + '</h5><small>[Depth: ' + engineDatum.depth + ' Speed: ' + engineDatum.speed + ' ' + engineDatum.nodes + ' nodes]</small>');
-    var moveCount = 0;
     var moveContainer = [];
-    if (livePv.length > 0) {
-      _.each(engineDatum.pv.split(' '), function(move) {
-        if (isNaN(move.charAt(0)) && move != '..') {
-          pvLocation = livePv[moveCount];
-          // moveContainer = _.union(moveContainer, ["<a href='#' class='set-pv-board' move-key='" + moveCount + "' color='live'>" + pvLocation.m + '</a>']);
-          moveContainer = _.union(moveContainer, [pvLocation.m]);
-          moveCount++;
-        } else {
-          moveContainer = _.union(moveContainer, [move]);
-        }
+    if (livePvs.length > 0) {
+      _.each(livePvs, function(livePv, pvKey) {
+        var moveCount = 0;
+        _.each(engineDatum.pv.split(' '), function(move) {
+          if (isNaN(move.charAt(0)) && move != '..') {
+            pvLocation = livePvs[pvKey][moveCount];
+            if (pvLocation) {
+               moveContainer = _.union(moveContainer, ["<a href='#' class='set-pv-board' live-pv-key='" + pvKey + "' move-key='" + moveCount + "' color='live'>" + pvLocation.m + '</a>']);
+               }
+            else
+            {
+               console.log ("pvlocation not defined");
+            }
+            moveCount++;
+          } else {
+            moveContainer = _.union(moveContainer, [move]);
+          }
+        });
       });
     }
     $('#live-eval-cont').append('<div class="engine-pv alert alert-dark">' + moveContainer.join(' ') + '</div>');
@@ -1780,4 +1852,81 @@ function setSound()
    {
       playSound = 0;
    }
+}
+
+function goMoveFromChart(chartx, evt)
+{
+   var activePoints = chartx.getElementAtEvent(evt);
+   var firstPoint = activePoints[0];
+   var plyNum = chartx.data.datasets[firstPoint._datasetIndex].data[firstPoint._index].ply;
+   if (plyNum != undefined)
+   {
+      $('a[ply=' + plyNum + ']').click();
+   }
+}
+
+document.getElementById("eval-graph").onclick = function(evt)
+{
+   goMoveFromChart(evalChart, evt);
+};
+
+document.getElementById("time-graph").onclick = function(evt)
+{
+   goMoveFromChart(timeChart, evt);
+};
+
+document.getElementById("speed-graph").onclick = function(evt)
+{
+   goMoveFromChart(speedChart, evt);
+};
+
+document.getElementById("tbhits-graph").onclick = function(evt)
+{
+   goMoveFromChart(tbHitsChart, evt);
+};
+
+document.getElementById("depth-graph").onclick = function(evt)
+{
+   goMoveFromChart(depthChart, evt);
+};
+
+function updateEngineInfo(divx, divimg, data) 
+{
+   columns = [
+   {
+      field: 'Name'
+   },
+   {
+      field: 'Value'
+   }
+   ];
+
+   $(divx).bootstrapTable({
+      columns: columns
+   });
+   $(divx).bootstrapTable('load', data);
+   addToolTip(divx, divimg);
+}
+
+function addToolTipInit(divx, divimg)
+{
+   $(divimg).tooltipster({
+      contentAsHTML: true,
+      interactive: true,
+      side: ['right'],
+      theme: 'tooltipster-shadow',
+      trigger: 'hover',
+      delay: 0
+   });
+}
+
+function addToolTip(divx, divimg)
+{
+   $(divimg).tooltipster('content', $(divx));
+}
+
+function initToolTip()
+{
+   addToolTipInit('#whiteenginetable', '#white-engine');
+   addToolTipInit('#blackenginetable', '#black-engine');
 }
