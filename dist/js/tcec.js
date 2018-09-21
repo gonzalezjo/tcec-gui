@@ -727,7 +727,10 @@ $(document).on('click', '.change-move', function(e) {
   $('.active-move').removeClass('active-move');
   $(this).addClass('active-move');
 
-  viewingActiveMove = false;
+  if (clickedPly != loadedPlies)
+  {
+    viewingActiveMove = false;
+  }
 
   boardEl.find('.' + squareClass).removeClass('highlight-white');
   boardEl.find('.square-' + moveFrom).addClass('highlight-white');
