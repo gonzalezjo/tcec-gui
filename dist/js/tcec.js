@@ -1933,10 +1933,12 @@ function addToolTipInit(divx, divimg, direction)
 function initToolTip()
 {
    $('#whiteenginetable').bootstrapTable({
-      columns: columnsEng
+      columns: columnsEng,
+      showHeader: false
    });
    $('#blackenginetable').bootstrapTable({
-      columns: columnsEng
+      columns: columnsEng,
+      showHeader: false
    });
    addToolTipInit('#whiteenginetable', '#white-engine', 'right');
    addToolTipInit('#blackenginetable', '#black-engine', 'left');
