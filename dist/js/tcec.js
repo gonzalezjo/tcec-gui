@@ -642,6 +642,7 @@ function updateMoveValues(whiteToPlay, whiteEval, blackEval)
 {
    if (!viewingActiveMove) 
    {
+      console.log('here');
       $('.white-time-used').html(whiteEval.mtime);
       $('.black-time-used').html(blackEval.mtime);
       $('.white-time-remaining').html(whiteEval.timeleft);
