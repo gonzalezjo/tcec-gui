@@ -287,3 +287,8 @@ canvas {
 {
    color:whitesmoke;
 }
+
+.slow-spin {
+  -webkit-animation: fa-spin 6s infinite linear;
+  animation: fa-spin 6s infinite linear;
+}

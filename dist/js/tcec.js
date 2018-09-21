@@ -124,6 +124,8 @@ function startClock(color, currentMove, previousMove) {
     updateClock('white');
 
     whiteClockInterval = setInterval(function() { updateClock('white') }, 1000);
+
+    $('.white-to-move').show();
   } else {
     whiteTimeRemaining = Math.ceil(currentTime / 1000) * 1000;
     blackTimeRemaining = Math.ceil(previousTime / 1000) * 1000;
@@ -135,14 +137,18 @@ function startClock(color, currentMove, previousMove) {
     updateClock('black');
 
     blackClockInterval = setInterval(function() { updateClock('black') }, 1000);
+
+    $('.black-to-move').show();
   }
 }
 
 function stopClock(color) {
   if (color == 'white') {
     clearInterval(whiteClockInterval);
+    $('.white-to-move').hide();    
   } else {
     clearInterval(blackClockInterval);
+    $('.black-to-move').hide();
   }
 }
 
