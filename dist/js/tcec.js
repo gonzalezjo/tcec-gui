@@ -1916,12 +1916,12 @@ function updateEngineInfo(divx, divimg, data)
    addToolTip(divx, divimg);
 }
 
-function addToolTipInit(divx, divimg)
+function addToolTipInit(divx, divimg, direction)
 {
    $(divimg).tooltipster({
       contentAsHTML: true,
       interactive: true,
-      side: ['right'],
+      side: [direction],
       theme: 'tooltipster-shadow',
       trigger: 'hover',
       delay: 0,
@@ -1937,6 +1937,6 @@ function initToolTip()
    $('#blackenginetable').bootstrapTable({
       columns: columnsEng
    });
-   addToolTipInit('#whiteenginetable', '#white-engine');
-   addToolTipInit('#blackenginetable', '#black-engine');
+   addToolTipInit('#whiteenginetable', '#white-engine', 'right');
+   addToolTipInit('#blackenginetable', '#black-engine', 'left');
 }
