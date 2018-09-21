@@ -1924,9 +1924,9 @@ function addToolTipInit(divx, divimg, direction)
       side: [direction],
       theme: 'tooltipster-shadow',
       trigger: 'hover',
-      delay: [100, 2000],
+      delay: [100, 3000],
       contentCloning: true,
-      delayTouch: [10, 2000]
+      delayTouch: [10, 5000]
    });
 }
 
