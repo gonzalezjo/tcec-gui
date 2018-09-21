@@ -1117,7 +1117,7 @@ function formatter(value, row, index, field) {
 
       if (engine.Result == "0.5")
       {
-         engine.Result = "=";
+         engine.Result = '&frac12'
       }
       if (retStr == '')
       {
