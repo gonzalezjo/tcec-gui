@@ -815,6 +815,7 @@ function onLastMove()
   activePly = loadedPlies;
   viewingActiveMove = true;
   console.log('b');
+  console.log(viewingActiveMove);
   handlePlyChange();
 }
 
