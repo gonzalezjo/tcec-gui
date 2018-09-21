@@ -724,13 +724,10 @@ $(document).on('click', '.change-move', function(e) {
   moveFrom = $(this).attr('from');
   moveTo = $(this).attr('to');
 
+  viewingActiveMove = false;
+
   $('.active-move').removeClass('active-move');
   $(this).addClass('active-move');
-
-  if (clickedPly != loadedPlies)
-  {
-    viewingActiveMove = false;
-  }
 
   boardEl.find('.' + squareClass).removeClass('highlight-white');
   boardEl.find('.square-' + moveFrom).addClass('highlight-white');
@@ -743,6 +740,9 @@ $(document).on('click', '.change-move', function(e) {
   e.preventDefault();
   handlePlyChange(false);
 
+  console.log(clickedPly);
+  console.log(loadedPlies);
+
   if (clickedPly == loadedPlies)
   {
     viewingActiveMove = true;
@@ -753,6 +753,11 @@ $(document).on('click', '.change-move', function(e) {
 
    return false;
 });
+
+function handleMoveChange()
+{
+
+}
 
 $(document).on('click', '#board-to-first', function(e) {
   activePly = 1;
