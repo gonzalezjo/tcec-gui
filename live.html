@@ -231,7 +231,7 @@
       <div class="row">
         <div class="col-md-12">
           <br>  
-          <table id="event-overview" class="table-no-bordered eventoverview">
+          <table id="event-overview" class="eventoverview">
           </table>
         </div>
       </div>
@@ -916,6 +916,9 @@
       });
 
       $('#event-overview').bootstrapTable({
+        classes: [
+          'table table-striped table-no-border'
+        ],
         columns: [
           {
               field: 'TimeControl',
