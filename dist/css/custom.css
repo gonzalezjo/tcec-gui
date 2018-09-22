@@ -292,3 +292,9 @@ canvas {
   -webkit-animation: fa-spin 6s infinite linear;
   animation: fa-spin 6s infinite linear;
 }
+
+.table-no-bordered tr,
+.table-no-bordered td
+ {
+	border: none;
+}
