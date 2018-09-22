@@ -1132,6 +1132,14 @@ function formatter(value, row, index, field) {
   return retStr;
 }
 
+function cellformatter(value, row, index, field) {
+   if (!value.hasOwnProperty("Score")) // true
+   {
+      return {classes: 'black'};
+   } 
+   return {};
+}
+
 function updateCrosstableData(data) 
 {
    var crosstableData = data;
@@ -1741,7 +1749,7 @@ function updateStandtableData(data)
 
        if (engineDetails.Abbreviation == engineAbbreviation) {
          for (i = 0; i < rounds; i++) {
-           score2 += '.';
+           score2 = '<bgcolor:red>';
          }
        } else {
          resultDetails = _.get(engineDetails, 'Results');
@@ -1777,11 +1785,11 @@ function updateStandtableData(data)
      _.each(standtableData.Order, function(engine, key) {
        engineDetails = _.get(standtableData.Table, engine);
        columns = _.union(columns, [{field: engineDetails.Abbreviation, title: engineDetails.Abbreviation, 
-                                    formatter: formatter}]);
+                                    formatter: formatter, cellStyle: cellformatter}]);
      });
 
      $('#standtable').bootstrapTable({
-       columns: columns
+       columns: columns,
      });
      standTableInitialized = true;
    }
