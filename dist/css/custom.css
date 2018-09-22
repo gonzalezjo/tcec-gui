@@ -293,6 +293,8 @@ canvas {
   animation: fa-spin 6s infinite linear;
 }
 
+.table-no-bordered,
+.table-no-bordered th,
 .table-no-bordered tr,
 .table-no-bordered td
  {
