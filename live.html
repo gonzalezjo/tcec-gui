@@ -887,6 +887,10 @@
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
     <script>
+      $(document).keydown(function(e, f){
+        console.log(e);
+        console.log(f);
+    });
       $(document).ready(function () {
           $(document).click(function (event) {
               var clickover = $(event.target);
