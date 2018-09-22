@@ -1225,6 +1225,7 @@ function updateCrosstableData(data)
      ];
 
      $('#crosstable').bootstrapTable({
+       classes: 'table table-striped table-no-bordered',
        columns: columns
      });
      crossTableInitialized = true;
@@ -1522,6 +1523,7 @@ function setPieceDefault(pTheme)
 function updateLiveEvalInit()
 {
       $('#live-eval').bootstrapTable({
+          classes: 'table table-striped table-no-bordered',
           columns: [
           {
               field: 'engine',
@@ -1785,6 +1787,7 @@ function updateStandtableData(data)
      });
 
      $('#standtable').bootstrapTable({
+       classes: 'table table-striped table-no-bordered',
        columns: columns
      });
      standTableInitialized = true;
