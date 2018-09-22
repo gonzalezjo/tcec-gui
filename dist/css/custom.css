@@ -318,3 +318,8 @@ canvas {
    color: green;
    display: none;
 }
+
+.marginleft10
+{
+   margin-left: 10%;
+}
