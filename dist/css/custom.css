@@ -313,3 +313,8 @@ canvas {
    font-family: monospace; 
    font-size: large;
 }
+
+.copied {
+   color: green;
+   display: none;
+}

@@ -530,7 +530,17 @@ function setPgn(pgn)
 
 function copyFen()
 {
-   Clipboard.copy(currentPosition);
+   var clip = new ClipboardJS('.btn', {
+      text: function(trigger) {
+         return currentPosition;
+      }
+   });
+/*
+   clip.on('success', function(e) {
+      $('.copied').show();
+      $('.copied').fadeOut(1000);
+   });
+*/
    return false;
 }
 
@@ -1322,64 +1332,6 @@ function pad(pad, str) {
     return pad;
   return (pad + str).slice(-pad.length);
 }
-
-window.Clipboard = (function(window, document, navigator) {
-    var textArea,
-        input,
-        copy;
-
-    function isOS() {
-        return navigator.userAgent.match(/ipad|iphone/i);
-    }
-
-    function createTextArea(text) {
-        textArea = document.createElement('textArea');
-        textArea.id = "aruntext";
-        input = $('#aruntext');
-        input.val(text);
-        textArea.value = text;
-        document.body.appendChild(textArea);
-    }
-
-    function selectText() {
-        var range,
-            selection;
-
-        if (isOS()) {
-            var el = input.get(0);
-            var editable = el.contentEditable;
-            var readOnly = el.readOnly;
-            el.contentEditable = true;
-            el.readOnly = true;
-            var range = document.createRange();
-            range.selectNodeContents(el);
-            var sel = window.getSelection();
-            sel.removeAllRanges();
-            sel.addRange(range);
-            el.setSelectionRange(0, 999999);
-            el.contentEditable = editable;
-            el.readOnly = readOnly;
-        } else {
-            textArea.select();
-        }
-    }
-
-    function copyToClipboard() {
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-    }
-
-    copy = function(text) {
-        createTextArea(text);
-        selectText();
-        copyToClipboard();
-        //$input.blur();
-    };
-
-    return {
-        copy: copy
-    };
-})(window, document, navigator);
 
 var btheme = "chess24";
 var ptheme = "chess24";
