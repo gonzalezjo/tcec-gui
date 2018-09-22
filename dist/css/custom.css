@@ -298,5 +298,5 @@ canvas {
 .table-no-bordered tr,
 .table-no-bordered td
  {
-	border: none;
+	border: none !important;
 }
