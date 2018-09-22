@@ -1746,6 +1746,7 @@ function updateStandtableData(data)
      var entry = {
        rank: engineDetails.Rank,
        name: engine,
+       points: engineDetails.Score
      };
 
      _.each(abbreviations, function (abbreviation) {
@@ -1762,7 +1763,7 @@ function updateStandtableData(data)
 
        if (engineDetails.Abbreviation == engineAbbreviation) {
          for (i = 0; i < rounds; i++) {
-           score2 = '<bgcolor:red>';
+           score2 = '';
          }
        } else {
          resultDetails = _.get(engineDetails, 'Results');
@@ -1793,6 +1794,12 @@ function updateStandtableData(data)
          title: 'Engine'
         ,sortable: true
         ,width: '14%'
+       },
+       {
+         field: 'points',
+         title: 'Points'
+        ,sortable: true
+        ,width: '7%'
        }
      ];
      _.each(standtableData.Order, function(engine, key) {
