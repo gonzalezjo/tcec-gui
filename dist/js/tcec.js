@@ -546,6 +546,7 @@ function setInfoFromCurrentHeaders()
   var imgsrc = 'img/engines/' + name + '.jpg';
   $('#white-engine').attr('src', imgsrc);
   $('#white-engine').attr('alt', header);
+  $('#white-engine-chessprogramming').attr('href', 'https://www.chessprogramming.org/' + name);
   header = loadedPgn.Headers.Black;
   name = header;
   if (header.indexOf(' ') > 0) {
@@ -556,6 +557,7 @@ function setInfoFromCurrentHeaders()
   var imgsrc = 'img/engines/' + name + '.jpg';
   $('#black-engine').attr('src', imgsrc);
   $('#black-engine').attr('alt', header);
+  $('#black-engine-chessprogramming').attr('href', 'https://www.chessprogramming.org/' + name);
 }
 
 function getMoveFromPly(ply)
