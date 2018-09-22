@@ -307,3 +307,9 @@ canvas {
  {
 	border: none !important;
 }
+
+.monofont
+{
+   font-family: monospace; 
+   font-size: large;
+}

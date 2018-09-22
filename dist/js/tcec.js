@@ -1146,7 +1146,7 @@ function cellformatter(value, row, index, field) {
    {
       return {classes: 'black'};
    } 
-   return {};
+   return {classes: 'monofont'};
 }
 
 function updateCrosstableData(data) 
