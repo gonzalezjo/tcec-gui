@@ -887,10 +887,10 @@
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
     <script>
-      $('body').on('keypress', function(e) {
-        console.log(e);
-    });
       $(document).ready(function () {
+        $( "#board" ).keydown(function() {
+          console.log('keypress');
+        });
           $(document).click(function (event) {
               var clickover = $(event.target);
               var _opened = $(".navbar-collapse").hasClass("navbar-collapse in");
