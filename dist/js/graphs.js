@@ -451,6 +451,7 @@ function updateChartData()
 
          //arun: cap moves at 6.5
             evaluation = move.wv;
+            move.uwv = evaluation;
             if (!isNaN(move.wv)) {
 	            if (move.wv > 6.5) {
 	            	move.wv = 6.5;
@@ -469,7 +470,7 @@ function updateChartData()
 					'x': moveNumber,
 					'y': move.wv,
 					'ply': plyNum,
-					'eval': evaluation
+					'eval': move.uwv
 				}
 			];
 

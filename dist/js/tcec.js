@@ -633,9 +633,16 @@ function getEvalFromPly(ply)
     }
   }
 
+  var evalRet = selectedMove.wv;
+  if (selectedMove.uwv != undefined)
+  {
+     evalRet = selectedMove.uwv;
+  }  
+
+
   return {
     'side': side,
-    'eval': selectedMove.wv,
+    'eval': evalRet,
     'pv': selectedMove.pv.Moves,
     'speed': speed,
     'nodes': nodes,
