@@ -15,6 +15,10 @@ dilena_board_theme = ['#FFE5B6', '#B16228'];
 uscf_board_theme = ['#C3C6BE', '#727FA2'];
 symbol_board_theme = ['#FFFFFF', '#58AC8A'];
 dark_board_theme = ['#797877', '#585655'];
+brown_board_theme = ['#927b6d', '#eaded0'];
+green_board_theme = ['#7b9d86', '#f0e9db'];
+blue_board_theme = ['#87a6bc', '#e0e0e0'];
+red_board_theme = ['#b17278', '#eaded0'];
 
 var chsspieces =  {
   "alpha": {
