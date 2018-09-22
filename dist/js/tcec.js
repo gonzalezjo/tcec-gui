@@ -1451,7 +1451,7 @@ function setDark()
   $('.toggleDark').find('i').addClass('fa-sun');
   $('body').addClass('dark');
   $('#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat?darkpopout');
-  $('#info-frame').attr('src', 'http://tcecbeta.club/info.html?body=dark');
+  $('#info-frame').attr('src', 'info.html?body=dark');
   $('#crosstable').addClass('table-dark');
   $('#schedule').addClass('table-dark');
   $('#standtable').addClass('table-dark');
@@ -1468,7 +1468,7 @@ function setLight()
   $('#crosstable').removeClass('table-dark');
   $('#schedule').removeClass('table-dark');
   $('#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat');
-  $('#info-frame').attr('src', 'http://tcecbeta.club/info.html?body=light');
+  $('#info-frame').attr('src', 'info.html?body=light');
   $('#standtable').removeClass('table-dark');
   $('#infotable').removeClass('table-dark');
   setDarkMode(0);
