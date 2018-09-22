@@ -546,6 +546,7 @@ function setInfoFromCurrentHeaders()
   var imgsrc = 'img/engines/' + name + '.jpg';
   $('#white-engine').attr('src', imgsrc);
   $('#white-engine').attr('alt', header);
+  $('#white-engine-chessprogramming').attr('href', 'https://www.chessprogramming.org/' + name);
   header = loadedPgn.Headers.Black;
   name = header;
   if (header.indexOf(' ') > 0) {
@@ -556,6 +557,7 @@ function setInfoFromCurrentHeaders()
   var imgsrc = 'img/engines/' + name + '.jpg';
   $('#black-engine').attr('src', imgsrc);
   $('#black-engine').attr('alt', header);
+  $('#black-engine-chessprogramming').attr('href', 'https://www.chessprogramming.org/' + name);
 }
 
 function getMoveFromPly(ply)
@@ -1231,6 +1233,7 @@ function updateCrosstableData(data)
      ];
 
      $('#crosstable').bootstrapTable({
+       classes: 'table table-striped table-no-bordered',
        columns: columns
      });
      crossTableInitialized = true;
@@ -1457,6 +1460,7 @@ function setDark()
   $('.toggleDark').find('i').addClass('fa-sun');
   $('body').addClass('dark');
   $('#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat?darkpopout');
+  $('#info-frame').attr('src', 'info.html?body=dark');
   $('#crosstable').addClass('table-dark');
   $('#schedule').addClass('table-dark');
   $('#standtable').addClass('table-dark');
@@ -1473,6 +1477,7 @@ function setLight()
   $('#crosstable').removeClass('table-dark');
   $('#schedule').removeClass('table-dark');
   $('#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat');
+  $('#info-frame').attr('src', 'info.html?body=light');
   $('#standtable').removeClass('table-dark');
   $('#infotable').removeClass('table-dark');
   setDarkMode(0);
@@ -1526,6 +1531,7 @@ function setPieceDefault(pTheme)
 function updateLiveEvalInit()
 {
       $('#live-eval').bootstrapTable({
+          classes: 'table table-striped table-no-bordered',
           columns: [
           {
               field: 'engine',
@@ -1790,6 +1796,7 @@ function updateStandtableData(data)
 
      $('#standtable').bootstrapTable({
        columns: columns,
+       classes: 'table table-striped table-no-bordered',
      });
      standTableInitialized = true;
    }

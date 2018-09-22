@@ -297,4 +297,13 @@ canvas {
 {
    background-color: black;
    background:black;
+   background-color: #191919
+}
+
+.table-no-bordered,
+.table-no-bordered th,
+.table-no-bordered tr,
+.table-no-bordered td
+ {
+	border: none !important;
 }

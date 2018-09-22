@@ -346,11 +346,15 @@
             <tbody>
               <tr>
                 <td>
-                  <img src="img/tcec.jpg" alt="tcec" class="engineimage" id="white-engine" />
+                  <a href="#" target="_blank" id="white-engine-chessprogramming">
+                    <img src="img/tcec.jpg" alt="tcec" class="engineimage" id="white-engine" />
+                  </a>
                 </td>
                 <td>Engine</td>
                 <td>
-                  <img src="img/tcec.jpg" alt="tcec" class="engineimage" id="black-engine" />
+                  <a href="#" target="_blank" id="black-engine-chessprogramming">
+                    <img src="img/tcec.jpg" alt="tcec" class="engineimage" id="black-engine" />
+                  </a>
                 </td>
               </tr>
               <tr>
@@ -581,7 +585,7 @@
                </div>
             </div>
             <div class="tab-pane show fade smallfont" id="pills-info" role="tabpanel" aria-labelledby="pills-info-tab">
-                <iframe src="info.html" height="800" width="100%" frameborder="0"></iframe> 
+                <iframe src="#" id="info-frame" height="800" width="100%" frameborder="0"></iframe> 
             </div>
       </div>
    </div>
@@ -912,6 +916,7 @@
       });
 
       $('#event-overview').bootstrapTable({
+        classes: 'table table-striped table-no-bordered',
         columns: [
           {
               field: 'TimeControl',
@@ -949,6 +954,7 @@
       });
 
       $('#schedule').bootstrapTable({
+          classes: 'table table-striped table-no-bordered',
           pagination: true,
           paginationLoop: true,
           striped: true,
