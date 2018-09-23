@@ -232,7 +232,7 @@
             <input type="image" src="img/paypal3.jpg" name="submit" alt="PayPal - The safer, easier way to pay online!" class="banner-image">
           </form>
         </div>
-        <div class="col-md-6 col-12 text-center">
+        <div class="col-md-6 d-none d-sm-block d-md-block d-lg-block d-xl-block text-center">
           <div id="google_adverts">
             <!-- TCEC beta -->
             <ins class="adsbygoogle"
@@ -359,14 +359,16 @@
               <tr>
                 <td style="width: 45%">
                     <img id="white-engine-info" src="img/chesspieces/wikipedia/wK.png" style="height: 20px">
-                    <small class="white-engine-name-full"></small>
+                    <small class="d-none d-sm-none d-md-inline-block d-lg-inline-block d-xl-inline-block white-engine-name-full"></small>
+                    <small class="d-inline-block d-sm-inline-block d-md-none d-lg-none d-xl-none white-engine-name truncate-name"></small>
                 </td>
                 <td style="width: 10%">
                   &nbsp;
                 </td>
                 <td style="width: 45%">
                   <img id="black-engine-info" src="img/chesspieces/wikipedia/bK.png" style="height: 20px">
-                  <small class="black-engine-name-full"></small>
+                  <small class="d-none d-sm-none d-md-inline-block d-lg-inline-block d-xl-inline-block black-engine-name-full"></small>
+                  <small class="d-inline-block d-sm-inline-block d-md-none d-lg-none d-xl-none black-engine-name truncate-name"></small>
                 </td>
               </tr>
             </thead>
@@ -438,9 +440,9 @@
                   <span class="white-time-used">
                     0:00
                   </span>
-                  <i class="fa fa-cog fa-spin slow-spin white-to-move marginleft10"></i>
+                  <i class="fa fa-cog fa-spin slow-spin white-to-move" style="float: left;"></i>
                 </td>
-                <td>Clock</td>
+                <td>&nbsp;</td>
                 <td>
                   <span class="h5 d-inline black-time-remaining">
                     0:00:00
@@ -449,10 +451,10 @@
                   <span class="black-time-used">
                     0:00
                   </span>
-                  <i class="fa fa-cog fa-spin slow-spin black-to-move marginleft10 cogblack"></i>
+                  <i class="fa fa-cog fa-spin slow-spin black-to-move" style="float: right;""></i>
                 </td>
               </tr>
-              <tr>
+              <tr id="material-container">
                 <td>
                   <span id="white-material">
                     <span class="q"></span>
@@ -462,7 +464,7 @@
                     <span class="p"></span>
                   </span>
                 </td>
-                <td>Material</td>
+                <td>&nbsp;</td>
                 <td>
                   <span id="black-material">
                     <span class="q"></span>

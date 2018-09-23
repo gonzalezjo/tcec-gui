@@ -446,7 +446,7 @@ function setPgn(pgn)
       var movesToDraw = 50;
       var movesToResignOrWin = 50;
       var movesTo50R = 50;
-      if (Math.abs(adjudication.Draw) < 11 && pgn.Moves.length > 34) {
+      if (Math.abs(adjudication.Draw) < 8 && pgn.Moves.length > 34) {
         movesToDraw = Math.abs(adjudication.Draw);
       }
       if (Math.abs(adjudication.ResignOrWin) < 9) {

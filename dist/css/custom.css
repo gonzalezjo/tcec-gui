@@ -108,6 +108,14 @@ body {
     text-align: center;
 } 
 
+#material-container {
+	background: #dcdcdc !important;
+}
+
+body.dark #material-container {
+	background: #333 !important;
+}
+
 body.dark a.nav-link {
 	color: #dfdfdf;
 }
