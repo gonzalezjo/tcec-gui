@@ -109,11 +109,11 @@ body {
 } 
 
 #material-container {
-	background: #dcdcdc;
+	background: #dcdcdc !important;
 }
 
 body.dark #material-container {
-	background: #333;
+	background: #333 !important;
 }
 
 body.dark a.nav-link {
