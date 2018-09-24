@@ -528,12 +528,18 @@ function setPgn(pgn)
   if (pgn.gameChanged)
   {
      console.log ("Came to setpgn need to reread dataa at end");
-     stopClock('black');
-     stopClock('white');
-     whiteClockInterval = '';
-     blackClockInterval = '';
-     clearInterval(whiteClockInterval);
-     clearInterval(blackClockInterval);
+     if (whiteToPlay) 
+     {
+        stopClock('black');
+        blackClockInterval = '';
+        clearInterval(blackClockInterval);
+     }
+     else
+     {
+        stopClock('white');
+        whiteClockInterval = '';
+        clearInterval(whiteClockInterval);
+     }
   }
   console.log ("end Ply is :" + pgn.Moves.length);
 }
