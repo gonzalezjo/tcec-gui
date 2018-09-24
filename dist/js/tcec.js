@@ -785,11 +785,6 @@ $(document).on('click', '.change-move', function(e) {
    return false;
 });
 
-function handleMoveChange()
-{
-
-}
-
 $(document).on('click', '#board-to-first', function(e) {
   activePly = 1;
   handlePlyChange();
@@ -2066,3 +2061,84 @@ function initToolTip()
    addToolTipInit('#whiteenginetable', '#white-engine-info', 'right');
    addToolTipInit('#blackenginetable', '#black-engine-info', 'left');
 }
+
+function stopEvProp(e) {
+    e.cancelBubble = !0;
+    if (e.stopPropagation) {
+        e.stopPropagation()
+    }
+    if (e.preventDefault) {
+        e.preventDefault()
+    }
+    return !1
+}
+
+function firstButton()
+{
+  activePly = 1;
+  handlePlyChange();
+};
+
+function backButton()
+{
+  if (activePly > 1) {
+    activePly--;
+  }
+  handlePlyChange();
+
+  return false;
+};
+
+function forwardButton()
+{
+  if (activePly < loadedPlies) {
+    activePly++;
+  } else {
+    viewingActiveMove = true;
+  }
+  handlePlyChange();
+
+  return false;
+}
+
+function endButton()
+{
+  onLastMove();
+}
+
+function tcecHandleKey(e) 
+{
+    var keycode, oldPly, oldVar, colRow, colRowList;
+    console.log ("keycode");
+    if (!e) 
+    {
+        e = window.event
+    }
+    keycode = e.keyCode;
+    if (e.altKey || e.ctrlKey || e.metaKey) {
+        return !0
+    }
+
+    switch (keycode)
+    {  
+        case 37:
+        case 74:
+            backButton();
+            break;
+        case 38:
+        case 72:
+            firstButton();
+            break;
+        case 39:
+        case 75:
+            forwardButton();
+            break;
+        case 40:
+        case 76:
+            endButton();
+            break;
+    }
+    return stopEvProp(e)
+}
+
+document.addEventListener("keypress", tcecHandleKey); 
