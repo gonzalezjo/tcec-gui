@@ -1443,11 +1443,7 @@ function setBoard()
       appearSpeed: 1,
       boardTheme: window[btheme + "_board_theme"]
    });
-   console.log ("fen is " + fen);
-   if (fen != '8/8/8/8/8/8/8/8')
-   {
-      pvBoard.position(fen, false);
-   }
+   pvBoard.position(fen, false);
    localStorage.setItem('tcec-board-theme', btheme);
    localStorage.setItem('tcec-piece-theme', ptheme);
 }
