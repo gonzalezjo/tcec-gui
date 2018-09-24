@@ -59,7 +59,7 @@
                 <ul class="dropdown-menu bg-dark whitefont">
                   <li class="radio">
                     <div class="form-check classpad">
-                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="alpha" checked onclick="setPieceDefault('alpha');">
+                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="alpha" checked="checked" onclick="setPieceDefault('alpha');">
                       <label class="form-check-label" for="exampleRadios1">
                         Alpha
                       </label>
@@ -213,6 +213,29 @@
                         Off
                       </label>
                     </div>
+                  </ul>
+                </li>
+                <div class="dropdown-divider"></div>
+                <li><a class="dropdown-item dropdown-toggle whitefont" href="#/">Twitch Theme</a>
+                  <ul class="dropdown-menu bg-dark whitefont">
+                      <div class="form-check classpad">
+                        <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio2" value="0" onclick="setTwitchBackgroundInit(0);">
+                        <label class="form-check-label" for="boardRadio2">
+                          Theme
+                        </label>
+                      </div>
+                      <div class="form-check classpad">
+                        <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio3" value="2" onclick="setTwitchBackgroundInit(2);">
+                        <label class="form-check-label" for="boardRadio2">
+                          Dark
+                        </label>
+                      </div>
+                      <div class="form-check classpad">
+                        <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio4" value="1" onclick="setTwitchBackgroundInit(1);">
+                        <label class="form-check-label" for="boardRadio2">
+                          Light
+                        </label>
+                      </div>
                   </ul>
                 </li>
               </ul>
