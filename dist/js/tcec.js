@@ -97,7 +97,6 @@ function updatePgn(resettime)
          var currTime = new Date(response.headers["date"]);
          timeDiff = currTime.getTime() - lastMod.getTime();
       }
-      console.log ("Setting time diff to " + timeDiff);
       prevPgnData = 0;
       updatePgnData(response.data, 0);
    })
@@ -243,8 +242,6 @@ function setPgn(pgn)
 {
    var currentPlyCount = 0;
 
-   console.log ("Came to setpgn:" + viewingActiveMove);
-
    if (!viewingActiveMove)
    {
       $('#newmove').removeClass('d-none');
@@ -262,6 +259,12 @@ function setPgn(pgn)
    {
       console.log ("Came to setpgn need to reread dataa");
       prevPgnData = 0;
+      stopClock('black');
+      stopClock('white');
+      whiteClockInterval = '';
+      blackClockInterval = '';
+      clearInterval(whiteClockInterval);
+      clearInterval(blackClockInterval);
    }
    else
    {
@@ -636,7 +639,11 @@ function getEvalFromPly(ply)
   var depth = selectedMove.d + '/' + selectedMove.sd;
   var tbHits = 0;
   if (selectedMove.tb) {
-    if (selectedMove.tb < 1000000) {
+    if (selectedMove.tb < 1000)
+    {
+      tbHits = selectedMove.tb;
+    } 
+    else if (selectedMove.tb < 1000000) {
       tbHits = Math.round(selectedMove.tb / 1000) + ' K';
     } else {
       tbHits = Math.round(selectedMove.tb * 1 / 1000000) + ' M';
@@ -646,9 +653,15 @@ function getEvalFromPly(ply)
   var evalRet = selectedMove.wv;
   if (selectedMove.uwv != undefined)
   {
+     console.log ("selectedMove.uwv is defined" + selectedMove.uwv);
      evalRet = selectedMove.uwv;
   }  
+  else
+  {
+     console.log ("selectedMove.uwv is not defined" + selectedMove.wv);
+  }
 
+  evalRet = parseFloat(evalRet).toFixed(2);
 
   return {
     'side': side,
@@ -956,9 +969,13 @@ function setPvFromKey(moveKey)
 
   activePvKey = moveKey;
 
+  console.log ("movekey is " + moveKey);
+  console.log ("movekey length is " + activePv.length);
+
   moveFrom = activePv[moveKey].from;
   moveTo = activePv[moveKey].to;
   fen = activePv[moveKey].fen;
+  console.log ("moveKey inside pv is :" + activePvKey + ":moveFrom:" + moveFrom);
 
   $('.active-pv-move').removeClass('active-pv-move');
   $(this).addClass('active-pv-move');
@@ -1111,7 +1128,7 @@ function setDarkMode(value)
    darkMode = value;
    if (!darkMode)
    {
-      gameArrayClass = ['black', 'red', '#39FF14'];
+      gameArrayClass = ['darkgreen', 'red', 'black'];
    }
    else
    {
@@ -1359,12 +1376,38 @@ function setBoardInit()
    $('input[value='+ptheme+']').prop('checked', true);
    $('input[value='+btheme+'b]').prop('checked', true);
 
+   var onDragMove = function(newLocation, oldLocation, source,
+                             piece, position, orientation) {
+     var pvLen = activePv.length;
+     var fen = ChessBoard.objToFen(position);
+     var moveFrom = oldLocation;
+     var moveTo = newLocation;
+     if (newLocation == oldLocation)
+     {
+        return;
+     }
+     activePv[pvLen] = {};
+     activePv[pvLen].fen = ChessBoard.objToFen(position);
+     activePv[pvLen].from = oldLocation;
+     activePv[pvLen].to = newLocation;
+     $('.active-pv-move').removeClass('active-pv-move');
+     $(this).addClass('active-pv-move');
+     pvBoardEl.find('.' + squareClass).removeClass('highlight-white');
+     pvBoardEl.find('.square-' + moveFrom).addClass('highlight-white');
+     pvBoardEl.find('.square-' + moveTo).addClass('highlight-white');
+     pvSquareToHighlight = moveTo;
+     activePvKey = pvLen;
+     $('#pv-board-fen').html(fen);
+   };
+
    var pvBoard =  ChessBoard('pv-board', {
       pieceTheme: window[ptheme + "_piece_theme"],
       position: 'start',
       onMoveEnd: onMoveEnd,
       moveSpeed: 1,
       appearSpeed: 1,
+      draggable: true,
+      onDrop: onDragMove,   
       boardTheme: window[btheme + "_board_theme"]
    });
    pvBoard.position(fen, false);
@@ -1559,8 +1602,6 @@ function updateLiveEvalData(data)
      }
 
      pvs = [];
-
-     // console.log(datum.pv);
 
      if (datum.pv.length > 0 && datum.pv.trim() != "no info") {
       var chess = new Chess(activeFen);

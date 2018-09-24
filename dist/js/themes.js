@@ -8,17 +8,17 @@ uscf_piece_theme = function(piece){ return chsspieces["uscf"][piece][0]; };
 wikipedia_piece_theme = function(piece){ return chsspieces["wikipedia"][piece][0]; };
 
 chess24_board_theme = ['#9E7863', '#633526'];
-metro_board_theme = ['#EFEFEF', '#FFFFFF'];
+metro_board_theme = ['#FFFFFF', '#EFEFEF'];
 leipzig_board_theme = ['#FFFFFF', '#E1E1E1'];
 wikipedia_board_theme = ['#FFCE9E', '#D18B47'];
 dilena_board_theme = ['#FFE5B6', '#B16228'];
 uscf_board_theme = ['#C3C6BE', '#727FA2'];
 symbol_board_theme = ['#FFFFFF', '#58AC8A'];
 dark_board_theme = ['#797877', '#585655'];
-brown_board_theme = ['#927b6d', '#eaded0'];
-green_board_theme = ['#7b9d86', '#f0e9db'];
-blue_board_theme = ['#87a6bc', '#e0e0e0'];
-red_board_theme = ['#b17278', '#eaded0'];
+brown_board_theme = ['#eaded0', '#927b6d'];                                                                                                                                                           
+green_board_theme = ['#f0e9db', '#7b9d86'];                                                                                                                                                           
+blue_board_theme = ['#e0e0e0', '#87a6bc'];                                                                                                                                                            
+red_board_theme = ['#eaded0', '#b17278'];                            
 
 var chsspieces =  {
   "alpha": {
