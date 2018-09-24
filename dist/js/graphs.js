@@ -49,8 +49,7 @@ var timeChartData = {
     label: 'Black Engine Time',
     lineTension: 0,
     borderColor: '#000000',
-    backgroundColor: '#FFFFFF',
-    
+    backgroundColor: '#000000',
     fill: false,
     data: [
     ]
@@ -72,8 +71,7 @@ var speedChartData = {
     label: 'Black Engine Speed',
     lineTension: 0,
     borderColor: '#000000',
-    backgroundColor: '#FFFFFF',
-    
+    backgroundColor: '#000000',
     fill: false,
     data: [
     ],
@@ -95,8 +93,7 @@ var depthChartData = {
     label: 'Black Engine Depth',
     lineTension: 0,
     borderColor: '#000000',
-    backgroundColor: '#FFFFFF',
-    
+    backgroundColor: '#000000',
     fill: false,
     data: [
     ]
@@ -118,7 +115,7 @@ var tbHitsChartData = {
     label: 'Black Engine TB Hits',
     lineTension: 0,
     borderColor: '#000000',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#000000',
     fill: false,
     yAxisID: 'tb-y-axis-2',
     data: [
