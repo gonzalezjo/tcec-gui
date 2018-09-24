@@ -2141,4 +2141,15 @@ function tcecHandleKey(e)
     return stopEvProp(e)
 }
 
-$(document).on("keypress", tcecHandleKey); 
+function simpleAddEvent(obj, evt, cbk) 
+{
+   if (obj.addEventListener) 
+   {
+      obj.addEventListener(evt, cbk, !1)
+   } 
+   else if (obj.attachEvent) 
+   {
+      obj.attachEvent("on" + evt, cbk)
+   }
+}
+simpleAddEvent(document, "keydown", tcecHandleKey);
