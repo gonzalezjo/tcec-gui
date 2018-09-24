@@ -1410,7 +1410,6 @@ function setBoardInit()
       onDrop: onDragMove,   
       boardTheme: window[btheme + "_board_theme"]
    });
-   pvBoard.position(fen, false);
    localStorage.setItem('tcec-board-theme', btheme);
    localStorage.setItem('tcec-piece-theme', ptheme);
 
