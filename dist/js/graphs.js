@@ -18,8 +18,7 @@ var evalChartData = {
     label: 'Black',
     lineTension: 0,
     borderColor: '#000000',
-    backgroundColor: '#FFFFFF',
-    
+    backgroundColor: '#000000',
     fill: false,
     data: [
     ]
