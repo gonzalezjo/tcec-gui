@@ -2141,4 +2141,4 @@ function tcecHandleKey(e)
     return stopEvProp(e)
 }
 
-document.addEventListener("keypress", tcecHandleKey); 
+$(document).on("keypress", tcecHandleKey); 
