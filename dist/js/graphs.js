@@ -450,21 +450,30 @@ function updateChartData()
 			}
 
          //arun: cap moves at 6.5
-            move.cwv = move.wv;
-            if (!isNaN(move.wv)) {
-	            if (move.wv > 6.5) {
-	            	move.cwv = 6.5;
-	            } else if (move.wv < -6.5) {
-	            	move.cwv = -6.5;
-	            }
-	        } else {
-	        	if (move.wv.substring(0,1) == '-') {
-	        		move.cwv = -6.5;
-	        	} else {
-	        		move.cwv = 6.5;
-	        	}
-	        }
-			eval = [
+         move.cwv = move.wv;
+         if (!isNaN(move.wv)) 
+         {
+            if (move.wv > 6.5) 
+            {
+               move.cwv = 6.5;
+            } 
+            else if (move.wv < -6.5) 
+            {
+               move.cwv = -6.5;
+            }
+         } 
+         else 
+         {
+            if (move.wv.substring(0,1) == '-') 
+            {
+               move.cwv = -6.5;
+            } 
+            else 
+            {
+               move.cwv = 6.5;
+            }
+         }
+         eval = [
 				{
 					'x': moveNumber,
 					'y': move.cwv,
