@@ -2137,6 +2137,8 @@ function tcecHandleKey(e)
         case 76:
             endButton();
             break;
+        default:
+            return !0
     }
     return stopEvProp(e)
 }
