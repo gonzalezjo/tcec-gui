@@ -1911,7 +1911,7 @@ function checkTwitch(checkbox)
    }
    else
    {
-      $('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?TCEC_Chess_TV');
+      $('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?channel=TCEC_Chess_TV');
       $('iframe#twitchvid').show();
       localStorage.setItem('tcec-twitch-video', 0);
    }
@@ -1922,7 +1922,7 @@ function setTwitch()
    var getVideoCheck = localStorage.getItem('tcec-twitch-video');        
    if (getVideoCheck == undefined || getVideoCheck == 0)
    {
-      $('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?TCEC_Chess_TV');
+      $('iframe#twitchvid').attr('src', 'https://player.twitch.tv/?channel=TCEC_Chess_TV');
       $('iframe#twitchvid').show();
       $('#twitchcheck').prop('checked', false);
    }
