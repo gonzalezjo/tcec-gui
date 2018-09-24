@@ -207,7 +207,9 @@ function setTimeRemaining(color, time)
     time = 0;
   }
 
+
   if (isNaN(time)) {
+    console.log ("setting time to : " + time);
     time = defaultStartTime;
   }
 
@@ -327,6 +329,7 @@ function setPgn(pgn)
   }
 
   if (loadedPlies == currentPlyCount && (currentGameActive == gameActive)) {
+    console.log ("returning here");
     return;
   }
 
@@ -399,6 +402,7 @@ function setPgn(pgn)
   if (whiteToPlay) {
     startClock('white', clockCurrentMove, clockPreviousMove);
   } else {
+    console.log ("starting black clock: " + clockCurrentMove);
     startClock('black', clockCurrentMove, clockPreviousMove);
   }
 
@@ -443,10 +447,8 @@ function setPgn(pgn)
       var movesToDraw = 50;
       var movesToResignOrWin = 50;
       var movesTo50R = 50;
-      console.log ("pgn.Moves.length is " + pgn.Moves.length + " , adjudication.Draw" + adjudication.Draw);
       if (Math.abs(adjudication.Draw) <= 10 && pgn.Moves.length > 68) {
         movesToDraw = Math.abs(adjudication.Draw);
-        console.log ("movesToDraw is set to " + movesToDraw);
       }
       if (Math.abs(adjudication.ResignOrWin) < 9) {
         movesToResignOrWin = Math.abs(adjudication.ResignOrWin);
@@ -462,7 +464,6 @@ function setPgn(pgn)
           termination = movesToDraw + ' plies draw';
         }
       }
-      console.log ("movesTo50R: " + movesTo50R + " , movesToDraw: " + movesToDraw + ", movesToResignOrWin " + movesToResignOrWin);
       if (movesTo50R < 50 && movesTo50R < movesToDraw && movesTo50R < movesToResignOrWin) {
         if(movesTo50R == 1) {
           termination = movesTo50R + ' move 50mr'
