@@ -259,12 +259,6 @@ function setPgn(pgn)
    {
       console.log ("Came to setpgn need to reread dataa");
       prevPgnData = 0;
-      stopClock('black');
-      stopClock('white');
-      whiteClockInterval = '';
-      blackClockInterval = '';
-      clearInterval(whiteClockInterval);
-      clearInterval(blackClockInterval);
    }
    else
    {
@@ -449,8 +443,10 @@ function setPgn(pgn)
       var movesToDraw = 50;
       var movesToResignOrWin = 50;
       var movesTo50R = 50;
-      if (Math.abs(adjudication.Draw) < 8 && pgn.Moves.length > 34) {
+      console.log ("pgn.Moves.length is " + pgn.Moves.length + " , adjudication.Draw" + adjudication.Draw);
+      if (Math.abs(adjudication.Draw) <= 8 && pgn.Moves.length > 68) {
         movesToDraw = Math.abs(adjudication.Draw);
+        console.log ("movesToDraw is set to " + movesToDraw);
       }
       if (Math.abs(adjudication.ResignOrWin) < 9) {
         movesToResignOrWin = Math.abs(adjudication.ResignOrWin);
@@ -461,23 +457,24 @@ function setPgn(pgn)
 
       if (movesToDraw < 50 && movesToDraw <= movesTo50R && movesToDraw <= movesToResignOrWin) {
         if (movesToDraw == 1) {
-          termination = movesToDraw + ' ply to draw';
+          termination = movesToDraw + ' ply draw';
         } else {
-          termination = movesToDraw + ' plies to draw';
+          termination = movesToDraw + ' plies draw';
         }
       }
+      console.log ("movesTo50R: " + movesTo50R + " , movesToDraw: " + movesToDraw + ", movesToResignOrWin " + movesToResignOrWin);
       if (movesTo50R < 50 && movesTo50R < movesToDraw && movesTo50R < movesToResignOrWin) {
         if(movesTo50R == 1) {
-          termination = movesTo50R + ' move to 50mr'
+          termination = movesTo50R + ' move 50mr'
         } else {
-          termination = movesTo50R + ' moves to 50mr'
+          termination = movesTo50R + ' moves 50mr'
         }
       }
       if (movesToResignOrWin < 50 && movesToResignOrWin < movesToDraw && movesToResignOrWin < movesTo50R) {
         if(movesToResignOrWin == 1) {
-          termination = movesToResignOrWin + ' ply to adjudication';
+          termination = movesToResignOrWin + ' ply win';
         } else {
-          termination = movesToResignOrWin + ' plies to adjudication';
+          termination = movesToResignOrWin + ' plies win';
         }
       }
 
@@ -528,6 +525,16 @@ function setPgn(pgn)
   });
   $('#engine-history').append(pgn.Headers.Result);
   $("#engine-history").scrollTop($("#engine-history")[0].scrollHeight);
+  if (pgn.gameChanged)
+  {
+     console.log ("Came to setpgn need to reread dataa at end");
+     stopClock('black');
+     stopClock('white');
+     whiteClockInterval = '';
+     blackClockInterval = '';
+     clearInterval(whiteClockInterval);
+     clearInterval(blackClockInterval);
+  }
   console.log ("end Ply is :" + pgn.Moves.length);
 }
 
