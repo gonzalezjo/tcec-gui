@@ -650,22 +650,9 @@ function getEvalFromPly(ply)
     }
   }
 
-  var evalRet = selectedMove.wv;
-  if (selectedMove.uwv != undefined)
-  {
-     console.log ("selectedMove.uwv is defined" + selectedMove.uwv);
-     evalRet = selectedMove.uwv;
-  }  
-  else
-  {
-     console.log ("selectedMove.uwv is not defined" + selectedMove.wv);
-  }
-
-  evalRet = parseFloat(evalRet).toFixed(2);
-
   return {
     'side': side,
-    'eval': evalRet,
+    'eval': parseFloat(selectedMove.wv).toFixed(2),
     'pv': selectedMove.pv.Moves,
     'speed': speed,
     'nodes': nodes,
@@ -964,7 +951,7 @@ function setPvFromKey(moveKey)
 {
   if (activePv.length < 1) {
     activePvKey = 0;
-    return;
+    //return;
   }
 
   activePvKey = moveKey;
@@ -1020,6 +1007,7 @@ $('#pv-board-to-first').click(function(e) {
 
 $('#pv-board-previous').click(function(e) {
   if (activePvKey > 0) {
+    console.log ("Setting to :" + (activePvKey - 1));
     setPvFromKey(activePvKey - 1);
   }
   e.preventDefault();
@@ -1059,7 +1047,16 @@ function pvBoardAutoplay()
 
 $('#pv-board-next').click(function(e) {
   if (activePvKey < activePv.length) {
-    setPvFromKey(activePvKey + 1);
+    console.log ("Setting next to :" + (activePvKey + 1));  
+    if (activePvKey == 0)
+    {
+      setPvFromKey(0);
+      activePvKey = activePvKey + 1;
+    }
+    else
+    {
+      setPvFromKey(activePvKey + 1);
+    }  
   }
   e.preventDefault();
 
@@ -1378,7 +1375,7 @@ function setBoardInit()
 
    var onDragMove = function(newLocation, oldLocation, source,
                              piece, position, orientation) {
-     var pvLen = activePv.length;
+     var pvLen = activePvKey;
      var fen = ChessBoard.objToFen(position);
      var moveFrom = oldLocation;
      var moveTo = newLocation;
@@ -1386,6 +1383,7 @@ function setBoardInit()
      {
         return;
      }
+     console.log ("setting pvlen:" + pvLen); 
      activePv[pvLen] = {};
      activePv[pvLen].fen = ChessBoard.objToFen(position);
      activePv[pvLen].from = oldLocation;
@@ -1396,7 +1394,7 @@ function setBoardInit()
      pvBoardEl.find('.square-' + moveFrom).addClass('highlight-white');
      pvBoardEl.find('.square-' + moveTo).addClass('highlight-white');
      pvSquareToHighlight = moveTo;
-     activePvKey = pvLen;
+     activePvKey = pvLen + 1;
      $('#pv-board-fen').html(fen);
    };
 
@@ -1687,7 +1685,7 @@ function updateLiveEvalData(data)
             moveResponse = chess.move(move);
 
             if (!moveResponse || typeof moveResponse == 'undefined') {
-                 console.log("undefine move" + move);
+                 //console.log("undefine move" + move);
             } else {
               newPv = {
                 'from': moveResponse.from,
