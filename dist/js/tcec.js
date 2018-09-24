@@ -1410,7 +1410,6 @@ function setBoardInit()
       onDrop: onDragMove,   
       boardTheme: window[btheme + "_board_theme"]
    });
-   pvBoard.position(fen, false);
    localStorage.setItem('tcec-board-theme', btheme);
    localStorage.setItem('tcec-piece-theme', ptheme);
 
@@ -1444,7 +1443,11 @@ function setBoard()
       appearSpeed: 1,
       boardTheme: window[btheme + "_board_theme"]
    });
-   pvBoard.position(fen, false);
+   console.log ("fen is " + fen);
+   if (fen != '8/8/8/8/8/8/8/8')
+   {
+      pvBoard.position(fen, false);
+   }
    localStorage.setItem('tcec-board-theme', btheme);
    localStorage.setItem('tcec-piece-theme', ptheme);
 }
