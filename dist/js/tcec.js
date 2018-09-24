@@ -1455,33 +1455,107 @@ function updateTables()
   updateStandtable();
 }
 
+function setTwitchBackgroundInit(backg)
+{
+   var setValue = 0;
+   if (backg == 1)
+   {
+      $('#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat');
+      setValue = 1;
+   }
+   else if (backg == 2)
+   {
+      $('#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat?darkpopout');
+      setValue = 2;
+   }
+   else
+   {
+      var darkMode = localStorage.getItem('tcec-dark-mode');
+      if (darkMode == 20)
+      {
+         $('#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat?darkpopout');
+         setValue = 2;
+      }
+      else
+      {
+         $('#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat');
+         setValue = 1;
+      }
+   }
+   localStorage.setItem('tcec-twitch-back-mode', setValue);
+}
+
+function setTwitchBackground(backg)
+{
+   var setValue = 0;
+   var darkMode = localStorage.getItem('tcec-twitch-back-mode');
+   console.log ("darkMode is " + darkMode);
+   if (darkMode != undefined)
+   {
+      if (darkMode == 1)
+      {
+         $('#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat');
+         setValue = 1;
+      }
+      else if (darkMode == 2)
+      {
+         $('#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat?darkpopout');
+         setValue = 2;
+      }
+      else if (darkMode == 0)
+      {
+         if (backg == 1)
+         {
+            $('#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat');
+         }
+         else
+         {
+            $('#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat?darkpopout');
+         }
+      }
+   }
+   else
+   {
+      if (backg == 1)
+      {
+         $('#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat');
+      }
+      else
+      {
+         $('#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat?darkpopout');
+      }
+   }
+   localStorage.setItem('tcec-twitch-back-mode', setValue);
+   $('input[value='+setValue+']').prop('checked', true);
+}
+
 function setDark()
 {
-  $('.toggleDark').find('i').removeClass('fa-moon');
-  $('.toggleDark').find('i').addClass('fa-sun');
-  $('body').addClass('dark');
-  $('#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat?darkpopout');
-  $('#info-frame').attr('src', 'info.html?body=dark');
-  $('#crosstable').addClass('table-dark');
-  $('#schedule').addClass('table-dark');
-  $('#standtable').addClass('table-dark');
-  $('#infotable').addClass('table-dark');
-  setDarkMode(1);
+   $('.toggleDark').find('i').removeClass('fa-moon');
+   $('.toggleDark').find('i').addClass('fa-sun');
+   $('body').addClass('dark');
+   setTwitchBackground(2);
+   $('#info-frame').attr('src', 'info.html?body=dark');
+   $('#crosstable').addClass('table-dark');
+   $('#schedule').addClass('table-dark');
+   $('#standtable').addClass('table-dark');
+   $('#infotable').addClass('table-dark');
+   setDarkMode(1);
 }
 
 function setLight()
 {
-  $('body').removeClass('dark');
-  $('.toggleDark').find('i').addClass('fa-moon');
-  $('.toggleDark').find('i').removeClass('fa-sun');
-  $('input.toggleDark').prop('checked', false);
-  $('#crosstable').removeClass('table-dark');
-  $('#schedule').removeClass('table-dark');
-  $('#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat');
-  $('#info-frame').attr('src', 'info.html?body=light');
-  $('#standtable').removeClass('table-dark');
-  $('#infotable').removeClass('table-dark');
-  setDarkMode(0);
+   $('body').removeClass('dark');
+   $('.toggleDark').find('i').addClass('fa-moon');
+   $('.toggleDark').find('i').removeClass('fa-sun');
+   $('input.toggleDark').prop('checked', false);
+   $('#crosstable').removeClass('table-dark');
+   $('#schedule').removeClass('table-dark');
+   setTwitchBackground(1);
+   $('#info-frame').attr('src', 'info.html?body=light');
+   $('#standtable').removeClass('table-dark');
+   $('#infotable').removeClass('table-dark');
+   setDarkMode(0);
 }
 
 function setDefaultThemes()
