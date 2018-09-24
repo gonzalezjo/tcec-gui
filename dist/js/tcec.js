@@ -650,9 +650,19 @@ function getEvalFromPly(ply)
     }
   }
 
+  var evalRet = '';
+  if (!isNaN(selectedMove.wv))  
+  {
+     evalRet = parseFloat(selectedMove.wv).toFixed(2);
+  }
+  else
+  {
+     evalRet = selectedMove.wv;
+  }
+
   return {
     'side': side,
-    'eval': parseFloat(selectedMove.wv).toFixed(2),
+    'eval': evalRet,
     'pv': selectedMove.pv.Moves,
     'speed': speed,
     'nodes': nodes,
