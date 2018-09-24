@@ -444,7 +444,7 @@ function setPgn(pgn)
       var movesToResignOrWin = 50;
       var movesTo50R = 50;
       console.log ("pgn.Moves.length is " + pgn.Moves.length + " , adjudication.Draw" + adjudication.Draw);
-      if (Math.abs(adjudication.Draw) <= 8 && pgn.Moves.length > 68) {
+      if (Math.abs(adjudication.Draw) <= 10 && pgn.Moves.length > 68) {
         movesToDraw = Math.abs(adjudication.Draw);
         console.log ("movesToDraw is set to " + movesToDraw);
       }
