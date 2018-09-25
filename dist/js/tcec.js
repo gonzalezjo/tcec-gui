@@ -155,6 +155,8 @@ function updateClock(color) {
   currentTime = moment();
 
   if (color == 'white') {
+    console.log ("whiteMoveStarted-timeDiff: "  + whiteMoveStarted + " timediff: " + timeDiff);
+
     var diff = currentTime.diff(whiteMoveStarted-timeDiff);
     var ms = moment.duration(diff);
 
@@ -164,6 +166,7 @@ function updateClock(color) {
     setTimeUsed(color, whiteTimeUsed);
     setTimeRemaining(color, tempTimeRemaning);
   } else {
+    console.log ("blackMoveStarted-timeDiff: "  + blackMoveStarted + " timediff: " + timeDiff);
     var diff = currentTime.diff(blackMoveStarted-timeDiff);
     var ms = moment.duration(diff);
 
