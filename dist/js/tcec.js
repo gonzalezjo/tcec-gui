@@ -133,6 +133,11 @@ function startClock(color, currentMove, previousMove) {
     updateClock('white');
 
     whiteClockInterval = setInterval(function() { updateClock('white') }, 1000);
+    if (currentMove.mt != undefined)
+    {
+       blackClockInterval = currentMove.mt;
+       setTimeUsed('black', blackClockInterval);
+    }
 
     $('.white-to-move').show();
   } else {
@@ -156,6 +161,11 @@ function startClock(color, currentMove, previousMove) {
     updateClock('black');
 
     blackClockInterval = setInterval(function() { updateClock('black') }, 1000);
+    if (currentMove.mt != undefined)
+    {
+       whiteClockInterval = currentMove.mt;
+       setTimeUsed('white', whiteClockInterval);
+    }
 
     $('.black-to-move').show();
   }
@@ -698,12 +708,26 @@ function getEvalFromPly(ply)
 
 function updateMoveValues(whiteToPlay, whiteEval, blackEval)
 {
+   /* Ben: Not sure why we need to update only if we are not viewing active move */
    if (!viewingActiveMove) 
    {
       $('.white-time-used').html(whiteEval.mtime);
       $('.black-time-used').html(blackEval.mtime);
       $('.white-time-remaining').html(whiteEval.timeleft);
       $('.black-time-remaining').html(blackEval.timeleft);
+   }
+   else
+   {
+      if (whiteToPlay)
+      {
+         $('.black-time-remaining').html(blackEval.timeleft);
+         $('.black-time-used').html(blackEval.mtime);
+      }
+      else
+      {
+         $('.white-time-used').html(whiteEval.mtime);
+         $('.white-time-remaining').html(whiteEval.timeleft);
+      }
    }
 
    $('.white-engine-eval').html(whiteEval.eval);
