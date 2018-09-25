@@ -544,18 +544,12 @@ function setPgn(pgn)
   if (pgn.gameChanged)
   {
      console.log ("Came to setpgn need to reread dataa at end");
-     if (whiteToPlay) 
-     {
-        stopClock('black');
-        blackClockInterval = '';
-        clearInterval(blackClockInterval);
-     }
-     else
-     {
-        stopClock('white');
-        whiteClockInterval = '';
-        clearInterval(whiteClockInterval);
-     }
+     stopClock('black');
+     stopClock('white');
+     blackClockInterval = '';
+     clearInterval(blackClockInterval);
+     whiteClockInterval = '';
+     clearInterval(whiteClockInterval);
   }
   console.log ("end Ply is :" + pgn.Moves.length);
 }
@@ -963,10 +957,10 @@ $(document).on('click', '.set-pv-board', function(e) {
   activePvColor = pvColor;
 
   if (pvColor == 'white') {
-    activePv = whitePv;
+    activePv = whitePv.slice();
     // pvBoard.orientation('white');
   } else if (pvColor == 'black') {
-    activePv = blackPv;
+    activePv = blackPv.slice();
     // pvBoard.orientation('black');
   } else {
     liveKey = $(this).attr('live-pv-key');
@@ -985,18 +979,22 @@ function setPvFromKey(moveKey)
 {
   if (activePv.length < 1) {
     activePvKey = 0;
-    //return;
+    // return;
   }
 
+  if (moveKey >= activePv.length) {
+     return;
+     }
   activePvKey = moveKey;
 
-  console.log ("movekey is " + moveKey);
-  console.log ("movekey length is " + activePv.length);
+  //console.log ("movekey is " + moveKey);
+  //console.log ("movekey length is " + activePv.length);
 
   moveFrom = activePv[moveKey].from;
   moveTo = activePv[moveKey].to;
   fen = activePv[moveKey].fen;
-  console.log ("moveKey inside pv is :" + activePvKey + ":moveFrom:" + moveFrom);
+  //console.log ("moveKey inside pv is :" + activePvKey + ":moveFrom:" + moveFrom + ", fen is " + fen);
+  game.load(fen);
 
   $('.active-pv-move').removeClass('active-pv-move');
   $(this).addClass('active-pv-move');
@@ -1041,7 +1039,6 @@ $('#pv-board-to-first').click(function(e) {
 
 $('#pv-board-previous').click(function(e) {
   if (activePvKey > 0) {
-    console.log ("Setting to :" + (activePvKey - 1));
     setPvFromKey(activePvKey - 1);
   }
   e.preventDefault();
@@ -1082,15 +1079,7 @@ function pvBoardAutoplay()
 $('#pv-board-next').click(function(e) {
   if (activePvKey < activePv.length) {
     console.log ("Setting next to :" + (activePvKey + 1));  
-    if (activePvKey == 0)
-    {
-      setPvFromKey(0);
-      activePvKey = activePvKey + 1;
-    }
-    else
-    {
-      setPvFromKey(activePvKey + 1);
-    }  
+    setPvFromKey(activePvKey + 1);
   }
   e.preventDefault();
 
@@ -1383,6 +1372,7 @@ function pad(pad, str) {
 
 var btheme = "chess24";
 var ptheme = "chess24";
+var game = new Chess();
 
 function setBoardInit()
 {
@@ -1407,19 +1397,49 @@ function setBoardInit()
    $('input[value='+ptheme+']').prop('checked', true);
    $('input[value='+btheme+'b]').prop('checked', true);
 
+   var onDragStart = function(source, piece, position, orientation) {
+     //console.log ("game.turn() is " + game.turn());
+     //console.log ("game.turn() is " + game.fen());
+     if (game.game_over() === true ||
+         (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
+         (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
+       //console.log ("returning false");
+       return false;
+     }
+   };
+   
    var onDragMove = function(newLocation, oldLocation, source,
                              piece, position, orientation) {
-     var pvLen = activePvKey;
+    var move = game.move({
+       from: newLocation,
+       to: oldLocation,
+       promotion: 'q' // NOTE: always promote to a queen for example simplicity
+       });
+
+     // illegal move
+     if (move === null) return 'snapback';
+
+     var pvLen = activePvKey + 1;
      var fen = ChessBoard.objToFen(position);
+     if (activePvKey == 0)
+     {
+         activePv[0] = {};
+         activePv[0].fen = fen; 
+     }
      var moveFrom = oldLocation;
      var moveTo = newLocation;
      if (newLocation == oldLocation)
      {
         return;
      }
-     console.log ("setting pvlen:" + pvLen); 
+     //console.log ("setting fen1 to " + fen);
+     var str = newLocation + '-' + oldLocation;+ '-' + newLocation;
+     pvBoard.move(str);
+     fen = pvBoard.fen();
+     //console.log ("setting fen2 to " + str);
+     //console.log ("setting fen2 to " + fen);
      activePv[pvLen] = {};
-     activePv[pvLen].fen = ChessBoard.objToFen(position);
+     activePv[pvLen].fen = fen;
      activePv[pvLen].from = oldLocation;
      activePv[pvLen].to = newLocation;
      $('.active-pv-move').removeClass('active-pv-move');
@@ -1428,7 +1448,7 @@ function setBoardInit()
      pvBoardEl.find('.square-' + moveFrom).addClass('highlight-white');
      pvBoardEl.find('.square-' + moveTo).addClass('highlight-white');
      pvSquareToHighlight = moveTo;
-     activePvKey = pvLen + 1;
+     activePvKey = pvLen;
      $('#pv-board-fen').html(fen);
    };
 
@@ -1439,6 +1459,7 @@ function setBoardInit()
       moveSpeed: 1,
       appearSpeed: 1,
       draggable: true,
+      onDragStart: onDragStart,
       onDrop: onDragMove,   
       boardTheme: window[btheme + "_board_theme"]
    });
@@ -1521,7 +1542,6 @@ function setTwitchBackground(backg)
 {
    var setValue = 0;
    var darkMode = localStorage.getItem('tcec-twitch-back-mode');
-   console.log ("darkMode is " + darkMode);
    if (darkMode != undefined)
    {
       if (darkMode == 1)
