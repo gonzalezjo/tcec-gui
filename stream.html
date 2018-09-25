@@ -113,8 +113,6 @@
 
           <br>
           <div id="engine-history"></div>
-          <hr />
-          <div id="live-eval-cont"></div>
         </div>
 
         <div class="col-md-4" id="middle-data-column">
@@ -215,7 +213,7 @@
                   <span class="black-time-used">
                     0:00
                   </span>
-                  <i class="fa fa-cog fa-spin slow-spin black-to-move" style="float: right;""></i>
+                  <i class="fa fa-cog fa-spin slow-spin black-to-move" style="float: right;"></i>
                 </td>
               </tr>
               <tr id="material-container">
@@ -341,17 +339,22 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="col-md-4">
+          <table id="crosstable" class="table-dark table-striped">
+          </table>
+          <hr />
+          <div id="live-eval-cont"></div>
           <h5><span class="black-engine-name"></span> PV (Black)</h5>
           <div class="engine-pv alert alert-dark" id="black-engine-pv"></div>
           <h5><span class="white-engine-name"></span> PV (White)</h5>
           <div class="engine-pv alert alert-dark" id="white-engine-pv"></div>
         </div>
-        <div class="col-md-4">
-          <table id="crosstable" class="table-dark table-striped">
-          </table>
-        </div>
    </div>
 
+      <br>
+      <br>
+      <br>
       <br>
 
       <ul class="nav nav-pills mb-3 nav-justified" id="pills-tab" role="tablist">
