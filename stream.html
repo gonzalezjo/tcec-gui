@@ -350,6 +350,8 @@
         <div class="col-md-4">
           <table id="crosstable" class="table-dark table-striped">
           </table>
+          <table id="schedule" class="table-dark table-striped">
+          </table>
       </div>
    </div>
 
@@ -376,8 +378,7 @@
         </div>
         <div class="tab-pane fade smallfont scheduleclass" id="pills-sched" role="tabpanel" aria-labelledby="pills-sched-tab">
           <div id="schedule-wrapper">
-            <table id="schedule" class="table-dark table-striped">
-            </table>
+            
           </div>
         </div>
       </div>
@@ -427,6 +428,7 @@
 
     <script>
       $(document).ready(function () {
+          localStorage.settItem('tcec-dark-mode', 20);
           $(document).click(function (event) {
               var clickover = $(event.target);
               var _opened = $(".navbar-collapse").hasClass("navbar-collapse in");
