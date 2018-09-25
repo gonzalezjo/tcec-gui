@@ -1415,8 +1415,8 @@ function updateTables()
 
 function setDark()
 {
-  $('.toggleDark').find('i').removeClass('fa-moon');
-  $('.toggleDark').find('i').addClass('fa-sun');
+  $('.toggleDark').find('i').removeClass('fa-moon-o');
+  $('.toggleDark').find('i').addClass('fa-sun-o');
   $('body').addClass('dark');
   $('#chatright').attr('src', 'https://www.twitch.tv/embed/TCEC_Chess_TV/chat?darkpopout');
   $('#info-frame').attr('src', 'info.html?body=dark');
@@ -1430,8 +1430,8 @@ function setDark()
 function setLight()
 {
   $('body').removeClass('dark');
-  $('.toggleDark').find('i').addClass('fa-moon');
-  $('.toggleDark').find('i').removeClass('fa-sun');
+  $('.toggleDark').find('i').addClass('fa-moon-o');
+  $('.toggleDark').find('i').removeClass('fa-sun-o');
   $('input.toggleDark').prop('checked', false);
   $('#crosstable').removeClass('table-dark');
   $('#schedule').removeClass('table-dark');
