@@ -429,6 +429,8 @@
     <script>
       $(document).ready(function () {
         localStorage.settItem('tcec-dark-mode', 20);
+        setDefaultThemes();
+        window.setTimeout(function() { setDefaultThemes(); }, 500);
       });
 
       var {board, pvBoard } = setBoardInit();
