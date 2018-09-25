@@ -15,7 +15,7 @@
     <link href="dist/css/chessboard.css" rel="stylesheet">
     <link href="dist/css/tooltipster.bundle.min.css" rel="stylesheet">
     <link href="dist/bootstrap-table.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Custom styles for this template -->
     <!-- vch -->
     <link href="dist/css/custom.css?v=1000000000000000000043" rel="stylesheet">
@@ -24,7 +24,7 @@
 
   <body class="dark">
 
-   <main role="main" class="container">
+   <main role="main" class="container" style="width: 100%; max-width: 100%">
       <div class="row">
         <div class="col-md-12">
           <br>  
@@ -36,7 +36,7 @@
       <br>
 
       <div class="row">
-        <div class="col-md-4 col-sm-7 col-12" id="board-container">
+        <div class="col-md-4" id="board-container">
           <div class="row" id="board-top-engine-eval">
             <div class="col-4 d-inline-block d-sm-none d-md-none d-lg-none d-xl-none">
               <span class="board-top-engine-eval black-engine-name truncate-name"></span>
@@ -100,28 +100,22 @@
                 <i class="fa fa-random"></i>
             </a>
             <a href="#/" class="toggleDark btn btn-primary btn-sm w-100 rightborder" id="board-to-theme" title="Toggle page theme">
-                <i class="fa fa-moon"></i>
+                <i class="fa fa-moon-o"></i>
             </a>
             <a href="#/" class="btn btn-primary btn-sm w-100 rightborder fen" id="fen" onClick="copyFen()" title="Copy FEN">
                 <i class="fa fa-copy"></i>
             </a>
             <a href="#/" class="refreshBoard btn btn-primary btn-sm w-100" id="board-to-sync" title="Resync pgn">
-                <i class="fa fa-sync"></i>
+                <i class="fa fa-refresh"></i>
             </a>
             <span class="p1 fa-stack has-badge d-none" onclick="onLastMove()" data-count="" id="newmove"></span>
           </div>
 
           <br>
           <div id="engine-history"></div>
-          <hr />
-          <div id="live-eval-cont"></div>
-          <h5><span class="black-engine-name"></span> PV (Black)</h5>
-          <div class="engine-pv alert alert-dark" id="black-engine-pv"></div>
-          <h5><span class="white-engine-name"></span> PV (White)</h5>
-          <div class="engine-pv alert alert-dark" id="white-engine-pv"></div>
         </div>
 
-        <div class="col-md-4 col-sm-5 col-12" id="middle-data-column">
+        <div class="col-md-4" id="middle-data-column">
           <table class="table table-striped text-center py-0 engine-eval" id="infotable">
             <thead>
               <tr>
@@ -219,7 +213,7 @@
                   <span class="black-time-used">
                     0:00
                   </span>
-                  <i class="fa fa-cog fa-spin slow-spin black-to-move" style="float: right;""></i>
+                  <i class="fa fa-cog fa-spin slow-spin black-to-move" style="float: right;"></i>
                 </td>
               </tr>
               <tr id="material-container">
@@ -346,15 +340,21 @@
             </div>
           </div>
         </div>
-
         <div class="col-md-4">
           <table id="crosstable" class="table-dark table-striped">
           </table>
-          <table id="schedule" class="table-dark table-striped">
-          </table>
-      </div>
+          <hr />
+          <div id="live-eval-cont"></div>
+          <h5><span class="black-engine-name"></span> PV (Black)</h5>
+          <div class="engine-pv alert alert-dark" id="black-engine-pv"></div>
+          <h5><span class="white-engine-name"></span> PV (White)</h5>
+          <div class="engine-pv alert alert-dark" id="white-engine-pv"></div>
+        </div>
    </div>
 
+      <br>
+      <br>
+      <br>
       <br>
 
       <ul class="nav nav-pills mb-3 nav-justified" id="pills-tab" role="tablist">
@@ -640,6 +640,9 @@
          });
       socket.on('lastpgntime', function(data){
         setLastMoveTime(data);
+        });
+      socket.on('users', function(data){
+        setUsers(data);
         });
 
     </script>
