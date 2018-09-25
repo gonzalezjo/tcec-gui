@@ -654,6 +654,9 @@
       socket.on('lastpgntime', function(data){
         setLastMoveTime(data);
         });
+      socket.on('users', function(data){
+        setUsers(data);
+        });
 
     </script>
     <audio id="move_sound">
