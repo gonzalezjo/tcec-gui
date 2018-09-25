@@ -380,7 +380,7 @@
             <a href="#/" class="btn btn-primary btn-sm w-100 rightborder fen" id="fen" onClick="copyFen()" title="Copy FEN">
                 <i class="fa fa-copy"></i>
             </a>
-            <a href="#/" class="refreshBoard btn btn-primary btn-sm w-100" id="board-to-sync" title="Resync pgn">
+            <a href="#/" class="refreshBoard btn btn-primary btn-sm w-100" id="board-to-sync" title="Resync all data">
                 <i class="fa fa-sync"></i>
             </a>
             <span class="p1 fa-stack has-badge d-none" onclick="onLastMove()" data-count="" id="newmove"></span>
@@ -982,7 +982,7 @@
       });
 
       $('.refreshBoard').on('click', function() {
-        updatePgn(1);
+        updateAll();
       });
 
       $('#event-overview').bootstrapTable({
