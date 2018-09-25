@@ -117,6 +117,16 @@ function startClock(color, currentMove, previousMove) {
     whiteTimeRemaining = Math.ceil(previousTime / 1000) * 1000;
     blackTimeRemaining = Math.ceil(currentTime / 1000) * 1000;
 
+    if (isNaN(blackTimeRemaining))
+    {
+       blackTimeRemaining = defaultStartTime;
+    }
+
+    if (isNaN(whiteTimeRemaining))
+    {
+       whiteTimeRemaining = defaultStartTime;
+    }
+
     setTimeRemaining('black', blackTimeRemaining);
 
     whiteMoveStarted = moment();
@@ -128,6 +138,16 @@ function startClock(color, currentMove, previousMove) {
   } else {
     whiteTimeRemaining = Math.ceil(currentTime / 1000) * 1000;
     blackTimeRemaining = Math.ceil(previousTime / 1000) * 1000;
+
+    if (isNaN(blackTimeRemaining))
+    {
+       blackTimeRemaining = defaultStartTime;
+    }
+
+    if (isNaN(whiteTimeRemaining))
+    {
+       whiteTimeRemaining = defaultStartTime;
+    }
 
     setTimeRemaining('white', whiteTimeRemaining);
 
@@ -155,8 +175,6 @@ function updateClock(color) {
   currentTime = moment();
 
   if (color == 'white') {
-    console.log ("whiteMoveStarted-timeDiff: "  + whiteMoveStarted + " timediff: " + timeDiff);
-
     var diff = currentTime.diff(whiteMoveStarted-timeDiff);
     var ms = moment.duration(diff);
 
@@ -166,7 +184,6 @@ function updateClock(color) {
     setTimeUsed(color, whiteTimeUsed);
     setTimeRemaining(color, tempTimeRemaning);
   } else {
-    console.log ("blackMoveStarted-timeDiff: "  + blackMoveStarted + " timediff: " + timeDiff);
     var diff = currentTime.diff(blackMoveStarted-timeDiff);
     var ms = moment.duration(diff);
 
@@ -210,10 +227,8 @@ function setTimeRemaining(color, time)
     time = 0;
   }
 
-
   if (isNaN(time)) {
-    console.log ("setting time to : " + time);
-    time = defaultStartTime;
+    console.log ("setting null time to : " + time);
   }
 
   if (viewingActiveMove) {
@@ -262,24 +277,20 @@ function setPgn(pgn)
 
    if (pgn.gameChanged)
    {
-      console.log ("Came to setpgn need to reread dataa");
       prevPgnData = 0;
    }
    else
    {
       if (prevPgnData)
       {
-         console.log ("pgn.Moves.length: " + prevPgnData.Moves.length + ", prevPgnData.lastMoveLoaded" + pgn.lastMoveLoaded);
          if (prevPgnData.Moves.length < pgn.lastMoveLoaded)
          {
             setTimeout(function() { updateAll(); }, 100);
-            console.log ("Need to update pgn bcos moves are not in syn");
             return;
          }
          else if (parseFloat(prevPgnData.Headers.Round) != parseFloat(pgn.Headers.Round))
          {
             setTimeout(function() { updateAll(); }, 100);
-            console.log ("Need to update pgn because header changed");
             return;
          }
       }
@@ -315,17 +326,19 @@ function setPgn(pgn)
       currentPlyCount = pgn.Moves.length;
    }
 
-  var moveFrom = '';
-  var moveTo = '';
-  if (typeof pgn.Moves != 'undefined' && pgn.Moves.length > 0) {
-    currentPosition = pgn.Moves[pgn.Moves.length-1].fen;
-    moveFrom = pgn.Moves[pgn.Moves.length-1].from;
-    moveTo = pgn.Moves[pgn.Moves.length-1].to;
-
-    currentGameActive = (pgn.Headers.Termination == 'unterminated');
-    whiteToPlay = (currentPlyCount % 2 == 0);
+  if (typeof pgn.Headers != 'undefined') {
+     var moveFrom = '';
+     var moveTo = '';
+     if (typeof pgn.Moves != 'undefined' && pgn.Moves.length > 0) {
+       currentPosition = pgn.Moves[pgn.Moves.length-1].fen;
+       moveFrom = pgn.Moves[pgn.Moves.length-1].from;
+       moveTo = pgn.Moves[pgn.Moves.length-1].to;
+   
+       currentGameActive = (pgn.Headers.Termination == 'unterminated');
+       whiteToPlay = (currentPlyCount % 2 == 0);
+     }
   }
-
+   
   if (!currentGameActive) {
     stopClock('white');
     stopClock('black');
@@ -402,10 +415,16 @@ function setPgn(pgn)
     updateEnginePv('black', whiteToPlay, blackEval.pv);
   }
 
+  var TC = pgn.Headers.TimeControl.split("+");
+  var base = Math.round(TC[0] / 60);
+  TC = base + "'+" + TC[1] + '"';
+  pgn.Headers.TimeControl = TC;
+
+  defaultStartTime = (base * 60 * 1000);
+
   if (whiteToPlay) {
     startClock('white', clockCurrentMove, clockPreviousMove);
   } else {
-    console.log ("starting black clock: " + clockCurrentMove);
     startClock('black', clockCurrentMove, clockPreviousMove);
   }
 
@@ -434,13 +453,6 @@ function setPgn(pgn)
   }
 
   $(document).attr("title", title);
-
-  var TC = pgn.Headers.TimeControl.split("+");
-  var base = Math.round(TC[0] / 60);
-  TC = base + "'+" + TC[1] + '"';
-  pgn.Headers.TimeControl = TC;
-
-  defaultStartTime = (base * 60 * 1000);
 
   var termination = pgn.Headers.Termination;
   if (pgn.Moves.length > 0) {
