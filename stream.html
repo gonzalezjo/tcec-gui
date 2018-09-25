@@ -555,6 +555,21 @@
       });
 
       $(function() {
+
+        var options = {
+          sloppy: true
+        };
+
+        var sliderVale = localStorage.getItem('tcec-chat-slider');
+        if (sliderVale == undefined)
+        {
+           sliderVale = 100;
+        }
+        var chatHeight = $("#board-container").height();
+        var chatHeight1 = parseInt(chatHeight * sliderVale/100);
+
+        $('#chatright').height(chatHeight1);
+
         $( window ).resize(function() {
           board.resize();
           $('#chatright').height(chatHeight1);
@@ -562,8 +577,46 @@
         });
 
         setSound();  
+        initToolTip();
         updatePgn();
         updateLiveEvalInit();
+        $(document).ready(function () {
+        	 setDefaultThemes();
+          window.setTimeout(function() 
+          { 
+             setTwitch();
+          }, 10000);
+          window.setTimeout(function() 
+                            { 
+                               updateLiveChart();
+                               updateLiveEval();
+                            }, 2000);
+          window.setTimeout(function() 
+                            { 
+                               updateTables();
+                            }, 3000);
+          window.setTimeout(function() 
+                            { 
+                               if ($('#google_adverts').height() <= 0) {
+                                 $('.encouragement').show();
+                               } else {
+                                 $('.encouragement').hide();
+                               }
+                            }, 15000);
+         });
+
+        $('#chatsize').bootstrapSlider({
+          min:40,
+          max:100,
+          value: sliderVale,
+          handle: 'round',
+          formatter: function(value) {
+            $('#chatright').height(parseInt(value/100 * chatHeight));
+            localStorage.setItem('tcec-chat-slider', value);
+          }
+        });
+
+        setDark();
       });
 
       var socket = io.connect('http://172.93.55.172:8888');
