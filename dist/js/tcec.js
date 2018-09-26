@@ -1059,7 +1059,6 @@ $('#pv-board-to-first').click(function(e) {
 
 $('#pv-board-previous').click(function(e) {
   if (activePvKey > 0) {
-    console.log ("Setting to :" + (activePvKey - 1));
     setPvFromKey(activePvKey - 1);
   }
   e.preventDefault();
