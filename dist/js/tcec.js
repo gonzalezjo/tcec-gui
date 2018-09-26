@@ -1172,11 +1172,11 @@ function setDarkMode(value)
    darkMode = value;
    if (!darkMode)
    {
-      gameArrayClass = ['darkgreen', 'red', 'black'];
+      gameArrayClass = ['red', 'darkgreen', '#696969'];
    }
    else
    {
-      gameArrayClass = ['#39FF14', 'red', 'whitesmoke'];
+      gameArrayClass = ['red', '#39FF14', 'whitesmoke'];
    }
 }
 
@@ -1198,6 +1198,11 @@ function formatter(value, row, index, field) {
       if (engine.Result == "0.5")
       {
          engine.Result = '&frac12'
+         gameXColor = 2;
+      }
+      else
+      {
+         gameXColor = parseInt(engine.Result);
       }
       if (retStr == '')
       {
