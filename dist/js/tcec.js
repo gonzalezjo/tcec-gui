@@ -554,8 +554,12 @@ function setPgn(pgn)
   if (pgn.gameChanged)
   {
      console.log ("Came to setpgn need to reread dataa at end");
-     stopClock('black');
-     stopClock('white');
+     if (whiteToPlay) {
+       stopClock('black');
+       } 
+     else {
+       stopClock('white');
+       }
      blackClockInterval = '';
      clearInterval(blackClockInterval);
      whiteClockInterval = '';
