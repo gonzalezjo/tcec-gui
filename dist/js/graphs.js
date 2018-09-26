@@ -18,8 +18,7 @@ var evalChartData = {
     label: 'Black',
     lineTension: 0,
     borderColor: '#000000',
-    backgroundColor: '#FFFFFF',
-    
+    backgroundColor: '#000000',
     fill: false,
     data: [
     ]
@@ -50,8 +49,7 @@ var timeChartData = {
     label: 'Black Engine Time',
     lineTension: 0,
     borderColor: '#000000',
-    backgroundColor: '#FFFFFF',
-    
+    backgroundColor: '#000000',
     fill: false,
     data: [
     ]
@@ -73,8 +71,7 @@ var speedChartData = {
     label: 'Black Engine Speed',
     lineTension: 0,
     borderColor: '#000000',
-    backgroundColor: '#FFFFFF',
-    
+    backgroundColor: '#000000',
     fill: false,
     data: [
     ],
@@ -96,8 +93,7 @@ var depthChartData = {
     label: 'Black Engine Depth',
     lineTension: 0,
     borderColor: '#000000',
-    backgroundColor: '#FFFFFF',
-    
+    backgroundColor: '#000000',
     fill: false,
     data: [
     ]
@@ -119,7 +115,7 @@ var tbHitsChartData = {
     label: 'Black Engine TB Hits',
     lineTension: 0,
     borderColor: '#000000',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#000000',
     fill: false,
     yAxisID: 'tb-y-axis-2',
     data: [
@@ -450,27 +446,35 @@ function updateChartData()
 			}
 
          //arun: cap moves at 6.5
-            evaluation = move.wv;
-            move.uwv = evaluation;
-            if (!isNaN(move.wv)) {
-	            if (move.wv > 6.5) {
-	            	move.wv = 6.5;
-	            } else if (move.wv < -6.5) {
-	            	move.wv = -6.5;
-	            }
-	        } else {
-	        	if (move.wv.substring(0,1) == '-') {
-	        		move.wv = -6.5;
-	        	} else {
-	        		move.wv = 6.5;
-	        	}
-	        }
-			eval = [
+         move.cwv = move.wv;
+         if (!isNaN(move.wv)) 
+         {
+            if (move.wv > 6.5) 
+            {
+               move.cwv = 6.5;
+            } 
+            else if (move.wv < -6.5) 
+            {
+               move.cwv = -6.5;
+            }
+         } 
+         else 
+         {
+            if (move.wv.substring(0,1) == '-') 
+            {
+               move.cwv = -6.5;
+            } 
+            else 
+            {
+               move.cwv = 6.5;
+            }
+         }
+         eval = [
 				{
 					'x': moveNumber,
-					'y': move.wv,
+					'y': move.cwv,
 					'ply': plyNum,
-					'eval': move.uwv
+					'eval': move.wv
 				}
 			];
 

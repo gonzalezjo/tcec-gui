@@ -343,6 +343,7 @@
         <div class="col-md-4">
           <table id="crosstable" class="table-dark table-striped">
           </table>
+<<<<<<< HEAD
           <hr />
           <div id="live-eval-cont"></div>
           <h5><span class="black-engine-name"></span> PV (Black)</h5>
@@ -350,6 +351,11 @@
           <h5><span class="white-engine-name"></span> PV (White)</h5>
           <div class="engine-pv alert alert-dark" id="white-engine-pv"></div>
         </div>
+=======
+          <table id="schedule" class="table-dark table-striped">
+          </table>
+      </div>
+>>>>>>> master
    </div>
 
       <br>
@@ -378,8 +384,7 @@
         </div>
         <div class="tab-pane fade smallfont scheduleclass" id="pills-sched" role="tabpanel" aria-labelledby="pills-sched-tab">
           <div id="schedule-wrapper">
-            <table id="schedule" class="table-dark table-striped">
-            </table>
+            
           </div>
         </div>
       </div>
@@ -429,28 +434,11 @@
 
     <script>
       $(document).ready(function () {
-          $(document).click(function (event) {
-              var clickover = $(event.target);
-              var _opened = $(".navbar-collapse").hasClass("navbar-collapse in");
-              if (_opened === true && !clickover.hasClass("navbar-toggle")) {
-                  $("button.navbar-toggle").click();
-              }
-          });
+        localStorage.setItem('tcec-twitch-back-mode', 2);
+        setDark();
       });
 
       var {board, pvBoard } = setBoardInit();
-      $('.toggleDark').click(function() {
-        var darkMode = localStorage.getItem('tcec-dark-mode');
-        if (darkMode == 20) {
-          localStorage.setItem('tcec-dark-mode', 10);
-        } else {
-          localStorage.setItem('tcec-dark-mode', 20);
-        }
-        setDefaultThemes();
-        updateTables();
-        $(".navbar-toggle").click();
-         
-      });
 
       $('.refreshBoard').on('click', function() {
         updatePgn(1);
@@ -600,7 +588,7 @@
         updatePgn();
         updateLiveEvalInit();
         $(document).ready(function () {
-        	 setDefaultThemes();
+        	 // setDefaultThemes();
           window.setTimeout(function() 
           { 
              setTwitch();
@@ -634,6 +622,8 @@
             localStorage.setItem('tcec-chat-slider', value);
           }
         });
+
+        setDark();
       });
 
       var socket = io.connect('http://172.93.55.172:8888');

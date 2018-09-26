@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="keywords" content="tcec,chess,engine,live,game,broadcast,super x1,super x2,event" />
+    <meta name="keywords" content="tcec,chess,engine,live,game,broadcast,event" />
     <link id="favicon" rel="icon" href="img/favicon.ico">
 
     <title>TCEC - Live Chess Broadcast</title>
@@ -36,10 +36,30 @@
           <li class="nav-item">
             <a class="nav-link py-0" href="#/" data-toggle="modal" data-target="#rules-modal">Rules</a>
           </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle py-0" href="http://tcecbeta.com" id="dd-download" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Navigate</a>
+            <div class="dropdown-menu" aria-labelledby="dd-download">
+               <a class="dropdown-item" href="http://tcec.chessdom.com/live.html" target="_blank">
+                 Main live
+               </a>
+               <a class="dropdown-item" href="http://legacy-tcec.chessdom.com/archive.php" target="_blank">
+                 Archive
+               </a>
+               <a class="dropdown-item" href="http://tcecbeta.club/live.html" target="_blank">
+                 Betadev
+               </a>
+               <a class="dropdown-item" href="http://bonus.tcecbeta.club/" target="_blank">
+                 Bonus
+               </a>
+               <a class="dropdown-item" href="http://legacy-tcec.chessdom.com/live.php" target="_blank">
+                 Legacy
+               </a>
+               <a class="dropdown-item" href="http://legacy-tcec.chessdom.com/live_big.php" target="_blank">
+                 Legacy big board
+               </a>
+            </div>
+          </li>
           <li class="nav-item">
-            <a href="http://tcec.chessdom.com/archive.php" target="_blank" class="nav-link py-0">
-              Archive
-            </a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle py-0" href="http://tcecbeta.com" id="dd-download" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Download</a>
@@ -59,7 +79,7 @@
                 <ul class="dropdown-menu bg-dark whitefont">
                   <li class="radio">
                     <div class="form-check classpad">
-                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="alpha" checked onclick="setPieceDefault('alpha');">
+                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="alpha" checked="checked" onclick="setPieceDefault('alpha');">
                       <label class="form-check-label" for="exampleRadios1">
                         Alpha
                       </label>
@@ -213,6 +233,29 @@
                         Off
                       </label>
                     </div>
+                  </ul>
+                </li>
+                <div class="dropdown-divider"></div>
+                <li><a class="dropdown-item dropdown-toggle whitefont" href="#/">Twitch Theme</a>
+                  <ul class="dropdown-menu bg-dark whitefont">
+                      <div class="form-check classpad">
+                        <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio2" value="0" onclick="setTwitchBackgroundInit(0);">
+                        <label class="form-check-label" for="boardRadio2">
+                          Theme
+                        </label>
+                      </div>
+                      <div class="form-check classpad">
+                        <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio3" value="2" onclick="setTwitchBackgroundInit(2);">
+                        <label class="form-check-label" for="boardRadio2">
+                          Dark
+                        </label>
+                      </div>
+                      <div class="form-check classpad">
+                        <input class="form-check-input" type="radio" name="boardRadio" id="boardRadio4" value="1" onclick="setTwitchBackgroundInit(1);">
+                        <label class="form-check-label" for="boardRadio2">
+                          Light
+                        </label>
+                      </div>
                   </ul>
                 </li>
               </ul>
@@ -1112,7 +1155,7 @@
 
         $('#chatsize').bootstrapSlider({
           min:40,
-          max:100,
+          max:150,
           value: sliderVale,
           handle: 'round',
           formatter: function(value) {
