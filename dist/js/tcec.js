@@ -52,7 +52,7 @@ var onMoveEndPv = function() {
 
 function updateAll()
 {
-   updatePgn();
+   updatePgn(1);
    setTimeout(function() { updateTables(); }, 5000);
 }
 
@@ -133,6 +133,11 @@ function startClock(color, currentMove, previousMove) {
     updateClock('white');
 
     whiteClockInterval = setInterval(function() { updateClock('white') }, 1000);
+    if (currentMove.mt != undefined)
+    {
+       blackClockInterval = currentMove.mt;
+       setTimeUsed('black', blackClockInterval);
+    }
 
     $('.white-to-move').show();
   } else {
@@ -156,6 +161,11 @@ function startClock(color, currentMove, previousMove) {
     updateClock('black');
 
     blackClockInterval = setInterval(function() { updateClock('black') }, 1000);
+    if (currentMove.mt != undefined)
+    {
+       whiteClockInterval = currentMove.mt;
+       setTimeUsed('white', whiteClockInterval);
+    }
 
     $('.black-to-move').show();
   }
@@ -544,18 +554,12 @@ function setPgn(pgn)
   if (pgn.gameChanged)
   {
      console.log ("Came to setpgn need to reread dataa at end");
-     if (whiteToPlay) 
-     {
-        stopClock('black');
-        blackClockInterval = '';
-        clearInterval(blackClockInterval);
-     }
-     else
-     {
-        stopClock('white');
-        whiteClockInterval = '';
-        clearInterval(whiteClockInterval);
-     }
+     stopClock('black');
+     stopClock('white');
+     blackClockInterval = '';
+     clearInterval(blackClockInterval);
+     whiteClockInterval = '';
+     clearInterval(whiteClockInterval);
   }
   console.log ("end Ply is :" + pgn.Moves.length);
 }
@@ -704,12 +708,26 @@ function getEvalFromPly(ply)
 
 function updateMoveValues(whiteToPlay, whiteEval, blackEval)
 {
+   /* Ben: Not sure why we need to update only if we are not viewing active move */
    if (!viewingActiveMove) 
    {
       $('.white-time-used').html(whiteEval.mtime);
       $('.black-time-used').html(blackEval.mtime);
       $('.white-time-remaining').html(whiteEval.timeleft);
       $('.black-time-remaining').html(blackEval.timeleft);
+   }
+   else
+   {
+      if (whiteToPlay)
+      {
+         $('.black-time-remaining').html(blackEval.timeleft);
+         $('.black-time-used').html(blackEval.mtime);
+      }
+      else
+      {
+         $('.white-time-used').html(whiteEval.mtime);
+         $('.white-time-remaining').html(whiteEval.timeleft);
+      }
    }
 
    $('.white-engine-eval').html(whiteEval.eval);
@@ -963,10 +981,10 @@ $(document).on('click', '.set-pv-board', function(e) {
   activePvColor = pvColor;
 
   if (pvColor == 'white') {
-    activePv = whitePv;
+    activePv = whitePv.slice();
     // pvBoard.orientation('white');
   } else if (pvColor == 'black') {
-    activePv = blackPv;
+    activePv = blackPv.slice();
     // pvBoard.orientation('black');
   } else {
     liveKey = $(this).attr('live-pv-key');
@@ -985,18 +1003,18 @@ function setPvFromKey(moveKey)
 {
   if (activePv.length < 1) {
     activePvKey = 0;
-    //return;
+    return;
   }
 
+  if (moveKey >= activePv.length) {
+     return;
+     }
   activePvKey = moveKey;
-
-  console.log ("movekey is " + moveKey);
-  console.log ("movekey length is " + activePv.length);
 
   moveFrom = activePv[moveKey].from;
   moveTo = activePv[moveKey].to;
   fen = activePv[moveKey].fen;
-  console.log ("moveKey inside pv is :" + activePvKey + ":moveFrom:" + moveFrom);
+  game.load(fen);
 
   $('.active-pv-move').removeClass('active-pv-move');
   $(this).addClass('active-pv-move');
@@ -1082,15 +1100,7 @@ function pvBoardAutoplay()
 $('#pv-board-next').click(function(e) {
   if (activePvKey < activePv.length) {
     console.log ("Setting next to :" + (activePvKey + 1));  
-    if (activePvKey == 0)
-    {
-      setPvFromKey(0);
-      activePvKey = activePvKey + 1;
-    }
-    else
-    {
-      setPvFromKey(activePvKey + 1);
-    }  
+    setPvFromKey(activePvKey + 1);
   }
   e.preventDefault();
 
@@ -1383,6 +1393,7 @@ function pad(pad, str) {
 
 var btheme = "chess24";
 var ptheme = "chess24";
+var game = new Chess();
 
 function setBoardInit()
 {
@@ -1409,17 +1420,34 @@ function setBoardInit()
 
    var onDragMove = function(newLocation, oldLocation, source,
                              piece, position, orientation) {
-     var pvLen = activePvKey;
+    var move = game.move({
+       from: newLocation,
+       to: oldLocation,
+       promotion: 'q' // NOTE: always promote to a queen for example simplicity
+       });
+
+     // illegal move
+     if (move === null) return 'snapback';
+
+     var pvLen = activePvKey + 1;
      var fen = ChessBoard.objToFen(position);
+     if (activePvKey == 0)
+     {
+         activePv[0] = {};
+         activePv[0].fen = fen; 
+     }
      var moveFrom = oldLocation;
      var moveTo = newLocation;
      if (newLocation == oldLocation)
      {
         return;
      }
-     console.log ("setting pvlen:" + pvLen); 
+
+     var str = newLocation + '-' + oldLocation;+ '-' + newLocation;
+     pvBoard.move(str);
+     fen = pvBoard.fen();
      activePv[pvLen] = {};
-     activePv[pvLen].fen = ChessBoard.objToFen(position);
+     activePv[pvLen].fen = fen;
      activePv[pvLen].from = oldLocation;
      activePv[pvLen].to = newLocation;
      $('.active-pv-move').removeClass('active-pv-move');
@@ -1428,7 +1456,7 @@ function setBoardInit()
      pvBoardEl.find('.square-' + moveFrom).addClass('highlight-white');
      pvBoardEl.find('.square-' + moveTo).addClass('highlight-white');
      pvSquareToHighlight = moveTo;
-     activePvKey = pvLen + 1;
+     activePvKey = pvLen;
      $('#pv-board-fen').html(fen);
    };
 
@@ -1439,6 +1467,7 @@ function setBoardInit()
       moveSpeed: 1,
       appearSpeed: 1,
       draggable: true,
+      onDragStart: onDragStart,
       onDrop: onDragMove,   
       boardTheme: window[btheme + "_board_theme"]
    });
@@ -1521,7 +1550,6 @@ function setTwitchBackground(backg)
 {
    var setValue = 0;
    var darkMode = localStorage.getItem('tcec-twitch-back-mode');
-   console.log ("darkMode is " + darkMode);
    if (darkMode != undefined)
    {
       if (darkMode == 1)
