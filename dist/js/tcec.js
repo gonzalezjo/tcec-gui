@@ -1208,6 +1208,10 @@ function formatter(value, row, index, field) {
          retStr += ' ' + '<a title="TBD" style="cursor:pointer; color: ' + gameArrayClass[gameXColor] + ';"onclick="openCross(' + engine.Game + ')">' + engine.Result + '</a>';
       }
       countGames = countGames + 1;
+      if (countGames%4 == 0)
+      {
+         retStr += '<br />';
+      }
    });
   return retStr;
 }
