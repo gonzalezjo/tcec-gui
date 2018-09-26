@@ -1418,6 +1418,17 @@ function setBoardInit()
    $('input[value='+ptheme+']').prop('checked', true);
    $('input[value='+btheme+'b]').prop('checked', true);
 
+   var onDragStart = function(source, piece, position, orientation) {
+     //console.log ("game.turn() is " + game.turn());
+     //console.log ("game.turn() is " + game.fen());
+     if (game.game_over() === true ||
+         (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
+         (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
+       //console.log ("returning false");
+       return false;
+     }
+   };
+  
    var onDragMove = function(newLocation, oldLocation, source,
                              piece, position, orientation) {
     var move = game.move({
