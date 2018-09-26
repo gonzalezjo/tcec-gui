@@ -1003,7 +1003,7 @@ function setPvFromKey(moveKey)
 {
   if (activePv.length < 1) {
     activePvKey = 0;
-    // return;
+    return;
   }
 
   if (moveKey >= activePv.length) {
@@ -1011,13 +1011,9 @@ function setPvFromKey(moveKey)
      }
   activePvKey = moveKey;
 
-  //console.log ("movekey is " + moveKey);
-  //console.log ("movekey length is " + activePv.length);
-
   moveFrom = activePv[moveKey].from;
   moveTo = activePv[moveKey].to;
   fen = activePv[moveKey].fen;
-  //console.log ("moveKey inside pv is :" + activePvKey + ":moveFrom:" + moveFrom + ", fen is " + fen);
   game.load(fen);
 
   $('.active-pv-move').removeClass('active-pv-move');
@@ -1431,7 +1427,7 @@ function setBoardInit()
        return false;
      }
    };
-   
+  
    var onDragMove = function(newLocation, oldLocation, source,
                              piece, position, orientation) {
     var move = game.move({
@@ -1456,12 +1452,10 @@ function setBoardInit()
      {
         return;
      }
-     //console.log ("setting fen1 to " + fen);
+
      var str = newLocation + '-' + oldLocation;+ '-' + newLocation;
      pvBoard.move(str);
      fen = pvBoard.fen();
-     //console.log ("setting fen2 to " + str);
-     //console.log ("setting fen2 to " + fen);
      activePv[pvLen] = {};
      activePv[pvLen].fen = fen;
      activePv[pvLen].from = oldLocation;
