@@ -66,7 +66,6 @@ function updateChartData()
 {
 	evalChart.data.labels = [];
 	evalChart.data.datasets[0].data = [];
-	evalChart.data.datasets[1].data = [];
 	
 	labels = [];
 
