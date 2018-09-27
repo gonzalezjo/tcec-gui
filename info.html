@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="keywords" content="tcec,chess,engine,live,game,broadcast,super x1,super x2,event" />
+  </head>
+  <link href="dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="dist/css/custom.css?v=1000000000000000000043" rel="stylesheet">
+<body id="body">
+   <main role="main" class="container">
+      <div class="row">
+         <div class="col-12">
+            <h3>Press releases</h5>
+            Please find latest press release at
+            <a href="http://www.chessdom.com/world-chess-championship-2018-live-with-a-neural-network/" target="_blank">http://www.chessdom.com/world-chess-championship-2018-live-with-a-neural-network/</a>
+         </div>
+         <div class="col-12">
+            <h3>Live</h3>
+            <b>TCEC</b> Premier division is currently ongoing
+            <a href="http://tcec.chessdom.com" target="_blank">http://tcec.chessdom.com</a>
+         </div>
+
+         <div class="col-12">
+            <h3>Bonus</h3>
+            <b>TCEC</b> LCZero (11250), DeusX (Rev 2) on 2xV100s | SF Dev (18091012), Ethereal 11.05 on 92 vCPUs
+            <a href="http://bonus.tcecbeta.club" target="_blank">http://bonus.tcecbeta.club</a>
+         </div>
+
+         <div class="col-12">
+            <h3>GUI Issues/Requests</h3>
+            Please file an issue on GitHub:
+            <a href="https://github.com/scs-ben/tcec-gui/issues" target="_blank">https://github.com/scs-ben/tcec-gui/issues</a>
+         </div>
+      </div>
+   </main>
+
+   <script>
+      function getParameterByName(name, url) {
+          if (!url) url = window.location.href;
+          name = name.replace(/[\[\]]/g, '\\$&');
+          var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+              results = regex.exec(url);
+          if (!results) return null;
+          if (!results[2]) return '';
+          return decodeURIComponent(results[2].replace(/\+/g, ' '));
+      }
+      var style = getParameterByName('body');
+
+      document.getElementById("body").classList.add(style);
+   </script>
+</body>
+</html>

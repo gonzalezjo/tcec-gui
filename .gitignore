@@ -1,0 +1,12 @@
+node_modules
+index.html
+data.json
+live.json
+live.pgn
+crosstable.json
+schedule.json
+liveeval.json
+eng_debug.txt
+package-lock.json
+event.pgn
+live.json1
