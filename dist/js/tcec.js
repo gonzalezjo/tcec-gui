@@ -105,12 +105,22 @@ function updatePgn(resettime)
    });
 }
 
+function timeToSeconds(time)
+{
+  components = time.split(':');
+  seconds = components[2];
+  seconds += components[1] * 60;
+  seconds += components[0] * 60 * 60;
+
+  return seconds * 1000;
+}
+
 function startClock(color, currentMove, previousMove) {
   stopClock('black');
   stopClock('white');
 
-  previousTime = previousMove.tl;
-  currentTime = currentMove.tl;
+  previousTime = timeToSeconds(previousMove.clk);
+  currentTime = timeToSeconds(currentMove.clk);
 
   if (color == 'white') {
     whiteTimeRemaining = Math.ceil(previousTime / 1000) * 1000;
@@ -343,7 +353,7 @@ function setPgn(pgn)
        moveFrom = pgn.Moves[pgn.Moves.length-1].from;
        moveTo = pgn.Moves[pgn.Moves.length-1].to;
    
-       currentGameActive = (pgn.Headers.Termination == 'unterminated');
+       currentGameActive = (pgn.Headers.Result == '*');
        whiteToPlay = (currentPlyCount % 2 == 0);
      }
   }
@@ -439,10 +449,12 @@ function setPgn(pgn)
 
   defaultStartTime = (base * 60 * 1000);
 
-  if (whiteToPlay) {
-    startClock('white', clockCurrentMove, clockPreviousMove);
-  } else {
-    startClock('black', clockCurrentMove, clockPreviousMove);
+  if (currentGameActive) {
+    if (whiteToPlay) {
+      startClock('white', clockCurrentMove, clockPreviousMove);
+    } else {
+      startClock('black', clockCurrentMove, clockPreviousMove);
+    }
   }
 
   if (viewingActiveMove) {
