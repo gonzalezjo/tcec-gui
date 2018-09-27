@@ -432,10 +432,12 @@ function setPgn(pgn)
 
   defaultStartTime = (base * 60 * 1000);
 
-  if (whiteToPlay) {
-    startClock('white', clockCurrentMove, clockPreviousMove);
-  } else {
-    startClock('black', clockCurrentMove, clockPreviousMove);
+  if (currentGameActive) {
+    if (whiteToPlay) {
+      startClock('white', clockCurrentMove, clockPreviousMove);
+    } else {
+      startClock('black', clockCurrentMove, clockPreviousMove);
+    }
   }
 
   if (viewingActiveMove) {
