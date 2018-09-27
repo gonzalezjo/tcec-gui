@@ -1,29 +1,9 @@
 var evalChart;
-var timeChart;
-var speedChart;
-var depthChart;
-var tbHitsChart;
 
 var evalChartData = {
   labels: [],
   datasets: [{
-    label: 'White',
-    lineTension: 0,
-    borderColor: '#EFEFEF',
-    backgroundColor: '#EFEFEF',
-    fill: false,
-    data: [
-    ]
-  }, {
-    label: 'Black',
-    lineTension: 0,
-    borderColor: '#000000',
-    backgroundColor: '#000000',
-    fill: false,
-    data: [
-    ]
-  }, {
-    label: 'Live [SF Dev]',
+    label: 'Live [LC0]',
     lineTension: 0,
     borderColor: '#007bff',
     backgroundColor: '#007bff',
@@ -33,94 +13,6 @@ var evalChartData = {
     ]
   }
   ]
-};
-
-var timeChartData = {
-  labels: [],
-  datasets: [{
-    label: 'White Engine Time',
-    lineTension: 0,
-    borderColor: '#EFEFEF',
-    backgroundColor: '#EFEFEF',
-    fill: false,
-    data: [
-    ]
-  }, {
-    label: 'Black Engine Time',
-    lineTension: 0,
-    borderColor: '#000000',
-    backgroundColor: '#000000',
-    fill: false,
-    data: [
-    ]
-  }]
-};
-
-var speedChartData = {
-  labels: [],
-  datasets: [{
-    label: 'White Engine Speeds',
-    lineTension: 0,
-    borderColor: '#EFEFEF',
-    backgroundColor: '#EFEFEF',
-    fill: false,
-    data: [
-    ],
-    yAxisID: 'y-axis-1',
-  }, {
-    label: 'Black Engine Speed',
-    lineTension: 0,
-    borderColor: '#000000',
-    backgroundColor: '#000000',
-    fill: false,
-    data: [
-    ],
-    yAxisID: 'y-axis-2'
-  }]
-};
-
-var depthChartData = {
-  labels: [],
-  datasets: [{
-    label: 'White Engine Depth',
-    lineTension: 0,
-    borderColor: '#EFEFEF',
-    backgroundColor: '#EFEFEF',
-    fill: false,
-    data: [
-    ]
-  }, {
-    label: 'Black Engine Depth',
-    lineTension: 0,
-    borderColor: '#000000',
-    backgroundColor: '#000000',
-    fill: false,
-    data: [
-    ]
-  }]
-};
-
-var tbHitsChartData = {
-  labels: [],
-  datasets: [{
-    label: 'White Engine TB Hits',
-    lineTension: 0,
-    borderColor: '#EFEFEF',
-    backgroundColor: '#EFEFEF',
-    fill: false,
-    yAxisID: 'tb-y-axis-1',
-    data: [
-    ]
-  }, {
-    label: 'Black Engine TB Hits',
-    lineTension: 0,
-    borderColor: '#000000',
-    backgroundColor: '#000000',
-    fill: false,
-    yAxisID: 'tb-y-axis-2',
-    data: [
-    ]
-  }]
 };
 
 
@@ -146,13 +38,7 @@ $(function() {
 	            label: function(tooltipItem, data) {
 	            	eval = [];
 	            	if (typeof data.datasets[0].data[tooltipItem.index] != 'undefined') {
-	            		eval = _.union(eval, ['White Eval: ' + data.datasets[0].data[tooltipItem.index].eval]);
-	            	}
-	            	if (typeof data.datasets[1].data[tooltipItem.index] != 'undefined') {
-	            		eval = _.union(eval, ['Black Eval: ' + data.datasets[1].data[tooltipItem.index].eval]);
-	            	}
-	            	if (typeof data.datasets[2].data[tooltipItem.index] != 'undefined') {
-	            		eval = _.union(eval, ['Live Eval: ' + data.datasets[2].data[tooltipItem.index].eval]);
+	            		eval = _.union(eval, ['Live Eval: ' + data.datasets[0].data[tooltipItem.index].eval]);
 	            	}
 	                return eval;
 	            }
@@ -174,213 +60,6 @@ $(function() {
 	    }
 	  }
 	});
-
-	timeChart = Chart.Line($('#time-graph'), {
-	  data: timeChartData,
-	  options: {
-	    responsive: true,
-	    hoverMode: 'index',
-	    stacked: false,
-	    legend: {
-	      display: false
-	    },
-	    title: {
-	      display: false
-	    },
-	    scales: {
-	      yAxes: [{
-	        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-	        display: true,
-	        position: 'left',
-	        id: 't-y-axis-1',
-	      }],
-	      xAxes: [{
-	      	ticks: {
-		        autoSkip: true,
-		        maxTicksLimit: 25
-		    }
-	      }]
-	    }
-	  }
-	});
-
-	speedChart = Chart.Line($('#speed-graph'), {
-	  data: speedChartData,
-	  options: {
-	    responsive: true,
-	    hoverMode: 'index',
-	    stacked: false,
-	    legend: {
-	      display: false
-	    },
-	    title: {
-	      display: false
-	    },
-        tooltips: {
-	      callbacks: {
-	            label: function(tooltipItem, data) {
-	                var value = parseInt(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].y);
-	                if (value >= 1000000) {
-			  			value = Math.round (value / 10000) / 100;
-				  		value += 'Mnps'
-				  	} else {
-				  		value = Math.round (value / 10) / 100;
-				  		value += 'Knps'
-				  	}
-
-				  	var nodes = parseInt(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].nodes);
-	                if (nodes >= 1000000000) {
-			  			nodes = Math.round (nodes / 100000000) / 10;
-				  		nodes += 'B'
-				  	} else {
-				  		nodes = Math.round (nodes / 100000) / 10;
-				  		nodes += 'M'
-				  	}
-				    return value + ' (' + nodes + ' nodes)';
-	            }
-	      } // end callbacks:
-	    },
-	    scales: {
-	      yAxes: [{
-	        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-	        display: true,
-	        position: 'left',
-	        id: 'y-axis-1',
-	        ticks: {
-			  callback: function(value, index, values) {
-			  	if (value >= 1000000) {
-			  		value = Math.round (value / 100000) / 10;
-			  		value += 'M'
-			  	} else {
-			  		value = Math.round (value / 100) / 10;
-			  		value += 'K'
-			  	}
-			    return value;
-			  }
-			}
-	      }, {
-	        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-	        display: true,
-	        position: 'right',
-	        id: 'y-axis-2',
-
-	        // grid line settings
-	        gridLines: {
-	          drawOnChartArea: false, // only want the grid lines for one axis to show up
-	        },
-	        ticks: {
-			  callback: function(value, index, values) {
-			  	if (value >= 1000000) {
-			  		value = Math.round (value / 100000) / 10;
-			  		value += 'M'
-			  	} else {
-			  		value = Math.round (value / 100) / 10;
-			  		value += 'K'
-			  	}
-			    return value;
-			  }
-			}
-	      }],
-	      xAxes: [{
-	      	ticks: {
-		        autoSkip: true,
-		        maxTicksLimit: 25
-		    }
-	      }]
-	    }
-	  }
-	});
-
-	depthChart = Chart.Line($('#depth-graph'), {
-	  data: depthChartData,
-	  options: {
-	    responsive: true,
-	    hoverMode: 'index',
-	    stacked: false,
-	    legend: {
-	      display: false
-	    },
-	    title: {
-	      display: false
-	    },
-	    scales: {
-	      yAxes: [{
-	        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-	        display: true,
-	        position: 'left',
-	        id: 'd-y-axis-1',
-	      }],
-	      xAxes: [{
-	      	ticks: {
-		        autoSkip: true,
-		        maxTicksLimit: 25
-		    }
-	      }]
-	    }
-	  }
-	});
-
-	tbHitsChart = Chart.Line($('#tbhits-graph'), {
-	  data: tbHitsChartData,
-	  options: {
-	    responsive: true,
-	    hoverMode: 'index',
-	    stacked: false,
-	    legend: {
-	      display: false
-	    },
-	    title: {
-	      display: false
-	    },
-	    scales: {
-	      yAxes: [{
-	        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-	        display: true,
-	        position: 'left',
-	        id: 'tb-y-axis-1',
-	        ticks: {
-			  callback: function(value, index, values) {
-			  	if (value >= 1000000) {
-			  		value = Math.round (value / 100000) / 10;
-			  		value += 'M'
-			  	} else {
-			  		value = Math.round (value / 100) / 10;
-			  		value += 'K'
-			  	}
-			    return value;
-			  }
-			}
-	      }, {
-	        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-	        display: true,
-	        position: 'right',
-	        id: 'tb-y-axis-2',
-	        // grid line settings
-	        gridLines: {
-	          drawOnChartArea: false, // only want the grid lines for one axis to show up
-	        },
-	        ticks: {
-			  callback: function(value, index, values) {
-			  	if (value >= 1000000) {
-			  		value = Math.round (value / 100000) / 10;
-			  		value += 'M'
-			  	} else {
-			  		value = Math.round (value / 100) / 10;
-			  		value += 'K'
-			  	}
-			    return value;
-			  }
-			}
-	      }],
-	      xAxes: [{
-	      	ticks: {
-		        autoSkip: true,
-		        maxTicksLimit: 25
-		    }
-	      }]
-	    }
-	  }
-	});
 });
 
 function updateChartData()
@@ -388,41 +67,10 @@ function updateChartData()
 	evalChart.data.labels = [];
 	evalChart.data.datasets[0].data = [];
 	evalChart.data.datasets[1].data = [];
-
-	timeChart.data.labels = [];
-	timeChart.data.datasets[0].data = [];
-	timeChart.data.datasets[1].data = [];
-
-	speedChart.data.labels = [];
-	speedChart.data.datasets[0].data = [];
-	speedChart.data.datasets[1].data = [];
-
-	depthChart.data.labels = [];
-	depthChart.data.datasets[0].data = [];
-	depthChart.data.datasets[1].data = [];
-
-	tbHitsChart.data.labels = [];
-	tbHitsChart.data.datasets[0].data = [];
-	tbHitsChart.data.datasets[1].data = [];
 	
-	evalLabels = [];
 	labels = [];
 
-	whiteEval = [];
-	blackEval = [];
 	liveEval = [];
-
-	whiteTime = [];
-	blackTime = [];
-
-	whiteSpeed = [];
-	blackSpeed = [];
-
-	whiteDepth = [];
-	blackDepth = [];
-
-	whiteTBHits = [];
-	blackTBHits = [];
 
    var plyNum = 0;
 
@@ -548,31 +196,9 @@ function updateChartData()
 	// });
 
 	evalChart.data.labels = labels;
-	evalChart.data.datasets[0].data = whiteEval;
-	evalChart.data.datasets[1].data = blackEval;
-	evalChart.data.datasets[2].data = liveEval;
-
-	timeChart.data.labels = labels;
-	timeChart.data.datasets[0].data = whiteTime;
-	timeChart.data.datasets[1].data = blackTime;
-
-	speedChart.data.labels = labels;
-	speedChart.data.datasets[0].data = whiteSpeed;
-	speedChart.data.datasets[1].data = blackSpeed;
-
-	depthChart.data.labels = labels;
-	depthChart.data.datasets[0].data = whiteDepth;
-	depthChart.data.datasets[1].data = blackDepth;
-
-	tbHitsChart.data.labels = labels;
-	tbHitsChart.data.datasets[0].data = whiteTBHits;
-	tbHitsChart.data.datasets[1].data = blackTBHits;
+	evalChart.data.datasets[0].data = liveEval;
 
     evalChart.update();
-    timeChart.update();
-    speedChart.update();
-    depthChart.update();
-    tbHitsChart.update();
 }
 
 function getLiveEval(key, moveNumber, isBlack)
