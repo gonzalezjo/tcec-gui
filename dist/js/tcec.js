@@ -135,8 +135,7 @@ function startClock(color, currentMove, previousMove) {
     whiteClockInterval = setInterval(function() { updateClock('white') }, 1000);
     if (currentMove.mt != undefined)
     {
-       blackClockInterval = currentMove.mt;
-       setTimeUsed('black', blackClockInterval);
+       setTimeUsed('black', currentMove.mt);
     }
 
     $('.white-to-move').show();
@@ -163,8 +162,7 @@ function startClock(color, currentMove, previousMove) {
     blackClockInterval = setInterval(function() { updateClock('black') }, 1000);
     if (currentMove.mt != undefined)
     {
-       whiteClockInterval = currentMove.mt;
-       setTimeUsed('white', whiteClockInterval);
+       setTimeUsed('white', currentMove.mt);
     }
 
     $('.black-to-move').show();
@@ -581,9 +579,7 @@ function setPgn(pgn)
      else {
        stopClock('white');
        }
-     blackClockInterval = '';
      clearInterval(blackClockInterval);
-     whiteClockInterval = '';
      clearInterval(whiteClockInterval);
   }
   console.log ("end Ply is :" + pgn.Moves.length);

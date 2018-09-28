@@ -312,7 +312,7 @@ canvas {
 .table-no-bordered th,
 .table-no-bordered tr,
 .table-no-bordered td
- {
+{
 	border: none !important;
 }
 
@@ -332,7 +332,3 @@ canvas {
    margin-left: 10%;
 }
 
-.cogblack
-{
-   /* color: black; */
-}
