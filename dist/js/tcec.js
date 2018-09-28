@@ -432,12 +432,18 @@ function setPgn(pgn)
 
   defaultStartTime = (base * 60 * 1000);
 
+  console.log ("currentGameActive is " + currentGameActive);
+
   if (currentGameActive) {
     if (whiteToPlay) {
       startClock('white', clockCurrentMove, clockPreviousMove);
     } else {
       startClock('black', clockCurrentMove, clockPreviousMove);
     }
+  }
+  else {
+    stopClock('white');
+    stopClock('black');
   }
 
   if (viewingActiveMove) {
