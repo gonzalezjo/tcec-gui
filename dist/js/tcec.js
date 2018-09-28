@@ -354,6 +354,16 @@ function setPgn(pgn)
     stopClock('black');
   }
 
+  console.log ("currentGameActive is " + currentGameActive + " ,whiteToPlay " + whiteToPlay);
+
+  if (currentGameActive) {
+    if (whiteToPlay) {
+      stopClock('black');
+    } else {
+      stopClock('white');
+    }
+  }
+
   if (loadedPlies == currentPlyCount && (currentGameActive == gameActive)) {
     console.log ("returning here");
     return;
@@ -432,18 +442,21 @@ function setPgn(pgn)
 
   defaultStartTime = (base * 60 * 1000);
 
-  console.log ("currentGameActive is " + currentGameActive);
-
-  if (currentGameActive) {
-    if (whiteToPlay) {
-      startClock('white', clockCurrentMove, clockPreviousMove);
-    } else {
-      startClock('black', clockCurrentMove, clockPreviousMove);
-    }
+  if (currentGameActive) 
+  {
+     if (whiteToPlay) 
+     {
+        startClock('white', clockCurrentMove, clockPreviousMove);
+     } 
+     else 
+     {
+        startClock('black', clockCurrentMove, clockPreviousMove);
+     }
   }
-  else {
-    stopClock('white');
-    stopClock('black');
+  else 
+  {
+     stopClock('white');
+     stopClock('black');
   }
 
   if (viewingActiveMove) {
