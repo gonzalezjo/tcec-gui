@@ -348,6 +348,7 @@ function setPgn(pgn)
   }
    
   if (!currentGameActive) {
+    console.log ("Current game not active so stopping both clocks2");
     stopClock('white');
     stopClock('black');
   }
@@ -444,15 +445,18 @@ function setPgn(pgn)
   {
      if (whiteToPlay) 
      {
+        console.log ("Current game active and started clock for white");
         startClock('white', clockCurrentMove, clockPreviousMove);
      } 
      else 
      {
+        console.log ("Current game active and started clock for black");
         startClock('black', clockCurrentMove, clockPreviousMove);
      }
   }
   else 
   {
+     console.log ("Current game not active so stopping both clocks");
      stopClock('white');
      stopClock('black');
   }
@@ -573,14 +577,6 @@ function setPgn(pgn)
   if (pgn.gameChanged)
   {
      console.log ("Came to setpgn need to reread dataa at end");
-     if (whiteToPlay) {
-       stopClock('black');
-       } 
-     else {
-       stopClock('white');
-       }
-     clearInterval(blackClockInterval);
-     clearInterval(whiteClockInterval);
   }
   console.log ("end Ply is :" + pgn.Moves.length);
 }
