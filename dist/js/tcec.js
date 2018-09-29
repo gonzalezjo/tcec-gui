@@ -135,8 +135,7 @@ function startClock(color, currentMove, previousMove) {
     whiteClockInterval = setInterval(function() { updateClock('white') }, 1000);
     if (currentMove.mt != undefined)
     {
-       blackClockInterval = currentMove.mt;
-       setTimeUsed('black', blackClockInterval);
+       setTimeUsed('black', currentMove.mt);
     }
 
     $('.white-to-move').show();
@@ -163,8 +162,7 @@ function startClock(color, currentMove, previousMove) {
     blackClockInterval = setInterval(function() { updateClock('black') }, 1000);
     if (currentMove.mt != undefined)
     {
-       whiteClockInterval = currentMove.mt;
-       setTimeUsed('white', whiteClockInterval);
+       setTimeUsed('white', currentMove.mt);
     }
 
     $('.black-to-move').show();
@@ -350,8 +348,19 @@ function setPgn(pgn)
   }
    
   if (!currentGameActive) {
+    console.log ("Current game not active so stopping both clocks2");
     stopClock('white');
     stopClock('black');
+  }
+
+  console.log ("currentGameActive is " + currentGameActive + " ,whiteToPlay " + whiteToPlay);
+
+  if (currentGameActive) {
+    if (whiteToPlay) {
+      stopClock('black');
+    } else {
+      stopClock('white');
+    }
   }
 
   if (loadedPlies == currentPlyCount && (currentGameActive == gameActive)) {
@@ -432,10 +441,24 @@ function setPgn(pgn)
 
   defaultStartTime = (base * 60 * 1000);
 
-  if (whiteToPlay) {
-    startClock('white', clockCurrentMove, clockPreviousMove);
-  } else {
-    startClock('black', clockCurrentMove, clockPreviousMove);
+  if (currentGameActive) 
+  {
+     if (whiteToPlay) 
+     {
+        console.log ("Current game active and started clock for white");
+        startClock('white', clockCurrentMove, clockPreviousMove);
+     } 
+     else 
+     {
+        console.log ("Current game active and started clock for black");
+        startClock('black', clockCurrentMove, clockPreviousMove);
+     }
+  }
+  else 
+  {
+     console.log ("Current game not active so stopping both clocks");
+     stopClock('white');
+     stopClock('black');
   }
 
   if (viewingActiveMove) {
@@ -554,16 +577,6 @@ function setPgn(pgn)
   if (pgn.gameChanged)
   {
      console.log ("Came to setpgn need to reread dataa at end");
-     if (whiteToPlay) {
-       stopClock('black');
-       } 
-     else {
-       stopClock('white');
-       }
-     blackClockInterval = '';
-     clearInterval(blackClockInterval);
-     whiteClockInterval = '';
-     clearInterval(whiteClockInterval);
   }
   console.log ("end Ply is :" + pgn.Moves.length);
 }
