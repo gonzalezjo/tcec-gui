@@ -23,7 +23,7 @@ var evalChartData = {
     data: [
     ]
   }, {
-    label: 'Live [SF Dev]',
+    label: 'Live [ASMFISH]',
     lineTension: 0,
     borderColor: '#007bff',
     backgroundColor: '#007bff',
