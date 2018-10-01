@@ -1036,9 +1036,16 @@
           search: true,   
           columns: [
           {
+              field: 'Gamesort',
+              title: 'sortnumber',
+              visible: false 
+          },
+          {
               field: 'Game',
-              title: 'Game'
+              title: 'Game#'
               ,sortable: true
+              ,sorter: schedSorted
+              ,sortName: 'Gamesort'
           },
           {
               field: 'White',

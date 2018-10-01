@@ -353,8 +353,6 @@ function setPgn(pgn)
     stopClock('black');
   }
 
-  console.log ("currentGameActive is " + currentGameActive + " ,whiteToPlay " + whiteToPlay);
-
   if (currentGameActive) {
     if (whiteToPlay) {
       stopClock('black');
@@ -364,7 +362,6 @@ function setPgn(pgn)
   }
 
   if (loadedPlies == currentPlyCount && (currentGameActive == gameActive)) {
-    console.log ("returning here");
     return;
   }
 
@@ -445,18 +442,15 @@ function setPgn(pgn)
   {
      if (whiteToPlay) 
      {
-        console.log ("Current game active and started clock for white");
         startClock('white', clockCurrentMove, clockPreviousMove);
      } 
      else 
      {
-        console.log ("Current game active and started clock for black");
         startClock('black', clockCurrentMove, clockPreviousMove);
      }
   }
   else 
   {
-     console.log ("Current game not active so stopping both clocks");
      stopClock('white');
      stopClock('black');
   }
@@ -578,7 +572,6 @@ function setPgn(pgn)
   {
      console.log ("Came to setpgn need to reread dataa at end");
   }
-  console.log ("end Ply is :" + pgn.Moves.length);
 }
 
 function copyFen()
@@ -1365,6 +1358,7 @@ function updateScheduleData(data)
 
    _.each(data, function(engine, key) 
    {
+      engine.Gamesort = engine.Game;
       if (engine.Start)
       {
          momentDate = moment(engine.Start, 'HH:mm:ss on YYYY.MM.DD');
@@ -2249,3 +2243,10 @@ function simpleAddEvent(obj, evt, cbk)
    }
 }
 simpleAddEvent(document, "keydown", tcecHandleKey);
+
+function schedSorted(a,b)
+{
+   if (a < b) return -1;
+   if (a > b) return 1;
+   return 0;
+}
