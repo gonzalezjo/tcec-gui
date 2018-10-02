@@ -662,37 +662,8 @@
 
       <br>
 
-      <ul class="nav nav-pills mb-3 nav-justified" id="pills-tab" role="tablist">
-        <li class="nav-item">
-          <a class="nav-link active" id="pills-stand-tab" data-toggle="pill" href="#pills-stand" role="tab" aria-controls="pills-stand" aria-selected="true">Standings</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="pills-cross-tab" data-toggle="pill" href="#pills-cross" role="tab" aria-controls="pills-cross" aria-selected="true">Crosstable</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="pills-sched-tab" data-toggle="pill" href="#pills-sched" role="tab" aria-controls="pills-sched" aria-selected="false">Schedule</a>
-        </li>
-      </ul>
-      <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane show active fade smallfont" id="pills-stand" role="tabpanel" aria-labelledby="pills-stand-tab">
-          <table id="crosstable" class="table-dark table-striped">
-          </table>
-        </div>
-        <div class="tab-pane fade smallfont" id="pills-cross" role="tabpanel" aria-labelledby="pills-cross-tab">
-          <table id="standtable" class="table-dark table-striped">
-          </table>
-        </div>
-        <div class="tab-pane fade smallfont scheduleclass" id="pills-sched" role="tabpanel" aria-labelledby="pills-sched-tab">
-          <div id="schedule-wrapper">
-            <table id="schedule" class="table-dark table-striped">
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <br>
-
       <div class="row">
+          <div class="col-md-12 text-center d-none d-sm-block" id="BracketsNinja_c29eff1463a7f4881dd4cd1979530e60"></div>
           <div class="col-md-12 text-center d-none d-sm-block">
             <iframe
                 id="twitchvid"
@@ -955,6 +926,13 @@
     <script src="dist/js/clipboard.min.js"></script>
     <script src="http://172.93.55.172:8888/socket.io/socket.io.js"></script>
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script type="text/javascript">
+      (function() {
+         var bn = document.createElement('script'); bn.type = 'text/javascript';
+         bn.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'www.bracketsninja.com/api/bracket/c29eff1463a7f4881dd4cd1979530e60?bnurl=' + window.location.href;
+         var s = document.getElementsByTagName('head')[0].appendChild(bn);
+      })();
+    </script>
 
     <script>
       $(document).ready(function () {
@@ -1019,93 +997,6 @@
           {
               field: 'Viewers',
               title: 'Viewers'
-          }
-        ]
-      });
-
-      $('#schedule').bootstrapTable({
-          classes: 'table table-striped table-no-bordered',
-          pagination: true,
-          paginationLoop: true,
-          striped: true,
-          smartDisplay: true,
-          sortable: true,
-          pageList: [14,28,56,112,224],
-          pageSize:14,
-          rememberOrder: true,
-          search: true,   
-          columns: [
-          {
-              field: 'Gamesort',
-              title: 'sortnumber',
-              visible: false 
-          },
-          {
-              field: 'Game',
-              title: 'Game#'
-              ,sortable: true
-              ,sorter: schedSorted
-              ,sortName: 'Gamesort'
-          },
-          {
-              field: 'White',
-              title: 'White'
-              ,sortable: true
-          }, 
-          {
-            field: 'WhiteEv',
-            title: 'Ev'
-              ,sortable: true
-          },
-          {
-              field: 'Black',
-              title: 'Black'
-              ,sortable: true
-          },
-          {
-            field: 'BlackEv',
-            title: 'Ev'
-              ,sortable: true
-          },
-          {
-            field: 'Result',
-            title: 'Result'
-              ,sortable: true
-          },
-          {
-            field: 'Moves',
-            title: 'Moves'
-              ,sortable: true
-          },
-          {
-            field: 'Duration',
-            title: 'Duration'
-              ,sortable: true
-          },
-          {
-            field: 'Opening',
-            title: 'Opening',
-            sortable: true,
-            align: 'left'
-          },
-          {
-            field: 'Termination',
-            title: 'Termination'
-              ,sortable: true
-          },
-          {
-            field: 'ECO',
-            title: 'ECO'
-              ,sortable: true
-          },
-          {
-            field: 'FinalFen',
-            title: 'Final Fen',
-            align: 'left'
-          },
-          {
-            field: 'Start',
-            title: 'Start'
           }
         ]
       });
