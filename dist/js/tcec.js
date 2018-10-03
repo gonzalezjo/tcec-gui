@@ -621,6 +621,28 @@ function getMoveFromPly(ply)
   return loadedPgn.Moves[ply];
 }
 
+function getTBHits(tbhits)
+{
+   var tbHits = 'N/A';
+
+   if (!isNaN(tbhits))
+   {
+      if (tbhits < 1000)
+      {
+         tbHits = tbhits;
+      } 
+      else if (tbhits < 1000000)
+      {
+         tbHits = Math.round(tbhits / 1000) + 'K';
+      } 
+      else 
+      {
+         tbHits = Math.round(tbhits / 1000000) + 'M'; 
+      }
+   }
+   return tbHits;
+}
+
 function getEvalFromPly(ply)
 {
   selectedMove = loadedPgn.Moves[ply];
@@ -681,19 +703,10 @@ function getEvalFromPly(ply)
 
   var depth = selectedMove.d + '/' + selectedMove.sd;
   var tbHits = 0;
-  if (selectedMove.tb) {
-    if (selectedMove.tb < 1000)
-    {
-      tbHits = selectedMove.tb;
-    } 
-    else if (selectedMove.tb < 1000000) {
-      tbHits = Math.round(selectedMove.tb / 1000) + ' K';
-    } else {
-      tbHits = Math.round(selectedMove.tb * 1 / 1000000) + ' M';
-    }
-  }
+  tbHits = getTBHits(selectedMove.tb);
 
   var evalRet = '';
+
   if (!isNaN(selectedMove.wv))  
   {
      evalRet = parseFloat(selectedMove.wv).toFixed(2);
@@ -1805,8 +1818,7 @@ function updateLiveEvalData(data)
      }
 
      datum.eval = score;
-     //tbhits= tbhits.toFixed(0);
-     tbhits = tbhits + "k";
+     datum.tbhits = getTBHits(datum.tbhits);
 
      if (datum.pv.length > 0 && datum.pv != "no info") {
       engineData = _.union(engineData, [datum]);
@@ -1815,7 +1827,7 @@ function updateLiveEvalData(data)
 
   $('#live-eval-cont').html('');
   _.each(engineData, function(engineDatum) {
-    $('#live-eval-cont').append('<h5>' + engineDatum.engine + ' PV ' + engineDatum.eval + '</h5><small>[Depth: ' + engineDatum.depth + ' TB: ' + engineDatum.tbhits + ' Speed: ' + engineDatum.speed + ' ' + engineDatum.nodes + ' nodes]</small>');
+    $('#live-eval-cont').append('<h5>' + engineDatum.engine + ' PV ' + engineDatum.eval + '</h5><small>[Depth: ' + engineDatum.depth + ' | TB: ' + engineDatum.tbhits + ' | Speed: ' + engineDatum.speed + ' | Nodes: ' + engineDatum.nodes +']</small>');
     var moveContainer = [];
     if (livePvs.length > 0) {
       _.each(livePvs, function(livePv, pvKey) {
