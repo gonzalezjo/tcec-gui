@@ -1805,7 +1805,7 @@ function updateLiveEvalData(data)
      }
 
      datum.eval = score;
-     tbhits= tbhits.toFixed(0);
+     //tbhits= tbhits.toFixed(0);
      tbhits = tbhits + "k";
 
      if (datum.pv.length > 0 && datum.pv != "no info") {
