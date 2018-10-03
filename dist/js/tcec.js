@@ -1815,7 +1815,7 @@ function updateLiveEvalData(data)
 
   $('#live-eval-cont').html('');
   _.each(engineData, function(engineDatum) {
-    $('#live-eval-cont').append('<h5>' + engineDatum.engine + ' PV ' + engineDatum.eval + '</h5><small>[Depth: ' + engineDatum.depth + ' Speed: ' + engineDatum.speed + ' ' + engineDatum.nodes + ' nodes]</small>');
+    $('#live-eval-cont').append('<h5>' + engineDatum.engine + ' PV ' + engineDatum.eval + '</h5><small>[Depth: ' + engineDatum.depth + 'TB: ' + engineDatum.tbhits + ' Speed: ' + engineDatum.speed + ' ' + engineDatum.nodes + ' nodes]</small>');
     var moveContainer = [];
     if (livePvs.length > 0) {
       _.each(livePvs, function(livePv, pvKey) {
