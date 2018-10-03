@@ -73,126 +73,25 @@ function updateChartData()
 
    var plyNum = 0;
 
-	// _.each(loadedPgn.Moves, function(move, key) {
-	// 	if (!move.book) {
-	// 		moveNumber = Math.round(key / 2) + 1;
+	_.each(loadedPgn.Moves, function(move, key) {
+		moveNumber = Math.round(key / 2) + 1;
+		if (key % 2 == 0) {
+			labels = _.union(labels, [moveNumber]);
 
-	// 		if (key % 2 != 0) {
- //            plyNum = key + 1;
-	// 			moveNumber--;
-	// 		}
- //         else
- //         {
- //            plyNum = key + 1;
- //         }
+			evalObject = getLiveEval(key, moveNumber, false);
 
-	// 		depth = move.d;
-	// 		if (move.sd > depth) {
- //            //arun
-	// 			//depth = move.sd;
-	// 		}
+			if (evalObject != -1) {
+				liveEval = _.union(liveEval, evalObject);
+			}
 
- //         //arun: cap moves at 6.5
- //         move.cwv = move.wv;
- //         if (!isNaN(move.wv)) 
- //         {
- //            if (move.wv > 6.5) 
- //            {
- //               move.cwv = 6.5;
- //            } 
- //            else if (move.wv < -6.5) 
- //            {
- //               move.cwv = -6.5;
- //            }
- //         } 
- //         else 
- //         {
- //            if (move.wv.substring(0,1) == '-') 
- //            {
- //               move.cwv = -6.5;
- //            } 
- //            else 
- //            {
- //               move.cwv = 6.5;
- //            }
- //         }
- //         eval = [
-	// 			{
-	// 				'x': moveNumber,
-	// 				'y': move.cwv,
-	// 				'ply': plyNum,
-	// 				'eval': move.wv
-	// 			}
-	// 		];
+		} else {
+			evalObject = getLiveEval(key, moveNumber, true);
 
-	// 		time = [
-	// 			{
-	// 				'x': moveNumber,
-	// 				'y': Math.round(move.mt / 1000),
-	// 				'ply': plyNum
-	// 			}
-	// 		];
-
-	// 		speed = [
-	// 			{
-	// 				'x': moveNumber,
-	// 				'y': move.s,
-	// 				'nodes': move.n,
-	// 				'ply': plyNum
-	// 			}
-	// 		];
-
-	// 		depth = [
-	// 			{
-	// 				'x': moveNumber,
-	// 				'y': depth,
-	// 				'ply': plyNum
-	// 			}
-	// 		];
-
-	// 		tbHits = [
-	// 			{
-	// 				'x': moveNumber,
-	// 				'y': move.tb,
-	// 				'ply': plyNum
-	// 			}
-	// 		];
-
-	// 		if (key % 2 == 0) {
-	// 			labels = _.union(labels, [moveNumber]);
-	// 			// evalLabels = _.union(evalLabels, [moveNumber]);
-
-	// 			whiteEval = _.union(whiteEval, eval);
-	// 			// whiteEval = _.union(whiteEval, [{'x': moveNumber + 0.5, 'y': move.wv, 'eval': evaluation}]);
-	// 			whiteTime = _.union(whiteTime, time);
-	// 			whiteSpeed = _.union(whiteSpeed, speed);
-	// 			whiteDepth = _.union(whiteDepth, depth);
-	// 			whiteTBHits = _.union(whiteTBHits, tbHits);
-
-	// 			evalObject = getLiveEval(key, moveNumber, false);
-
-	// 			if (evalObject != -1) {
-	// 				liveEval = _.union(liveEval, evalObject);
-	// 			}
-
-	// 		} else {
-	// 			// evalLabels = _.union(evalLabels, [moveNumber + 0.5]);
-
-	// 			blackEval = _.union(blackEval, eval);
-	// 			// blackEval = _.union(blackEval, [{'x': moveNumber + 0.5, 'y': move.wv, 'eval': evaluation}]);
-	// 			blackTime = _.union(blackTime, time);
-	// 			blackSpeed = _.union(blackSpeed, speed);
-	// 			blackDepth = _.union(blackDepth, depth);
-	// 			blackTBHits = _.union(blackTBHits, tbHits);
-
-	// 			// evalObject = getLiveEval(key, moveNumber, true);
-
-	// 			// if (evalObject != -1) {
-	// 			// 	liveEval = _.union(liveEval, evalObject);
-	// 			// }
-	// 		}
-	// 	}
-	// });
+			if (evalObject != -1) {
+				liveEval = _.union(liveEval, evalObject);
+			}
+		}
+	});
 
 	evalChart.data.labels = labels;
 	evalChart.data.datasets[0].data = liveEval;
@@ -230,7 +129,7 @@ function getLiveEval(key, moveNumber, isBlack)
 
 	    return [
 				{
-					'x': moveNumber,
+					'x': Math.round(evalObject.ply / 2) + 1,
 					'y': evalObject.eval,
 					'eval': eval
 				}

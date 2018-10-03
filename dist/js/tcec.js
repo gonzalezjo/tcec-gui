@@ -108,9 +108,11 @@ function updatePgn(resettime)
 function timeToSeconds(time)
 {
   components = time.split(':');
-  seconds = components[2];
+  seconds = components[2] * 1;
   seconds += components[1] * 60;
   seconds += components[0] * 60 * 60;
+
+  console.log(components);
 
   return seconds * 1000;
 }
@@ -1413,28 +1415,15 @@ function updateLiveEvalData(data)
 {
    var engineData = [];
    livePvs = [];
-   _.each(data, function(datum) {
-     var score = 0;
-     var tbhits = datum.tbhits;
-     if (!isNaN(datum.eval))
-     {
-        score = parseFloat(datum.eval);
-     }
-     else
-     {
-        score = datum.eval;
-     }
 
-     if (datum.pv.search(/.*\.\.\..*/i) == 0)
-     {
-      if (!isNaN(score))
-      {
-        score = parseFloat(score) * -1;
-        if (score === 0) {
-          score = 0;
-        }
-      }
-     }
+   pvWhiteMove = (loadedPlies % 0);
+
+   _.each(data, function(datum) {
+     datum = datum.data;
+     var score = 0;
+     var tbhits = datum.tb;
+     score = datum.score.score;
+     datum.engine = "LC0 Line " + datum.multi;
 
      pvs = [];
 
@@ -1445,24 +1434,23 @@ function updateLiveEvalData(data)
 
       datum.pv = datum.pv.replace("...", ". .. ");
       _.each(datum.pv.split(' '), function(move) {
-          if (isNaN(move.charAt(0)) && move != '..') {
-            moveResponse = chess.move(move);
+          moveResponse = chess.move({from: move.substring(0,2), to: move.substring(2)});
 
-            if (!moveResponse || typeof moveResponse == 'undefined') {
-                 //console.log("undefine move" + move);
-            } else {
-              newPv = {
-                'from': moveResponse.from,
-                'to': moveResponse.to,
-                'm': moveResponse.san,
-                'fen': currentFen
-              };
+          if (!moveResponse || typeof moveResponse == 'undefined') {
+               //console.log("undefine move" + move);
+          } else {
+            currentFen = chess.fen();
 
-              currentFen = chess.fen();
-              currentLastMove = move.slice(-2);
+            newPv = {
+              'from': moveResponse.from,
+              'to': moveResponse.to,
+              'm': moveResponse.san,
+              'fen': currentFen
+            };
 
-              pvs = _.union(pvs, [newPv]);
-            }
+            currentLastMove = move.slice(-2);
+
+            pvs = _.union(pvs, [newPv]);
           }
       });
      }
@@ -1471,12 +1459,22 @@ function updateLiveEvalData(data)
       livePvs = _.union(livePvs, [pvs]);
      }
 
+     if (whiteToPlay) {
+      score *= -1;
+     }
+
+     score = score / 100;
+
      if (score > 0) {
       score = '+' + score;
      }
 
      datum.eval = score;
-     tbhits= tbhits.toFixed(0);
+
+     datum.speed = Math.round(datum.nps / 1000) + ' knps';
+     datum.nodes = Math.round(datum.nodes / 1000000) + ' M';
+
+     // tbhits= tbhits.toFixed(0);
      tbhits = tbhits + "k";
 
      if (datum.pv.length > 0 && datum.pv != "no info") {
@@ -1484,29 +1482,50 @@ function updateLiveEvalData(data)
     }
   });
 
+   console.log(livePvs);
+
   $('#live-eval-cont').html('');
-  _.each(engineData, function(engineDatum) {
+  _.each(engineData, function(engineDatum, key) {
     $('#live-eval-cont').append('<h5>' + engineDatum.engine + ' PV ' + engineDatum.eval + '</h5><small>[Depth: ' + engineDatum.depth + ' Speed: ' + engineDatum.speed + ' ' + engineDatum.nodes + ' nodes]</small>');
     var moveContainer = [];
     if (livePvs.length > 0) {
-      _.each(livePvs, function(livePv, pvKey) {
+    //   _.each(livePvs, function(livePv, pvKey) {
+      livePv = livePvs[key];
+      pvKey = key;
         var moveCount = 0;
+        splitMoves = engineDatum.pv.split(' ');
+        if (splitMoves % 2 != 0) {
+
+        }
+
+        currentMove = Math.floor(loadedPlies / 2);
+        currentMove += 1;
+
+        if (!pvWhiteMove) {
+          currentMove++;
+        }
+
+        pvPlies = 0;
         _.each(engineDatum.pv.split(' '), function(move) {
-          if (isNaN(move.charAt(0)) && move != '..') {
-            pvLocation = livePvs[pvKey][moveCount];
-            if (pvLocation) {
-               moveContainer = _.union(moveContainer, ["<a href='#' class='set-pv-board' live-pv-key='" + pvKey + "' move-key='" + moveCount + "' color='live'>" + pvLocation.m + '</a>']);
-               }
-            else
-            {
-               console.log ("pvlocation not defined");
-            }
-            moveCount++;
-          } else {
-            moveContainer = _.union(moveContainer, [move]);
+          if (moveCount == 0 && !pvWhiteMove) {
+            moveContainer = _.union(moveContainer, [(currentMove - 1) + ' .. ']);  
           }
+          if ((moveCount % 2 == 0 && pvWhiteMove) || (moveCount % 2 == 1 && !pvWhiteMove)) {
+            moveAdjust = Math.floor(moveCount / 2);
+            moveContainer = _.union(moveContainer, [(currentMove + moveAdjust) + '. ']);
+          }
+
+          pvLocation = livePvs[pvKey][moveCount];
+          if (pvLocation) {
+             moveContainer = _.union(moveContainer, ["<a href='#' class='set-pv-board' live-pv-key='" + pvKey + "' move-key='" + moveCount + "' color='live'>" + pvLocation.m + '</a>']);
+             }
+          else
+          {
+             console.log ("pvlocation not defined");
+          }
+          moveCount++;
         });
-      });
+    //   });
     }
     $('#live-eval-cont').append('<div class="engine-pv alert alert-dark">' + moveContainer.join(' ') + '</div>');
   });
@@ -1736,26 +1755,6 @@ function goMoveFromChart(chartx, evt)
 document.getElementById("eval-graph").onclick = function(evt)
 {
    goMoveFromChart(evalChart, evt);
-};
-
-document.getElementById("time-graph").onclick = function(evt)
-{
-   goMoveFromChart(timeChart, evt);
-};
-
-document.getElementById("speed-graph").onclick = function(evt)
-{
-   goMoveFromChart(speedChart, evt);
-};
-
-document.getElementById("tbhits-graph").onclick = function(evt)
-{
-   goMoveFromChart(tbHitsChart, evt);
-};
-
-document.getElementById("depth-graph").onclick = function(evt)
-{
-   goMoveFromChart(depthChart, evt);
 };
 
 function addToolTip(divx, divimg)
