@@ -953,7 +953,7 @@
     <script src="dist/js/themes.js"></script>
     <script src="dist/js/bootstrap-slider.min.js"></script>
     <script src="dist/js/clipboard.min.js"></script>
-    <script src="http://172.93.55.172:8888/socket.io/socket.io.js"></script>
+    <script src="http://172.93.55.172:8080/socket.io/socket.io.js"></script>
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
     <script>
@@ -1173,7 +1173,7 @@
         });
       });
 
-      var socket = io.connect('http://172.93.55.172:8888');
+      var socket = io.connect('http://172.93.55.172:8080');
      
       socket.on('crosstable', function(data){
          updateCrosstableData(data);
