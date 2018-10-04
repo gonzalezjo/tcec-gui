@@ -269,7 +269,7 @@
         <div class="col-md-3 col-12 col-sm-12 text-left">
           <a href="live.html"><img src="img/tcec.jpg" class="banner-image" alt="TCEC" /></a>
           <a target="_blank" href="http://www.chessdom.com"><img src="img/cd.jpg" class="banner-image" alt="Chessdom" /></a>
-          <form target = "_blank" action="https://www.paypal.com/cgi-bin/webscr" method="post" class="d-inline-block d-sm-inline-block d-md-none d-lg-none d-xl-none" style="float: right;">
+          <form target = "_blank" action="https://www.paypal.com/cgi-bin/webscr" method="post" class="d-inline-block d-sm-inline-block d-md-none d-lg-none d-xl-none">
             <input type="hidden" name="cmd" value="_s-xclick">
             <input type="hidden" name="hosted_button_id" value="L84QRRQJ88CYQ">
             <input type="image" src="img/paypal3.jpg" name="submit" alt="PayPal - The safer, easier way to pay online!" class="banner-image">
@@ -924,7 +924,7 @@
     <script src="dist/js/themes.js"></script>
     <script src="dist/js/bootstrap-slider.min.js"></script>
     <script src="dist/js/clipboard.min.js"></script>
-    <script src="http://172.93.55.172:8888/socket.io/socket.io.js"></script>
+    <script src="http://tcec.chessdom.com:8888/socket.io/socket.io.js"></script>
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script type="text/javascript">
       (function() {
@@ -1064,7 +1064,7 @@
         });
       });
 
-      var socket = io.connect('http://172.93.55.172:8888');
+      var socket = io.connect('http://tcec.chessdom.com:8888');
      
       socket.on('crosstable', function(data){
          updateCrosstableData(data);
