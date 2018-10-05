@@ -1282,6 +1282,34 @@ function updateCrosstableData(data)
        elo_diff: elo + ' [' + eloDiff + ']'
      };
 
+     _.each(abbreviations, function (abbreviation) {                                                                                                                                                  
+       var score2 = '';                                                                                                                                                                               
+       engineName = abbreviation.name;                                                                                                                                                                
+       engineAbbreviation = abbreviation.abbr;                                                                                                                                                        
+                                                                                                                                                                                                      
+       engineCount = crosstableData.Order.length;                                                                                                                                                     
+       if (engineCount < 1) {                                                                                                                                                                         
+         engineCount = 1;                                                                                                                                                                             
+       }                                                                                                                                                                                              
+                                                                                                                                                                                                      
+       rounds = Math.floor(engineDetails.Games / engineCount) + 1;                                                                                                                                    
+                                                                                                                                                                                                      
+       if (engineDetails.Abbreviation == engineAbbreviation) {                                                                                                                                        
+         for (i = 0; i < rounds; i++) {                                                                                                                                                               
+           score2 = '';                                                                                                                                                                               
+         }                                                                                                                                                                                            
+       } else {                                                                                                                                                                                       
+         resultDetails = _.get(engineDetails, 'Results');                                                                                                                                             
+         matchDetails = _.get(resultDetails, engineName);                                                                                                                                             
+         score2 =                                                                                                                                                                                     
+            {                                                                                                                                                                                         
+               Score: matchDetails.Scores,                                                                                                                                                            
+               Text: matchDetails.Text                                                                                                                                                                
+            }                                                                                                                                                                                         
+       }                                                                                                                                                                                              
+       _.set(entry, engineAbbreviation, score2);                                                                                                                                                      
+     });                                                                                                                                                                                              
+                                                                
      standings = _.union(standings, [entry]);
    });
 
@@ -1341,6 +1369,12 @@ function updateCrosstableData(data)
         ,width: '7%'
        }
      ];
+
+     _.each(crosstableData.Order, function(engine, key) {                                                                                                                                             
+       engineDetails = _.get(crosstableData.Table, engine);                                                                                                                                           
+       columns = _.union(columns, [{field: engineDetails.Abbreviation, title: engineDetails.Abbreviation,                                                                                             
+                                    formatter: formatter, cellStyle: cellformatter}]);                                                                                                                
+     });                                                                                                                                               
 
      $('#crosstable').bootstrapTable({
        classes: 'table table-striped table-no-bordered',
