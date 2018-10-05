@@ -571,6 +571,10 @@ function setPgn(pgn)
   if (pgn.gameChanged)
   {
      console.log ("Came to setpgn need to reread dataa at end");
+     setTimeout(function() 
+     { 
+        updateBracket();
+     }, 420000);
   }
 }
 
@@ -2261,4 +2265,11 @@ function schedSorted(a,b)
    if (a < b) return -1;
    if (a > b) return 1;
    return 0;
+}
+
+function updateBracket()
+{
+   var bn = document.createElement('script'); bn.type = 'text/javascript';
+   bn.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'www.bracketsninja.com/api/bracket/c29eff1463a7f4881dd4cd1979530e60?bnurl=' + window.location.href;
+   var s = document.getElementsByTagName('head')[0].appendChild(bn);
 }
