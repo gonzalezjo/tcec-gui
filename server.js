@@ -10,6 +10,7 @@ const axios = require('axios');
 var chokidar = require('chokidar');
 var _ = require('lodash');
 var lastPgnTime = Date.now();
+var eventGame = 10;
 
 const pid = process.pid;
 
@@ -65,13 +66,13 @@ listener.sockets.on('connection', function(s){
    {
       totalCount = count;
    }
-   socket.emit('users', {'count': totalCount});
-   socket.broadcast.emit('users', {'count': totalCount});
+   socket.emit('users', {'count': totalCount, 'gamesdone': eventGame});
+   socket.broadcast.emit('users', {'count': totalCount, 'gamesdone': eventGame});
    console.log ("coutn connected:" + count);
 
    socket.on('disconnect', function(){
        count--;
-       socket.broadcast.emit('users', {'count': totalCount});
+       socket.broadcast.emit('users', {'count': totalCount , 'gamesdone': eventGame});
    });
 
    //recieve client data
@@ -125,6 +126,7 @@ function getDeltaPgn(pgnX)
    if (prevData && JSON.stringify(prevData.Headers) != JSON.stringify(pgnX.Headers))
    {
       pgnX.gameChanged = 1;
+      eventGame = eventGame + 1;
       return pgnX;
    }
    pgnX.gameChanged = 0;

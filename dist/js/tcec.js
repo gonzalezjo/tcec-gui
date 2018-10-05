@@ -39,6 +39,7 @@ var timeDiff = 0;
 var timeDiffRead = 0;
 var prevPgnData = 0;
 var playSound = 1;
+var lastGame = 0;
 
 var onMoveEnd = function() {
   boardEl.find('.square-' + squareToHighlight)
@@ -254,6 +255,7 @@ var userCount = 0;
 function setUsers(data) 
 {
    userCount = data.count;
+   lastGame = data.gamesdone;
    try 
    {
       $('#event-overview').bootstrapTable('updateCell', {index: 0, field: 'Viewers', value: userCount});
@@ -1184,7 +1186,9 @@ function getLinkArch(gameNumber)
 
 function openCross(gamen)
 {
-   var link = "http://tcec.chessdom.com/archive.php?se=13&di=P&ga=" + gamen;
+   var gameX = lastGame - gamesEvent + gamen;
+   var link = "http://legacy-tcec.chessdom.com/archive.php?se=131&di=3&ga=" + gameX;
+   console.log ("opening game:" + gameX);
    window.open(link,'_blank');
 }
 
@@ -1229,11 +1233,11 @@ function formatter(value, row, index, field) {
       }
       if (retStr == '')
       {
-         retStr = '<a title="TBD" style="cursor:pointer; color: ' + gameArrayClass[gameXColor] + ';"onclick="openCross(' + engine.Game + ')">' + engine.Result + '</a>';
+         retStr = '<a title="' + engine.Game + '" style="cursor:pointer; color: ' + gameArrayClass[gameXColor] + ';"onclick="openCross(' + engine.Game + ')">' + engine.Result + '</a>';
       }
       else
       {
-         retStr += ' ' + '<a title="TBD" style="cursor:pointer; color: ' + gameArrayClass[gameXColor] + ';"onclick="openCross(' + engine.Game + ')">' + engine.Result + '</a>';
+         retStr += ' ' + '<a title="' + engine.Game + '" style="cursor:pointer; color: ' + gameArrayClass[gameXColor] + ';"onclick="openCross(' + engine.Game + ')">' + engine.Result + '</a>';
       }
       countGames = countGames + 1;
       if (countGames%4 == 0)
@@ -1270,6 +1274,7 @@ function updateCrosstableData(data)
      elo = Math.round(engineDetails.Elo);
      eloDiff = engineDetails.Rating + elo;
 
+     gamesEvent = engineDetails.Games;
      var entry = {
        rank: engineDetails.Rank,
        name: engine,
