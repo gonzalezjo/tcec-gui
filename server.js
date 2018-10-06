@@ -3,6 +3,7 @@ var url = require('url');
 var fs = require('fs');
 var io = require('socket.io');
 var express = require('express');
+var shrinkRay = require('shrink-ray');
 var app = express();
 var path = require('path');
 const md5 = require('md5');
@@ -10,7 +11,6 @@ const axios = require('axios');
 var chokidar = require('chokidar');
 var _ = require('lodash');
 var lastPgnTime = Date.now();
-
 const pid = process.pid;
 
 if (typeof process.argv[2] == 'undefined')
@@ -27,6 +27,7 @@ console.log ("Port is " + portnum);
 // first parameter is the mount point, second is the location in the file system
 var app = express();
 app.use(express.static(__dirname));
+app.use(shrinkRay());
 var server = require('http').createServer(app);  
 server.listen(parseInt(portnum));
 var listener = io.listen(server);                                                                                                                                                                                                             
